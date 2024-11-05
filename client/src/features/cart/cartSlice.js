@@ -1,23 +1,32 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchProduct } from './productListAPI';
+import { fetchCart } from './cartAPI';
 
 const initialState = {
- products : [],
+  value: 0,
+  status: 'idle',
 };
 
 
 export const incrementAsync = createAsyncThunk(
-  'product/fetch',
-  async () => {
-    const response = await fetchProduct();
+  'counter/fetchCount',
+  async (amount) => {
+    const response = await fetchCart(amount);
+    // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
 );
 
-export const productSlice = createSlice({
-  name: 'product',
+export const cartSlice = createSlice({
+  name: 'counter',
   initialState,
-  reducers: {},
+  
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+   
+  },
+  
   extraReducers: (builder) => {
     builder
       .addCase(incrementAsync.pending, (state) => {
@@ -30,8 +39,8 @@ export const productSlice = createSlice({
   },
 });
 
-export const { increment } = productSlice.actions;
+export const { increment } = cartSlice.actions;
 
 export const selectCount = (state) => state.counter.value;
 
-export default productSlice.reducer;
+export default cartSlice.reducer;

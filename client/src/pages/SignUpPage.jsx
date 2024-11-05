@@ -5,4 +5,4 @@ const SignUpPage = () => {
   return ( <SignUp></SignUp> )
 }
 
-export default SignUp
+export default SignUpPage
