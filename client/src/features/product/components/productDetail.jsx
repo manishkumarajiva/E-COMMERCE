@@ -4,6 +4,8 @@ import {StarIcon} from "@heroicons/react/20/solid";
 import {Radio, RadioGroup} from "@headlessui/react";
 import {useSelector, useDispatch} from "react-redux";
 import { productDetail, getProduct } from "../productSlice";
+import { selectLoggedInUser } from '../../auth/authSlice';
+import { addToCartAsync } from '../../cart/cartSlice';
 
 const colors = [
   {name: "White", class: "bg-white", selectedClass: "ring-gray-400"},
@@ -72,6 +74,7 @@ export default function ProductDetail() {
 
   const dispatch = useDispatch();
   const productDetails = useSelector(productDetail);
+  const user = useSelector(selectLoggedInUser);
   const params = useParams();
   
   const [selectedColor, setSelectedColor] = useState(colors[0]);
@@ -84,7 +87,10 @@ export default function ProductDetail() {
   },[dispatch, params.id])
 
 
-console.log(productDetails)
+  const addToCartHandler = (e) => {
+    e.preventDefault()
+    dispatch(addToCartAsync({...productDetails, quantity : 1, userId : user.id }));
+  }
   
 
   return ( productDetails &&
@@ -305,6 +311,7 @@ console.log(productDetails)
               </div>
 
               <button
+                onClick={addToCartHandler}
                 type='submit'
                 className='mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
               >

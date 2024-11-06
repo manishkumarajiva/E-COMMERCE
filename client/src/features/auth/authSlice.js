@@ -1,37 +1,71 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchProduct } from './productListAPI';
+import { createUser, checkUser } from './authAPI';
 
 const initialState = {
- products : [],
+  loggedInUser: { email: '', password: '', confirmPassword: '' },
+  status: "pending",
+  error :''
 };
 
 
-export const incrementAsync = createAsyncThunk(
-  'product/fetch',
-  async () => {
-    const response = await fetchProduct();
-    return response.data;
+export const createUserAsync = createAsyncThunk(
+  'user/create',
+  async (userData) => {
+    const response = await createUser(userData);
+    return response;
   }
 );
 
-export const productSlice = createSlice({
-  name: 'product',
+
+export const checkUserAsync = createAsyncThunk(
+  'user/check',
+  async (userInfo) => {
+    const response = await checkUser(userInfo);
+    return response;
+  }
+);
+
+
+export const signInUserAsync = createAsyncThunk(
+  'user/login',
+  async (data) => {
+    const response = await createUser(data);
+    return response;
+  }
+);
+
+
+export const signOutUserAsync = createAsyncThunk(
+  'product/logout',
+  async (data) => {
+    const response = await createUser(data);
+    return response;
+  }
+);
+
+export const authSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(incrementAsync.pending, (state) => {
+      .addCase(createUserAsync.pending, (state) => { //create user
         state.status = 'loading';
       })
-      .addCase(incrementAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.value += action.payload;
+      .addCase(createUserAsync.fulfilled, (state, action) => {
+        state.status = 'success';
+        state.loggedInUser = action.payload;
+      }).addCase(checkUserAsync.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = 'User Not Found, invalid credentials'+action.error;
+      }).addCase(checkUserAsync.fulfilled, (state, action) => {
+        state.status = 'success';
+        state.loggedInUser = action.payload;
       });
   },
 });
 
-export const { increment } = productSlice.actions;
 
-export const selectCount = (state) => state.counter.value;
-
-export default productSlice.reducer;
+export const selectLoggedInUser = (state) => state.auth.loggedInUser;
+export const selectError = (state)=> state.auth.error;
+export default authSlice.reducer;

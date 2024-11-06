@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {ITEM_PER_PAGE} from "../../../app/constants";
 import {Link} from "react-router-dom";
 
+
 import {
   getFilteredProductList,
   getCategoryList,
@@ -452,9 +453,9 @@ function ProductList() {
                     aria-current='page'
                     className={`relative border-2 z-10 inline-flex cursor-pointer items-center ${
                       page === index + 1
-                        ? "bg-indigo-600"
-                        : "bg-white text-slate-700"
-                    } px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+                        ? "bg-indigo-600 text-white text-xl"
+                        : "bg-white"
+                    } px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                   >
                     {index + 1}
                   </div>

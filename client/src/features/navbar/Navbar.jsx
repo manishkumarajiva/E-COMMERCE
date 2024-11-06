@@ -1,4 +1,7 @@
 import React, {Fragment} from "react";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../cart/cartSlice";
+
 import {
   Disclosure,
   DisclosureButton,
@@ -23,17 +26,16 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
+
 const navigation = [
   {name: "Dashboard", href: "/", current: true},
   {name: "Cart", href: "/", current: false},
-  {name: "Projects", href: "/", current: false},
-  {name: "Calendar", href: "/", current: false},
-  {name: "Reports", href: "/", current: false},
 ];
+
 const userNavigation = [
-  {name: "Your Profile", href: "/"},
-  {name: "Settings", href: "/"},
-  {name: "Sign out", href: "/signin"},
+  {name: "Your Profile", link: "/"},
+  {name: "Settings", link: "/"},
+  {name: "Sign out", link: "/signin"},
 ];
 
 function classNames(...classes) {
@@ -41,6 +43,8 @@ function classNames(...classes) {
 }
 
 export default function Navbar({children}) {
+  const cartItems = useSelector(selectCartItems);
+  
   return (
     <Fragment>
       <div className='min-h-full'>
@@ -60,9 +64,8 @@ export default function Navbar({children}) {
                 <div className='hidden md:block'>
                   <div className='ml-10 flex items-baseline space-x-4'>
                     {navigation.map((item) => (
-                      <a
+                      <Link to = {`${item.href}`}
                         key={item.name}
-                        href={item.href}
                         aria-current={item.current ? "page" : undefined}
                         className={classNames(
                           item.current
@@ -72,7 +75,7 @@ export default function Navbar({children}) {
                         )}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -87,7 +90,7 @@ export default function Navbar({children}) {
                       <span className='absolute -inset-1.5' />
                       <span className='sr-only'>View notifications</span>
                       <span className='inline-flex items-center rounded-md bg-gray-50 px-2  py-1 ml-5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10'>
-                        2
+                      {cartItems.length > 0 && cartItems.length}
                       </span>
 
                       <ShoppingCartIcon
@@ -115,12 +118,12 @@ export default function Navbar({children}) {
                     >
                       {userNavigation.map((item) => (
                         <MenuItem key={item.name}>
-                          <a
-                            href={item.href}
+                          <Link to={`${item.link}`}
+                            
                             className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         </MenuItem>
                       ))}
                     </MenuItems>
@@ -191,7 +194,7 @@ export default function Navbar({children}) {
                     <span className='sr-only'>View notifications</span>
                     <ShoppingCartIcon aria-hidden='true' className='h-6 w-6' />
                     <span className='inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10'>
-                      Badge
+                      {cartItems.length > 0 && cartItems.length}
                     </span>
                   </button>
                 </Link>
