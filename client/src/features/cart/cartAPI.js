@@ -20,7 +20,7 @@ export function addToCart(item) {
 
 export function fetchCartItems(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/cart/?userId='+id);
+    const response = await fetch('http://localhost:8000/cart/?userId=' + id);
     const items = await response.json();
     resolve(items)
   }
@@ -39,7 +39,7 @@ export function updateCartItem(item) {
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/cart/' +item.id, options );
+    const response = await fetch('http://localhost:8000/cart/' + item.id, options);
     const updatedItem = await response.json();
     resolve(updatedItem)
   }
@@ -56,9 +56,22 @@ export function deleteCartItem(itemId) {
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/cart/' +itemId, options);
+    const response = await fetch('http://localhost:8000/cart/' + itemId, options);
     const item = await response.json();
     resolve(item)
+  }
+  );
+}
+
+
+export function resetCartItem(userId) {
+  return new Promise(async (resolve) => {
+    const cartItems = await fetchCartItems(userId);
+
+    for (let item of cartItems) {
+      await deleteCartItem(item.id);
+    }
+    resolve({ status: 'success' })
   }
   );
 }

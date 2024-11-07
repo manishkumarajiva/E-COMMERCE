@@ -6,12 +6,14 @@ import SignUpPage from './pages/SignUpPage';
 import CartPage from './pages/CartPage';
 import Checkout from './features/checkout/Checkout';
 import ProductDetails from './pages/ProductDetails';
-import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import Protected from './features/auth/components/Protected';
+import PageNotFound from './pages/PageNotFound';
 
+import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import { fetchCartItemsAsync } from './features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from './features/auth/authSlice';
+import OrderSuccess from './pages/OrderSuccessPage';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
   {
     path : "product_details/:id",
     element : <Protected> <ProductDetails></ProductDetails> </Protected>
+  },
+  {
+    path : "order_success/:id",
+    element : <OrderSuccess></OrderSuccess>
+  },
+  {
+    path : "*",
+    element : <PageNotFound></PageNotFound> 
   }
 ]);
 
