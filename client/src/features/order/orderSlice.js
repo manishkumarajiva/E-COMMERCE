@@ -4,7 +4,7 @@ import { createOrder } from './orderAPI';
 const initialState = {
   orders: [],
   currentOrder : null,
-  status: 'pending',
+  status: 'pending'
 };
 
 

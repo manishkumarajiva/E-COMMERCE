@@ -1,20 +1,29 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createUser, checkUser, updateUser } from './authAPI';
+import { getLoggedInUser, getUserOrder, updateUser, deleteUser } from './userAPI';
 
 const initialState = {
-  loggedInUser: { email: '', password: '', confirmPassword: '', address : [] },
-  status: "pending",
-  error :''
+  userInfo: null,
+  orders:[],
+  status:'pending'
 };
 
 
-export const createUserAsync = createAsyncThunk(
-  'user/create',
-  async (userData) => {
-    const response = await createUser(userData);
+export const getLoggedInUserAsync = createAsyncThunk(
+  'user/get',
+  async (userId) => {
+    const response = await getLoggedInUser(userId);
     return response;
   }
-);
+)
+
+
+export const getUserOrderAsync = createAsyncThunk(
+  'user/order',
+  async (userId) => {
+    const response = await getUserOrder(userId);
+    return response;
+  }
+)
 
 
 export const updateUserAsync = createAsyncThunk(
@@ -23,61 +32,60 @@ export const updateUserAsync = createAsyncThunk(
     const response = await updateUser(userData);
     return response;
   }
-);
+)
 
 
-export const checkUserAsync = createAsyncThunk(
-  'user/check',
-  async (userInfo) => {
-    const response = await checkUser(userInfo);
+export const deleteUserAsync = createAsyncThunk(
+  'user/delete',
+  async (user) => {
+    const response = await deleteUser(user);
     return response;
   }
-);
+)
 
 
-export const signInUserAsync = createAsyncThunk(
-  'user/login',
-  async (data) => {
-    const response = await createUser(data);
-    return response;
-  }
-);
 
 
-export const signOutUserAsync = createAsyncThunk(
-  'product/logout',
-  async (data) => {
-    const response = await createUser(data);
-    return response;
-  }
-);
-
-export const authSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createUserAsync.pending, (state) => { //create user
-        state.status = 'loading';
+      .addCase(getLoggedInUserAsync.pending, (state) => { 
+        state.status = 'pending';
       })
-      .addCase(createUserAsync.fulfilled, (state, action) => {
+      .addCase(getLoggedInUserAsync.fulfilled, (state, action) => { 
         state.status = 'success';
-        state.loggedInUser = action.payload;
-      }).addCase(checkUserAsync.rejected, (state, action) => {
-        state.status = 'rejected';
-        state.error = 'User Not Found, invalid credentials'+action.error;
-      }).addCase(checkUserAsync.fulfilled, (state, action) => {
+        state.userInfo = action.payload;
+      })
+      .addCase(getUserOrderAsync.rejected, (state) => { 
+        state.status = 'pending';
+      })
+      .addCase(getUserOrderAsync.fulfilled, (state, action) => { 
         state.status = 'success';
-        state.loggedInUser = action.payload;
-      }).addCase(updateUserAsync.fulfilled, (state, action) => {
+        state.orders = action.payload;
+      })
+      .addCase(updateUserAsync.pending, (state) => { 
+        state.status = 'pending';
+      })
+      .addCase(updateUserAsync.fulfilled, (state, action) => { 
         state.status = 'success';
-        state.loggedInUser = action.payload;
-      });
+        state.orders = action.payload;
+      })
+      .addCase(deleteUserAsync.pending, (state) => { 
+        state.status = 'pending';
+      })
+      .addCase(deleteUserAsync.fulfilled, (state, action) => { 
+        state.status = 'success';
+        console.log(action.payload)
+        
+      })
   },
 });
 
 
-export const selectLoggedInUser = (state) => state.auth.loggedInUser;
-export const selectError = (state)=> state.auth.error;
-export default authSlice.reducer;
+export const selectUserInfo = (state) => state.user.userInfo;
+export const selectUserOrders = (state) => state.user.orders;
+
+export default userSlice.reducer;

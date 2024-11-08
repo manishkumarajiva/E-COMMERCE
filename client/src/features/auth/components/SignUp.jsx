@@ -12,7 +12,7 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
   const { register, handleSubmit, formState: {errors} } = useForm();
-  const onSubmit = (data) => dispatch(createUserAsync(data));
+  const onSubmit = (data) => dispatch(createUserAsync({...data, address : []}));
 
   
   return (

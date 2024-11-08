@@ -8,12 +8,18 @@ import Checkout from './features/checkout/Checkout';
 import ProductDetails from './pages/ProductDetails';
 import Protected from './features/auth/components/Protected';
 import PageNotFound from './pages/PageNotFound';
+import OrderSuccess from './pages/OrderSuccessPage';
+import UserOrderPage from './pages/UserOrderPage';
+import UserProfilePage from './pages/UserProfilePage';
+
 
 import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import { fetchCartItemsAsync } from './features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from './features/auth/authSlice';
-import OrderSuccess from './pages/OrderSuccessPage';
+import { getLoggedInUserAsync } from './features/user/userSlice';
+
+
 
 const router = createBrowserRouter([
   {
@@ -41,6 +47,14 @@ const router = createBrowserRouter([
     element : <Protected> <ProductDetails></ProductDetails> </Protected>
   },
   {
+    path : "user_profile",
+    element : <Protected> <UserProfilePage></UserProfilePage> </Protected>
+  },
+  {
+    path : "user_orders",
+    element : <Protected> <UserOrderPage></UserOrderPage> </Protected>
+  },
+  {
     path : "order_success/:id",
     element : <OrderSuccess></OrderSuccess>
   },
@@ -59,6 +73,7 @@ function App() {
   useEffect(()=>{
     if(user.email){
       dispatch(fetchCartItemsAsync(user.id))
+      dispatch(getLoggedInUserAsync(user.id))
     }
   },[dispatch, user])
 

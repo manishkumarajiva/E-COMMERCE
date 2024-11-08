@@ -1,10 +1,38 @@
 
+export function getLoggedInUser(id){
+  return new Promise(async(resolve) => {
+    const response = await fetch(`http://localhost:8000/user/${id}`);
+    const user = await response.json();
+    resolve(user)
+  })
+}
+
+
+
+
+
+
+export function getUserOrder(userId){
+  return new Promise(async(resolve) => {
+    const response = await fetch(`http://localhost:8000/order/?user=${userId}`);
+    const user = await response.json();
+    resolve(user[0])
+  })
+}
+
+
+
+
+
+
+
+
 export function createUser(userData) {
 
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userData)
+    body: JSON.stringify({...userData, address : []})
   };
 
   return new Promise(async (resolve) => {
@@ -34,6 +62,23 @@ export function updateUser(userData) {
 
 
 
+export function deleteUser(user) {
+  const options = {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user)
+  };
+  
+
+  return new Promise(async (resolve) => {
+    const response = await fetch('http://localhost:8000/user/'+user.id, options);
+    const newUser = await response.json();
+    resolve(newUser)
+  }
+  );
+}
+
+
 export function checkUser(userInfo) {
   const { email, password } = userInfo;
   return new Promise(async (resolve, reject) => {
@@ -47,34 +92,3 @@ export function checkUser(userInfo) {
 }
 
 
-
-export function signInUser(userCredential) {
-
-  const options = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
-  };
-
-  return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/', options);
-    const newUserData = await response.json();
-    resolve(newUserData)
-  }
-  );
-}
-
-
-export function signOutUser() {
-
-  const options = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' }
-  };
-
-  return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/', options);
-    const newUserData = await response.json();
-    resolve(newUserData)
-  }
-  );
-}

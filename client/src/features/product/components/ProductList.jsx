@@ -349,12 +349,12 @@ function ProductList() {
                           Products
                         </h2>
 
-                        <div className='mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
+                        <div className='mt-5 grid grid-cols-1 gap-x-3 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
                           {/* products */}
                           {products.map((product) => (
                             <div
                               key={product.id}
-                              className='group relative border-2 p-2'
+                              className='group relative border-2 p-2 hover:shadow-lg150'
                             >
                               <Link to={`/product_details/${product.id}`}>
 

@@ -39,8 +39,17 @@ export function checkUser(userInfo) {
   return new Promise(async (resolve, reject) => {
     const response = await fetch('http://localhost:8000/user?email='+email);
     const user = await response.json();
-    if(!(user.length > 0)) alert('not found')
-    if(!user[0].password === password) alert('password')
+
+    if(!(user.length > 0)){
+      alert('user not found')
+      return
+    }else{ 
+      if(!user[0].password === password){
+        alert('incorrect login credentials');
+        return;
+      } 
+    }
+    
     resolve(user[0])
   }
   );

@@ -28,13 +28,13 @@ const user = {
 };
 
 const navigation = [
-  {name: "Dashboard", href: "/", current: true},
-  {name: "Cart", href: "/", current: false},
+  {name: "Dashboard", link: "/", current: true},
+  {name: "Cart", link: "/", current: false},
 ];
 
 const userNavigation = [
-  {name: "Your Profile", link: "/"},
-  {name: "Settings", link: "/"},
+  {name: "Profile", link: "/user_profile"},
+  {name: "My Orders", link: "/user_orders"},
   {name: "Sign out", link: "/signin"},
 ];
 
@@ -204,11 +204,12 @@ export default function Navbar({children}) {
                 {userNavigation.map((item) => (
                   <DisclosureButton
                     key={item.name}
-                    as='a'
-                    href={item.href}
+
                     className='block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
                   >
+                    <Link to={`${item.link}`}>
                     {item.name}
+                    </Link>
                   </DisclosureButton>
                 ))}
               </div>

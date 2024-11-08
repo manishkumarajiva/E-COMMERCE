@@ -55,7 +55,7 @@ export default function Checkout() {
         shippingAddress : selectedAddress,
         paymentMode : paymentMethod
       }
-
+      
       dispatch(createOrderAsync(orderPayload));
     }else{
       alert('Please choose address and payment method');
