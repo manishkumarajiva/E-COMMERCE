@@ -19,7 +19,7 @@ export default function SignIn() {
 
   return (
     <Fragment>
-      {user.email && <Navigate to='/' replace={true}></Navigate>}
+      {user?.email && <Navigate to='/' replace={true}></Navigate>}
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
@@ -67,12 +67,12 @@ export default function SignIn() {
                   Password
                 </label>
                 <div className='text-sm'>
-                  <a
-                    href='/'
+                  <Link
+                    to='/forgot_password'
                     className='font-semibold text-indigo-600 hover:text-indigo-500'
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className='mt-2'>

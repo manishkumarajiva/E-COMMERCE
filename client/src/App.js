@@ -6,11 +6,17 @@ import SignUpPage from './pages/SignUpPage';
 import CartPage from './pages/CartPage';
 import Checkout from './features/checkout/Checkout';
 import ProductDetails from './pages/ProductDetails';
-import Protected from './features/auth/components/Protected';
 import PageNotFound from './pages/PageNotFound';
 import OrderSuccess from './pages/OrderSuccessPage';
 import UserOrderPage from './pages/UserOrderPage';
 import UserProfilePage from './pages/UserProfilePage';
+import SignOut from './features/auth/components/SignOut';
+import ForgetPasswordPage from './pages/ForgotPasswordPage';
+import AdminHomePage from './pages/AdminHomePage';
+import AdminProductDetailPage from './pages/AdminProductDetailPage';
+
+import Protected from './features/auth/components/UserProtected';
+import AdminProtected from './features/auth/components/AdminProtected';
 
 
 import { createBrowserRouter,  RouterProvider } from "react-router-dom";
@@ -35,6 +41,14 @@ const router = createBrowserRouter([
     element : <SignUpPage></SignUpPage> 
   },
   {
+    path : "signout",
+    element : <SignOut></SignOut> 
+  },
+  {
+    path : "forgot_password",
+    element : <ForgetPasswordPage></ForgetPasswordPage> 
+  },
+  {
     path : "cart",
     element : <Protected> <CartPage></CartPage> </Protected>
   },
@@ -55,6 +69,14 @@ const router = createBrowserRouter([
     element : <Protected> <UserOrderPage></UserOrderPage> </Protected>
   },
   {
+    path: "admin_product",
+    element : <AdminProtected> <AdminProductDetailPage></AdminProductDetailPage>  </AdminProtected> 
+  },
+  {
+    path: "admin_home",
+    element : <AdminProtected> <AdminHomePage></AdminHomePage> </AdminProtected>
+  },
+  {
     path : "order_success/:id",
     element : <OrderSuccess></OrderSuccess>
   },
@@ -71,7 +93,7 @@ function App() {
   const user = useSelector(selectLoggedInUser);
 
   useEffect(()=>{
-    if(user.email){
+    if(user?.email){
       dispatch(fetchCartItemsAsync(user.id))
       dispatch(getLoggedInUserAsync(user.id))
     }

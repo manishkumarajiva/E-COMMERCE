@@ -1,4 +1,3 @@
-
 export function getLoggedInUser(id){
   return new Promise(async(resolve) => {
     const response = await fetch(`http://localhost:8000/user/${id}`);
@@ -8,10 +7,6 @@ export function getLoggedInUser(id){
 }
 
 
-
-
-
-
 export function getUserOrder(userId){
   return new Promise(async(resolve) => {
     const response = await fetch(`http://localhost:8000/order/?user=${userId}`);
@@ -19,12 +14,6 @@ export function getUserOrder(userId){
     resolve(user[0])
   })
 }
-
-
-
-
-
-
 
 
 export function createUser(userData) {
@@ -47,7 +36,7 @@ export function createUser(userData) {
 export function updateUser(userData) {
 
   const options = {
-    method: 'PUT',
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData)
   };
@@ -56,24 +45,6 @@ export function updateUser(userData) {
     const response = await fetch('http://localhost:8000/user/'+ userData.id, options);
     const updatedResponse = await response.json();
     resolve(updatedResponse)
-  }
-  );
-}
-
-
-
-export function deleteUser(user) {
-  const options = {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user)
-  };
-  
-
-  return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/user/'+user.id, options);
-    const newUser = await response.json();
-    resolve(newUser)
   }
   );
 }

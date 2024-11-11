@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import {Link, Navigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectLoggedInUser } from "../authSlice";
 import { createUserAsync } from '../authSlice';
 
@@ -12,12 +12,12 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
   const { register, handleSubmit, formState: {errors} } = useForm();
-  const onSubmit = (data) => dispatch(createUserAsync({...data, address : []}));
+  const onSubmit = (data) => dispatch(createUserAsync({...data, address : [], role : 'USER'}));
 
   
   return (
     <Fragment>
-      {user.email && <Navigate to='/' replace={true}></Navigate>}
+      {user?.email && <Navigate to='/' replace={true}></Navigate>}
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img

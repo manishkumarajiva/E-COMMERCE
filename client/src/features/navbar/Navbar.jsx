@@ -35,7 +35,7 @@ const navigation = [
 const userNavigation = [
   {name: "Profile", link: "/user_profile"},
   {name: "My Orders", link: "/user_orders"},
-  {name: "Sign out", link: "/signin"},
+  {name: "Sign out", link: "/signout"},
 ];
 
 function classNames(...classes) {
@@ -90,7 +90,7 @@ export default function Navbar({children}) {
                       <span className='absolute -inset-1.5' />
                       <span className='sr-only'>View notifications</span>
                       <span className='inline-flex items-center rounded-md bg-gray-50 px-2  py-1 ml-5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10'>
-                      {cartItems.length > 0 && cartItems.length}
+                        {cartItems.length > 0 ? cartItems.length : 0}
                       </span>
 
                       <ShoppingCartIcon
@@ -194,7 +194,7 @@ export default function Navbar({children}) {
                     <span className='sr-only'>View notifications</span>
                     <ShoppingCartIcon aria-hidden='true' className='h-6 w-6' />
                     <span className='inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10'>
-                      {cartItems.length > 0 && cartItems.length}
+                      {cartItems.length > 0 ? cartItems.length : 0}
                     </span>
                   </button>
                 </Link>
