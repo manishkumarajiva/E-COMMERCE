@@ -17,13 +17,14 @@ import AdminProductDetailPage from './pages/AdminProductDetailPage';
 
 import Protected from './features/auth/components/UserProtected';
 import AdminProtected from './features/auth/components/AdminProtected';
-
+import AdminProductForm from './features/admin/product/AdminProductForm';
 
 import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import { fetchCartItemsAsync } from './features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from './features/auth/authSlice';
 import { getLoggedInUserAsync } from './features/user/userSlice';
+
 
 
 
@@ -73,7 +74,11 @@ const router = createBrowserRouter([
     element : <AdminProtected> <AdminProductDetailPage></AdminProductDetailPage>  </AdminProtected> 
   },
   {
-    path: "admin_home",
+    path: "productform",
+    element :  <AdminProtected> <AdminProductForm></AdminProductForm> </AdminProtected>
+  },
+  {
+    path: "admin_profile",
     element : <AdminProtected> <AdminHomePage></AdminHomePage> </AdminProtected>
   },
   {

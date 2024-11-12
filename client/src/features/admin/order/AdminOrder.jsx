@@ -27,7 +27,7 @@ function UserOrder() {
           <div className='flow-root'>
             {/* product list */}
             <ul>
-              {orders.items &&
+              {orders?.items &&
                 orders.items.map((product) => (
                   <li
                     key={product.id}

@@ -1,3 +1,30 @@
+// create section
+
+export function createProduct(product) {
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(product)
+  }
+
+  return new Promise(async(resolve) =>{
+    const product = await fetch('http://localhost:8000/products/', options);
+    const response = await product.json();
+    resolve(response);
+  })
+
+}
+
+
+
+
+
+
+// fetch section
+
 export function getProductById(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8000/products/${id}`);
@@ -6,26 +33,6 @@ export function getProductById(id) {
   }
   );
 }
-
-
-export function getCategory() {
-  return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/category');
-    const categories = await response.json();
-    resolve(categories)
-  }
-  );
-}
-
-export function getBrand() {
-  return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/brand');
-    const brands = await response.json();
-    resolve(brands)
-  }
-  );
-}
-
 
 export function getFilteredProduct(filter, sort, pagination) {
 
@@ -59,6 +66,26 @@ export function getFilteredProduct(filter, sort, pagination) {
   }
   );
 }
+
+export function getCategory() {
+  return new Promise(async (resolve) => {
+    const response = await fetch('http://localhost:8000/category');
+    const categories = await response.json();
+    resolve(categories)
+  }
+  );
+}
+
+export function getBrand() {
+  return new Promise(async (resolve) => {
+    const response = await fetch('http://localhost:8000/brand');
+    const brands = await response.json();
+    resolve(brands)
+  }
+  );
+}
+
+
 
 
 

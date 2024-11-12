@@ -27,8 +27,7 @@ function UserOrder() {
           <div className='flow-root'>
             {/* product list */}
             <ul>
-              {orders.items &&
-                orders.items.map((product) => (
+              {orders?.items?.map((product) => (
                   <li
                     key={product.id}
                     className='flex sm:flex-row md:flex-row md:px-5 py-6 my-5 shadow-lg hover:shadow-xl'
