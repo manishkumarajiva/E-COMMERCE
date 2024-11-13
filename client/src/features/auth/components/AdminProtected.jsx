@@ -9,9 +9,8 @@ const AdminProtected = ({children}) => {
   if(!user.email){
     return ( <Navigate to='/signin' replace={true}></Navigate> )
   }else if(user.role === 'ADMIN'){
-    // return ( <Navigate to='/' replace={true}></Navigate> )
-    return children;
-  }else{
+    return ( <Navigate to='/admin_profile' replace={true}></Navigate> )
+  }else {
     return children;
   }
 

@@ -14,10 +14,11 @@ import SignOut from './features/auth/components/SignOut';
 import ForgetPasswordPage from './pages/ForgotPasswordPage';
 import AdminHomePage from './pages/AdminHomePage';
 import AdminProductDetailPage from './pages/AdminProductDetailPage';
+import AdminProductFormPage from './pages/AdminProductFormPage';
 
 import Protected from './features/auth/components/UserProtected';
 import AdminProtected from './features/auth/components/AdminProtected';
-import AdminProductForm from './features/admin/product/AdminProductForm';
+
 
 import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import { fetchCartItemsAsync } from './features/cart/cartSlice';
@@ -74,12 +75,12 @@ const router = createBrowserRouter([
     element : <AdminProtected> <AdminProductDetailPage></AdminProductDetailPage>  </AdminProtected> 
   },
   {
-    path: "productform",
-    element :  <AdminProtected> <AdminProductForm></AdminProductForm> </AdminProtected>
-  },
-  {
     path: "admin_profile",
     element : <AdminProtected> <AdminHomePage></AdminHomePage> </AdminProtected>
+  },
+  {
+    path: "admin/product/form/:id",
+    element : <AdminProtected>  <AdminProductFormPage></AdminProductFormPage> </AdminProtected>
   },
   {
     path : "order_success/:id",

@@ -1,34 +1,100 @@
 import {Fragment, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {categoryList, brandList} from "../../product/productSlice";
-// 
-import { createProductAsync } from "../../product/productSlice";
+import { Navigate } from "react-router-dom";
+import {
+  categoryList,
+  brandList,
+  updateProductAsync,
+} from "../../product/productSlice";
+//
 
+import {createProductAsync} from "../../product/productSlice";
+import {productDetail, getProductAsync} from "../../product/productSlice";
+import {useParams} from "react-router-dom";
 
 function AdminProductForm() {
   const dispatch = useDispatch();
+  const params = useParams();
 
+  const product = useSelector(productDetail);
   const categories = useSelector(categoryList);
   const brands = useSelector(brandList);
 
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: {errors},
+  } = useForm();
 
-  const onSubmit = (data) => {
-    const product = {...data};
-    product.images = [product['image-1'], product['image-1'], product['image-1'], product['image-1']]
-    product.rating = 0;
-    delete product['image-1']
-    delete product['image-2']
-    delete product['image-3']
-    delete product['image-4']
+  const onSubmitHandler = (data) => {
+    if (+params.id && product) {
+      // update priduct based on Product ID
+      const product = {...data};
+      product.images = [
+        product["image-1"],
+        product["image-2"],
+        product["image-3"],
+        product["image-4"],
+      ];
+      delete product["image-1"];
+      delete product["image-2"];
+      delete product["image-3"];
+      delete product["image-4"];
+      product.price = +product.price;
+      product.discountPercentage = +product.discountPercentage;
+      product.rating = 0;
+      dispatch(updateProductAsync(product));
+      alert('product updated')
+      // below code is for new Product
+    } else {
+      const product = {...data};
+      delete product.id;
+      product.images = [
+        product["image-1"],
+        product["image-1"],
+        product["image-1"],
+        product["image-1"],
+      ];
+      product.rating = product.rating || 0;
+      delete product["image-1"];
+      delete product["image-2"];
+      delete product["image-3"];
+      delete product["image-4"];
 
-    dispatch(createProductAsync(product))
+      dispatch(createProductAsync(product));
+      alert('product created')
+    }
+
+    
   };
 
-  
+  // get product by id
+  useEffect(() => {
+    if (+params.id) {
+      dispatch(getProductAsync(params.id));
+    }
+  }, [dispatch, params.id]);
 
-
+  // set product details during editing
+  useEffect(() => {
+    if (+params.id && product) {
+      setValue('id', product?.id);
+      setValue("title", product?.title);
+      setValue("description", product?.description);
+      setValue("category", product?.category);
+      setValue("brand", product?.brand);
+      setValue("price", product?.price);
+      setValue("discountPercentage", product?.discountPercentage);
+      setValue("stock", product?.stock);
+      setValue("image-1", product?.images[0]);
+      setValue("image-2", product?.images[1]);
+      setValue("image-3", product?.images[2]);
+      setValue("image-4", product?.images[3]);
+      setValue("thumbnail", product?.thumbnail);
+    }
+  }, [params.id, product, setValue]);
 
   return (
     <Fragment>
@@ -39,9 +105,17 @@ function AdminProductForm() {
         </h2>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmitHandler)}
           className='mt-10 grid gap-x-6 gap-y-4 grid-rows-1 grid-cols-1'
         >
+          <div>
+            <div className='mt-2'>
+              <input id='id' type='hidden' {...register("id", { required: "Product name is required" })}
+                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6'
+              />
+            </div>
+          </div>
+
           {/* Product Name */}
           <div>
             <label
@@ -107,7 +181,10 @@ function AdminProductForm() {
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm/6'
                 >
                   <option value=''>Select Category</option>
-                  { categories && categories.map(cateogry => <option value={cateogry.value}> {cateogry.label} </option>) }
+                  {categories &&
+                    categories.map((cateogry) => (
+                      <option value={cateogry.value}> {cateogry.label} </option>
+                    ))}
                 </select>
                 {errors["category"] && (
                   <p className='text-red-500 text-sm'>
@@ -132,7 +209,10 @@ function AdminProductForm() {
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm/6'
                 >
                   <option value=''>Select Brand</option>
-                  { brands && brands.map(brand => <option value={brand.value}> {brand.label} </option>) }
+                  {brands &&
+                    brands.map((brand) => (
+                      <option value={brand.value}> {brand.label} </option>
+                    ))}
                 </select>
                 {errors["brand"] && (
                   <p className='text-red-500 text-sm'>
@@ -169,21 +249,23 @@ function AdminProductForm() {
           {/* Discount */}
           <div>
             <label
-              htmlFor='discount'
+              htmlFor='discountPercentage'
               className='block text-sm/6 font-medium text-gray-900'
             >
               Discount
             </label>
             <div className='mt-2'>
               <input
-                id='discount'
-                {...register("discount", {required: "Discount is required"})}
+                id='discountPercentage'
+                {...register("discountPercentage", {
+                  required: "Discount is required",
+                })}
                 type='number'
                 className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6'
               />
-              {errors["discount"] && (
+              {errors["discountPercentage"] && (
                 <p className='text-red-500 text-sm'>
-                  {errors["discount"].message}
+                  {errors["discountPercentage"].message}
                 </p>
               )}
             </div>
@@ -302,7 +384,6 @@ function AdminProductForm() {
               </div>
             </div>
 
-
             <div>
               <label
                 htmlFor='thumbnail'
@@ -313,7 +394,9 @@ function AdminProductForm() {
               <div className='mt-2'>
                 <input
                   id='thumbnail'
-                  {...register("thumbnail", {required: "Image URL is required"})}
+                  {...register("thumbnail", {
+                    required: "Image URL is required",
+                  })}
                   type='url'
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6'
                 />

@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 
 import {useDispatch, useSelector} from "react-redux";
 import { selectLoggedInUser } from "../authSlice";
-import { checkUserAsync } from '../authSlice';
+import { signInUserAsync } from '../authSlice';
 
 
 
@@ -14,7 +14,7 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
   const { register, handleSubmit, formState: {errors} } = useForm();
-  const onSubmit = (data) => dispatch(checkUserAsync(data));
+  const onSubmit = (data) => dispatch(signInUserAsync(data));
   
 
   return (

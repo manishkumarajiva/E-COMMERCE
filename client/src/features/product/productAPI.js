@@ -18,11 +18,6 @@ export function createProduct(product) {
 
 }
 
-
-
-
-
-
 // fetch section
 
 export function getProductById(id) {
@@ -85,6 +80,44 @@ export function getBrand() {
   );
 }
 
+
+// update section
+export function updateProduct(product) {
+
+  const options = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(product)
+  }
+
+  return new Promise(async(resolve) =>{
+    const response = await fetch('http://localhost:8000/products/'+product.id, options);
+    const products = await response.json();
+    resolve(products);
+  })
+
+}
+
+
+// delete section
+
+export function deleteProduct(product) {
+
+  const options = {
+    method: "PATCH",
+    headers: {  "Content-Type": "application/json"  },
+    body: JSON.stringify(product)
+  }
+
+  return new Promise(async(resolve) =>{
+    const response = await fetch('http://localhost:8000/products/' +product.id, options);
+    const newproduct = await response.json();
+    resolve(newproduct);
+  })
+
+}
 
 
 

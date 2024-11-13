@@ -50,16 +50,6 @@ export function updateUser(userData) {
 }
 
 
-export function checkUser(userInfo) {
-  const { email, password } = userInfo;
-  return new Promise(async (resolve, reject) => {
-    const response = await fetch('http://localhost:8000/user?email='+email);
-    const user = await response.json();
-    if(!(user.length > 0)) alert('not found')
-    if(!user[0].password === password) alert('password')
-    resolve(user[0])
-  }
-  );
-}
+
 
 

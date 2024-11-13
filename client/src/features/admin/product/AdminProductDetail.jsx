@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import {StarIcon} from "@heroicons/react/20/solid";
 import {Radio, RadioGroup} from "@headlessui/react";
 import {useSelector, useDispatch} from "react-redux";
-import { productDetail, getProduct } from "../../product/productSlice";
+import { productDetail, getProductAsync } from "../../product/productSlice";
 import { selectLoggedInUser } from '../../auth/authSlice';
 import { addToCartAsync } from '../../cart/cartSlice';
 
@@ -83,7 +83,7 @@ export default function AdminProductDetail() {
   
 
   useEffect(()=>{
-    dispatch(getProduct(params.id))
+    dispatch(getProductAsync(params.id))
   },[dispatch, params.id])
 
 
