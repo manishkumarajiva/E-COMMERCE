@@ -26,6 +26,21 @@ export function fetchOrder(id) {
 }
 
 
+export function updateOrderStatus(order){
+  const options = {
+    method : 'PATCH',
+    headers : { 'Content-Type' : 'application/json'},
+    body : JSON.stringify(order)
+  }
+
+  return new Promise(async (resolve) => {
+    const response = await fetch('http://localhost:8000/order/' + order.id, options);
+    const item = await response.json();
+    resolve(item)
+  }
+  );
+}
+
 
 export function fetchAllOrder(pagination) {
   let query = '';

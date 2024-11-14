@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createOrder, fetchAllOrder } from './orderAPI';
+import { createOrder, fetchAllOrder, updateOrderStatus } from './orderAPI';
+import { act } from 'react';
 
 const initialState = {
   orders: [],
@@ -25,6 +26,16 @@ export const getAllOrderAsync = createAsyncThunk(
   }
 )
 
+
+export const updateOrderStatusAsync = createAsyncThunk(
+  'order/update',
+  async (order) => {
+    const response = await updateOrderStatus(order);
+    return response;
+  }
+)
+
+
 export const orderSlice = createSlice({
   name: 'order',
   initialState,
@@ -39,7 +50,7 @@ export const orderSlice = createSlice({
         state.status = 'pending';
       })
       .addCase(createOrderAsync.fulfilled, (state, action) => {
-        state.status = 'success';
+        state.status = 'fullfilled';
         state.orders.push(action.payload);
         state.currentOrder = action.payload;
       })
@@ -47,8 +58,16 @@ export const orderSlice = createSlice({
         state.status = 'pending';
       })
       .addCase(getAllOrderAsync.fulfilled, (state, action) => {
-        state.status = 'success';
+        state.status = 'fullfilled';
         state.orders = action.payload;
+      })
+      .addCase(updateOrderStatusAsync.pending, (state) => {
+        state.status = 'pending';
+      })
+      .addCase(updateOrderStatusAsync.fulfilled, (state, action) => {
+        state.status = 'fullfilled';
+        const index = state.orders.findIndex(order => order.id === action.payload.id);
+        state.orders[index] = action.payload;
       })
   },
 });
