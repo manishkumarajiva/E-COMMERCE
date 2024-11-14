@@ -1,80 +1,147 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Link} from "react-router-dom";
-import {getUserOrderAsync} from "../userSlice";
-import {selectUserOrders} from "../userSlice";
-import {selectLoggedInUser} from "../../auth/authSlice";
-
-function UserOrder() {
+import {getAllOrderAsync} from "../../order/orderSlice";
+import {selectAllOrders} from "../../order/orderSlice"; //selector
+import {ITEM_PER_PAGE} from "../../../app/constants";
+import { STATUS } from "../../../app/constants";
+function AdminOrder() {
   const dispatch = useDispatch();
-  const user = useSelector(selectLoggedInUser);
-  const orders = useSelector(selectUserOrders);
+  const orders = useSelector(selectAllOrders);
+
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    dispatch(getUserOrderAsync(user.id));
-  }, [dispatch, user.id]);
+    const pagination = {_page: page, _limit: ITEM_PER_PAGE};
+    dispatch(getAllOrderAsync(pagination));
+  }, [dispatch, page]);
 
   return (
     <Fragment>
-      <div
-        className={`mx-auto xs:w-1/1 sm:w-1/2 md:w-1/2 xl:w-1/2 xxl:w-1/3 px-3 `}
-      >
-        {/* cart */}
-        <p className='sm:text-10xl md:text-4xl text-center text-blue-400'>
-          My Orders
-        </p>
-        <div className='mt-8'>
-          <div className='flow-root'>
-            {/* product list */}
-            <ul>
-              {orders?.items &&
-                orders.items.map((product) => (
-                  <li
-                    key={product.id}
-                    className='flex sm:flex-row md:flex-row md:px-5 py-6 my-5 shadow-lg hover:shadow-xl'
-                  >
-                    <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border-x-2 border-red-400'>
-                      <img
-                        alt={product.category}
-                        src={product.images[0]}
-                        className='h-full w-full object-cover object-center'
-                      />
-                    </div>
+      {/* component */}
+      <div className='overflow-hidden rounded-lg border border-gray-200 shadow-md m-5'>
+        <table className='w-full border-collapse bg-white text-left text-sm text-gray-500'>
+          {/* table heading */}
+          <thead className='bg-gray-50 text-center'>
+            <tr>
+              <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
+                Order Id
+              </th>
+              <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
+                Items
+              </th>
+              <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
+                Total Amount
+              </th>
+              <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
+                Shipping Address
+              </th>
+              <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
+                Status
+              </th>
+              <th scope='col' className='px-6 py-4 font-medium text-gray-900' />
+            </tr>
+          </thead>
 
-                    <div className='ml-4 flex flex-1 xm:flex-row sm:flex-col md:flex-col'>
-                      <div>
-                        <div className='lg:mx-auto flex justify-between text-base font-medium text-gray-900'>
-                          <h3>
-                            <div>{product.title}</div>
-                            <div className='text-sm text-blue-400'>
-                              {product.brand}
-                            </div>
-                          </h3>
-                          <p className='ml-4'>$ {product.price}</p>
+          {/* table body */}
+          <tbody className='divide-y divide-gray-100  border-gray-100 '>
+            {orders &&
+              orders.map((order) => {
+                return (
+                  <tr className='hover:bg-gray-50'>
+                    <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>
+                      <div className='text-sm'>
+                        <div className='font-medium text-gray-700'>
+                          {order.id}
                         </div>
-                        <p className='mt-1 text-sm text-gray-500 flex flex-col'>
-                        <em>Address : {orders.shippingAddress.streetAddress}</em>
-                          <strong>Qty : {product.quantity}</strong>
-                        </p>  
                       </div>
-                    </div>
-                  </li>
-                ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className='mt-6 grid grid-rows-1 grid-cols-1 text-gray-500 border-2'>
-          <div className='font-medium text-center text-white hover:bg-blue-600 bg-blue-400'>
-            <Link to='/'>
-              Continue Shopping
-              <span aria-hidden='true'> &rarr;</span>
-            </Link>
-          </div>
-        </div>
+                    </th>
+                    <td className='px-6 py-4'>
+                      {order.items.map((item) => {
+                        return (
+                          <div>
+                            <img
+                              src={item.thumbnail}
+                              className='w-16 mx-auto'
+                              alt='product thumbnail'
+                            />
+                            <p className='text-center'> {item.title} </p>
+                          </div>
+                        );
+                      })}
+                    </td>
+                    <td className='text-center'> {500} </td>
+                    <td className="px-6 py-4"> 
+                      <div className="text-center">
+                        <strong> {order.shippingAddress.email} </strong>
+                        <div> {order.shippingAddress.contact} </div>
+                        <div> {order.shippingAddress.city} </div>
+                        <div> {order.shippingAddress.region} </div>
+                        <div> {order.shippingAddress.pincode} </div>
+                        <div> {order.shippingAddress.streetAddress} </div>
+                      </div>
+                    </td>
+                    <td className='px-6 py-4'>
+                      <div className='flex gap-2'>
+                        <span className='inline-flex items-center gap-1 rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-red-600'>
+                          Pending
+                        </span>
+                        <select>
+                          {
+                            STATUS.map((status) => <option value={status}> {status} </option>)
+                          }
+                        </select>
+                      </div>
+                    </td>
+                    <td className='px-6 py-4'>
+                      <div className='flex justify-end gap-4'>
+                        <a x-data="{ tooltip: 'Delete' }" href='#'>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth={1.5}
+                            stroke='currentColor'
+                            className='size-6'
+                          >
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              d='M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z'
+                            />
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              d='M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
+                            />
+                          </svg>
+                        </a>
+                        <a x-data="{ tooltip: 'Edite' }" href='#'>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth='1.5'
+                            stroke='currentColor'
+                            className='h-6 w-6'
+                            x-tooltip='tooltip'
+                          >
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125'
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
       </div>
     </Fragment>
   );
 }
 
-export default UserOrder;
+export default AdminOrder;

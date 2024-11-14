@@ -27,6 +27,22 @@ export function fetchOrder(id) {
 
 
 
+export function fetchAllOrder(pagination) {
+  let query = '';
+    
+  for(let key in pagination){
+    query += `${key}=${pagination[key]}&`
+  }
+
+  
+  return new Promise(async (resolve) => {
+    const response = await fetch('http://localhost:8000/order/');
+    const orders = await response.json();
+    resolve(orders)
+  }
+  );
+}
+
 
 export function deleteCartItem(itemId) {
   const options = {

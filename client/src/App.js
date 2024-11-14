@@ -15,6 +15,7 @@ import ForgetPasswordPage from './pages/ForgotPasswordPage';
 import AdminHomePage from './pages/AdminHomePage';
 import AdminProductDetailPage from './pages/AdminProductDetailPage';
 import AdminProductFormPage from './pages/AdminProductFormPage';
+import AdminOrderPage from './pages/AdminOrderPage';
 
 import Protected from './features/auth/components/UserProtected';
 import AdminProtected from './features/auth/components/AdminProtected';
@@ -25,6 +26,7 @@ import { fetchCartItemsAsync } from './features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from './features/auth/authSlice';
 import { getLoggedInUserAsync } from './features/user/userSlice';
+
 
 
 
@@ -81,6 +83,10 @@ const router = createBrowserRouter([
   {
     path: "admin/product/form/:id",
     element : <AdminProtected>  <AdminProductFormPage></AdminProductFormPage> </AdminProtected>
+  },
+  {
+    path: "admin_orders",
+    element :  <AdminOrderPage></AdminOrderPage> 
   },
   {
     path : "order_success/:id",

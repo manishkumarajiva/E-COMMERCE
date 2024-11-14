@@ -28,8 +28,10 @@ const user = {
 };
 
 const navigation = [
-  {name: "Dashboard", link: "/", current: true},
-  {name: "Cart", link: "/", current: false},
+  {name: "Dashboard", link: "/", user: true },
+  {name: "Team", link: "/", user: true },
+  {name: "Admin", link: "/admin_profile", admin: true },
+  {name: "Orders", link: "/admin_orders", admin: true },
 ];
 
 const userNavigation = [
@@ -66,7 +68,7 @@ export default function Navbar({children}) {
                     {navigation.map((item) => (
                       <Link to = {`${item.href}`}
                         key={item.name}
-                        aria-current={item.current ? "page" : undefined}
+                        aria-current={item.current ? "page" : ''}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
