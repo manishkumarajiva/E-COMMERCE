@@ -37,7 +37,6 @@ export function getFilteredProduct(filter, sort, pagination) {
     const categoryValues = filter[key];
 
     if (categoryValues.length > 0) {
-      console.log(categoryValues)
       const lastCategory = categoryValues[categoryValues.length - 1];
       query += `${key}=${lastCategory}&`
     }

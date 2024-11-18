@@ -86,7 +86,7 @@ const router = createBrowserRouter([
   },
   {
     path: "admin_orders",
-    element :  <AdminOrderPage></AdminOrderPage> 
+    element :  <AdminProtected> <AdminOrderPage></AdminOrderPage> </AdminProtected>
   },
   {
     path : "order_success/:id",

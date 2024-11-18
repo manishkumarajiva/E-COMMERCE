@@ -42,18 +42,22 @@ export function updateOrderStatus(order){
 }
 
 
-export function fetchAllOrder(pagination) {
+export function fetchAllOrder(pagination, sort) {
   let query = '';
     
   for(let key in pagination){
     query += `${key}=${pagination[key]}&`
   }
 
-  
+  for(let key in sort){
+    query += `${key}=${sort[key]}&`
+  }
+
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/order/');
+    const response = await fetch('http://localhost:8000/order/?' + query);
     const orders = await response.json();
-    resolve(orders)
+    const totalOrder = await response.headers.get('X-Total-Count')
+    resolve({order : orders, total : +totalOrder})
   }
   );
 }

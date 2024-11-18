@@ -30,7 +30,6 @@ const user = {
 const navigation = [
   {name: "Dashboard", link: "/", user: true },
   {name: "Team", link: "/", user: true },
-  {name: "Admin", link: "/admin_profile", admin: true },
   {name: "Orders", link: "/admin_orders", admin: true },
 ];
 
@@ -66,14 +65,14 @@ export default function Navbar({children}) {
                 <div className='hidden md:block'>
                   <div className='ml-10 flex items-baseline space-x-4'>
                     {navigation.map((item) => (
-                      <Link to = {`${item.href}`}
+                      <Link to = {`${item.link}`}
                         key={item.name}
                         aria-current={item.current ? "page" : ''}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                          "rounded-md px-5 py-2 text-sm font-medium"
                         )}
                       >
                         {item.name}

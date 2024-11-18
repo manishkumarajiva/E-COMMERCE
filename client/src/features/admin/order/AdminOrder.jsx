@@ -1,34 +1,51 @@
 import React, {Fragment, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getAllOrderAsync} from "../../order/orderSlice";
-import {selectAllOrders, updateOrderStatusAsync} from "../../order/orderSlice"; //selector
+import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/20/solid";
+
+import { selectAllOrders, selectTotalOrder, updateOrderStatusAsync } from "../../order/orderSlice"; //selector
+import Pagination from "../../common/Pagination";
+
 import {ITEM_PER_PAGE} from "../../../app/constants";
 import {STATUS} from "../../../app/constants";
-import { statusColorHandler } from "../../../app/constants";
-const selectStyle = 'px-2 py-1 text-sm font-semibold rounded-md'
+import {statusColorHandler} from "../../../app/constants";
+const selectStyle = "px-2 py-1 text-sm font-semibold rounded-md";
+
+
 
 function AdminOrder() {
   const dispatch = useDispatch();
   const orders = useSelector(selectAllOrders);
+  const orderCount = useSelector(selectTotalOrder);
   const [editOrderId, setEditOrderId] = useState(0);
   const [page, setPage] = useState(1);
+  const [sort, setSort] = useState({});
 
   useEffect(() => {
     const pagination = {_page: page, _limit: ITEM_PER_PAGE};
-    dispatch(getAllOrderAsync(pagination));
-  }, [dispatch, page]);
+    dispatch(getAllOrderAsync({pagination, sort}));
+  }, [dispatch, page, sort]);
 
+  const paginationHandler = (page) => {
+    setPage(page);
+  };
+
+  
+ const sortHandler = (options) => {
+  const sort = {_sort : options.sort, _order : options.order}
+  setSort(sort);
+ }
 
   const orderStatusHandler = (e, order) => {
     const orderStatus = e.target.value;
-    const newOrder= {...order, status : orderStatus}
+    const newOrder = {...order, status: orderStatus};
     dispatch(updateOrderStatusAsync(newOrder));
     setEditOrderId(0);
-  }
+  };
 
-  const deleteHandler = (id) => {
-    console.log(id)
-  }
+  const viewHandler = (e, id) => {};
+
+  const totalPage = Math.ceil(orderCount / ITEM_PER_PAGE);
 
   return (
     <Fragment>
@@ -38,8 +55,8 @@ function AdminOrder() {
           {/* table heading */}
           <thead className='bg-gray-50 text-center'>
             <tr>
-              <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
-                Order Id
+              <th onClick={()=>{sortHandler({sort : 'id', order : sort?._order === 'asc' ? 'desc' : 'asc'})}} scope='col' className='cursor-pointer px-6 py-4 font-medium text-gray-900'>
+                <span className="flex">OrderId {"  "} {sort?._order === 'asc' ? <ArrowDownIcon className="w-4"></ArrowDownIcon> : <ArrowUpIcon className="w-4"></ArrowUpIcon> } </span> 
               </th>
               <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
                 Items
@@ -50,8 +67,8 @@ function AdminOrder() {
               <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
                 Shipping Address
               </th>
-              <th scope='col' className='px-6 py-4 font-medium text-gray-900'>
-                Status
+              <th onClick={()=>{sortHandler({sort : 'status', order : sort?._order === 'asc' ? 'desc' : 'asc'})}} scope='col' className='cursor-pointer px-6 py-4 font-medium text-gray-900'>
+              <span className="flex">Status {"  "} {sort?._order === 'asc' ? <ArrowDownIcon className="w-4"></ArrowDownIcon> : <ArrowUpIcon className="w-4"></ArrowUpIcon> } </span> 
               </th>
               <th scope='col' className='px-6 py-4 font-medium text-gray-900' />
             </tr>
@@ -60,9 +77,9 @@ function AdminOrder() {
           {/* table body */}
           <tbody className='divide-y divide-gray-100  border-gray-100 '>
             {orders &&
-              orders.map((order) => {
+              orders.map((order, indx) => {
                 return (
-                  <tr className='hover:bg-gray-50'>
+                  <tr className='hover:bg-gray-50' key={indx}>
                     <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>
                       <div className='text-sm'>
                         <div className='font-medium text-gray-700'>
@@ -98,11 +115,18 @@ function AdminOrder() {
                     <td className='px-6 py-4'>
                       <div className='flex gap-2'>
                         {editOrderId !== order.id ? (
-                          <span className={`${statusColorHandler(order.status)} inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold`}>
+                          <span
+                            className={`${statusColorHandler(
+                              order.status
+                            )} inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold`}
+                          >
                             {order?.status}
                           </span>
                         ) : (
-                          <select className={selectStyle} onChange={(e)=>orderStatusHandler(e, order)}>
+                          <select
+                            className={selectStyle}
+                            onChange={(e) => orderStatusHandler(e, order)}
+                          >
                             {STATUS.map((status) => (
                               <option value={status}> {status} </option>
                             ))}
@@ -113,7 +137,7 @@ function AdminOrder() {
                     {/* button */}
                     <td className='px-6 py-4'>
                       <div className='flex justify-end gap-4'>
-                        <button onClick={()=>deleteHandler(order.id)}>
+                        <button onClick={(e) => viewHandler(e, order.id)}>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -134,7 +158,7 @@ function AdminOrder() {
                             />
                           </svg>
                         </button>
-                        <button onClick={()=> setEditOrderId(order.id)}>
+                        <button onClick={() => setEditOrderId(order.id)}>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -159,6 +183,14 @@ function AdminOrder() {
           </tbody>
         </table>
       </div>
+
+      {/* pagination */}
+      <Pagination
+        page={page}
+        totalPage={totalPage}
+        totalProduct={orderCount}
+        paginationHandler={paginationHandler}
+      ></Pagination>
     </Fragment>
   );
 }
