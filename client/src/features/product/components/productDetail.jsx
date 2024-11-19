@@ -6,6 +6,7 @@ import {useSelector, useDispatch} from "react-redux";
 import { productDetail, getProductAsync } from "../productSlice";
 import { selectLoggedInUser } from '../../auth/authSlice';
 import { addToCartAsync } from '../../cart/cartSlice';
+import { useAlert } from "react-alert";
 
 const colors = [
   {name: "White", class: "bg-white", selectedClass: "ring-gray-400"},
@@ -67,15 +68,14 @@ function classNames(...classes) {
 }
 
 
-
-
-
 export default function ProductDetail() {
 
   const dispatch = useDispatch();
   const productDetails = useSelector(productDetail);
   const user = useSelector(selectLoggedInUser);
   const params = useParams();
+
+  const alert = useAlert()
   
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
@@ -90,6 +90,7 @@ export default function ProductDetail() {
   const addToCartHandler = (e) => {
     e.preventDefault()
     dispatch(addToCartAsync({...productDetails, quantity : 1, userId : user.id }));
+    alert.success("Added Successfully 👍")
   }
   
 

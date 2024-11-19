@@ -3,18 +3,25 @@ import {Link, Navigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 import {useDispatch, useSelector} from "react-redux";
-import { selectLoggedInUser } from "../authSlice";
+import { selectLoggedInUser, selectLoginStatus } from "../authSlice";
 import { signInUserAsync } from '../authSlice';
 
+
+import { useAlert } from "react-alert";
 
 
 
 export default function SignIn() {
-  
+  const alert = useAlert();
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
+
+
   const { register, handleSubmit, formState: {errors} } = useForm();
-  const onSubmit = (data) => dispatch(signInUserAsync(data));
+  const onSubmit = (data) => {
+    dispatch(signInUserAsync(data)); 
+    alert.success('Login Successfully');
+  };
   
 
   return (

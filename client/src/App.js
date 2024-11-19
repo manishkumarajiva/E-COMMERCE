@@ -27,8 +27,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from './features/auth/authSlice';
 import { getLoggedInUserAsync } from './features/user/userSlice';
 
+//react alert
+import { positions, Provider as AlertProvider, transitions } from 'react-alert';
+import  AlertTemplate from 'react-alert-template-basic'
 
 
+const options = {
+  position: positions.TOP_RIGHT,
+  timeout: 5000,
+  transitions:transitions.SCALE
+}
 
 
 const router = createBrowserRouter([
@@ -100,6 +108,7 @@ const router = createBrowserRouter([
 
 
 
+
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
@@ -112,7 +121,9 @@ function App() {
   },[dispatch, user])
 
   return (
-    <RouterProvider router={router}></RouterProvider>
+    <AlertProvider template={AlertTemplate} {...options}>
+      <RouterProvider router={router}></RouterProvider>
+    </AlertProvider>
   );
 }
 

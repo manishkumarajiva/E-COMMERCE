@@ -1,8 +1,9 @@
 import React, {useState, Fragment, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
-import { ITEM_PER_PAGE } from "../../../app/constants";
+import {ITEM_PER_PAGE} from "../../../app/constants";
 import Pagination from "../../common/Pagination";
+import LoaderPage from '../../../pages/LoaderPage';
 
 import {
   getFilteredProductList,
@@ -12,6 +13,7 @@ import {
 
 import {
   selectAllProduct,
+  selectProductStatus,
   totalProducts,
   categoryList,
   brandList,
@@ -55,6 +57,7 @@ function ProductList() {
   const brands = useSelector(brandList);
   const products = useSelector(selectAllProduct);
   const totalProduct = useSelector(totalProducts);
+  const status = useSelector(selectProductStatus);
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState({});
@@ -349,7 +352,10 @@ function ProductList() {
 
                         <div className='mt-5 grid grid-cols-1 gap-x-3 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
                           {/* products */}
-                          {products &&
+                          {status === "pending" ? (
+                            <LoaderPage />
+                          ) : (
+                            products &&
                             products.map((product) => (
                               <div
                                 key={product.id}
@@ -386,7 +392,8 @@ function ProductList() {
                                   </div>
                                 </Link>
                               </div>
-                            ))}
+                            ))
+                          )}
                         </div>
                       </div>
                     </div>
@@ -399,7 +406,12 @@ function ProductList() {
       </div>
 
       {/* pagination */}
-     <Pagination page={page} totalPage={totalPage} totalProduct={totalProduct} paginationHandler={paginationHandler}></Pagination>
+      <Pagination
+        page={page}
+        totalPage={totalPage}
+        totalProduct={totalProduct}
+        paginationHandler={paginationHandler}
+      ></Pagination>
     </Fragment>
   );
 }

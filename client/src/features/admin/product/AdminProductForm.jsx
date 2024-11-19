@@ -1,7 +1,8 @@
 import {Fragment, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useAlert } from "react-alert";
+
 import {
   categoryList,
   brandList,
@@ -14,6 +15,9 @@ import {productDetail, getProductAsync} from "../../product/productSlice";
 import {useParams} from "react-router-dom";
 
 function AdminProductForm() {
+
+  const alert = useAlert();
+
   const dispatch = useDispatch();
   const params = useParams();
 
@@ -46,7 +50,7 @@ function AdminProductForm() {
       product.discountPercentage = +product.discountPercentage;
       product.rating = 0;
       dispatch(updateProductAsync(product));
-      alert('product updated')
+      alert.success('Update Successfully')
       // below code is for new Product
     } else {
       const product = {...data};
@@ -64,7 +68,7 @@ function AdminProductForm() {
       delete product["image-4"];
 
       dispatch(createProductAsync(product));
-      alert('product created')
+      alert.success('Product Added Successfully 👍')
     }
 
     

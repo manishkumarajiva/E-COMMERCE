@@ -71,7 +71,7 @@ export function resetCartItem(userId) {
     for (let item of cartItems) {
       await deleteCartItem(item.id);
     }
-    resolve({ status: 'success' })
+    resolve({ status: 'fulfilled' })
   }
   );
 }

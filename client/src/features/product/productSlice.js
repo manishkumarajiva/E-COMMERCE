@@ -82,7 +82,10 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getProductAsync.fulfilled, (state, action) => {
+      .addCase(getProductAsync.pending, (state, action) => {
+        state.productDetails = action.payload;
+        state.status = 'pending'
+      }).addCase(getProductAsync.fulfilled, (state, action) => {
         state.productDetails = action.payload;
         state.status = 'fulfilled'
       }).addCase(getFilteredProductList.fulfilled, (state, action) => {
@@ -114,6 +117,8 @@ export const productSlice = createSlice({
 export const productDetail = (state) => state.product.productDetails;
 export const selectAllProduct = (state) => state.product.products;
 export const totalProducts = (state) => state.product.totalProduct;
+export const selectProductStatus = (state) => state.product.status;
+
 export const categoryList = (state) => state.product.categories;
 export const brandList = (state) => state.product.brands;
 

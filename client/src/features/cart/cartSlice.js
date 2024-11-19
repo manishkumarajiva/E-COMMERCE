@@ -3,7 +3,7 @@ import { fetchCartItems, addToCart, updateCartItem, deleteCartItem, resetCartIte
 
 const initialState = {
   items: [],
-  status: 'idle',
+  status: 'pending',
 };
 
 
@@ -66,21 +66,21 @@ export const cartSlice = createSlice({
         state.status = 'pending';
       })
       .addCase(addToCartAsync.fulfilled, (state, action) => {
-        state.status = 'fulfill';
+        state.status = 'fulfilled';
         state.items.push(action.payload)
       })
       .addCase(fetchCartItemsAsync.pending, (state) => {
         state.status = 'pending';
       })
       .addCase(fetchCartItemsAsync.fulfilled, (state, action) => {
-        state.status = 'fulfill';
+        state.status = 'fulfilled';
         state.items = action.payload;
       })
       .addCase(updateCartItemAsync.pending, (state) => {
         state.status = 'pending';
       })
       .addCase(updateCartItemAsync.fulfilled, (state, action) => {
-        state.status = 'fulfill';
+        state.status = 'fulfilled';
         const index = state.items.findIndex(item => item.id === action.payload.id)
         state.items[index] = action.payload;
       })
@@ -88,7 +88,7 @@ export const cartSlice = createSlice({
         state.status = 'pending';
       })
       .addCase(deleteCartItemAsync.fulfilled, (state, action) => {
-        state.status = 'fulfill';
+        state.status = 'fulfilled';
         const index = state.items.findIndex(item => item.id === action.payload.id)
         state.items.splice(index,1);
       })
@@ -105,5 +105,5 @@ export const cartSlice = createSlice({
 
 
 export const selectCartItems = (state) => state.cart.items;
-
+export const selectCartItemStatus = (state) => state.cart.status;
 export default cartSlice.reducer;

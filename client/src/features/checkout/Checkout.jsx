@@ -11,7 +11,6 @@ import {selectLoggedInUser} from "../auth/authSlice";
 import { selectCurrentOrder } from '../order/orderSlice';
 
 
-
 import {useForm} from "react-hook-form";
 
 export default function Checkout() {

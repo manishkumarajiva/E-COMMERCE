@@ -50,8 +50,6 @@ export function signIn(userCredential) {
         return;
       }
     }
-
-    console.log(user[0])
     resolve(user[0])
   }
   );

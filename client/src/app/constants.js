@@ -13,5 +13,6 @@ export const statusColorHandler = (status) => {
             return 'text-green-600 bg-green-100'
         case 'cancelled' :
             return 'text-red-600 bg-red-100'
+        default : break;
     }
 }
