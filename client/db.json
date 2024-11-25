@@ -1858,205 +1858,7 @@
       "checked": false
     }
   ],
-  "cart": [
-    {
-      "id": 4,
-      "title": "Red Lipstick",
-      "description": "The Red Lipstick is a classic and bold choice for adding a pop of color to your lips. With a creamy and pigmented formula, it provides a vibrant and long-lasting finish.",
-      "category": "beauty",
-      "price": 25,
-      "discountPercentage": 10,
-      "rating": 0,
-      "stock": 68,
-      "tags": [
-        "beauty",
-        "lipstick"
-      ],
-      "brand": "Chic Cosmetics",
-      "sku": "O5IF1NTA",
-      "weight": 5,
-      "dimensions": {
-        "width": 14.37,
-        "height": 13.94,
-        "depth": 14.6
-      },
-      "warrantyInformation": "Lifetime warranty",
-      "shippingInformation": "Ships in 2 weeks",
-      "availabilityStatus": "In Stock",
-      "reviews": [
-        {
-          "rating": 5,
-          "comment": "Great product!",
-          "date": "2024-05-23T08:56:21.619Z",
-          "reviewerName": "Leo Rivera",
-          "reviewerEmail": "leo.rivera@x.dummyjson.com"
-        },
-        {
-          "rating": 4,
-          "comment": "Very pleased!",
-          "date": "2024-05-23T08:56:21.619Z",
-          "reviewerName": "Oscar Powers",
-          "reviewerEmail": "oscar.powers@x.dummyjson.com"
-        },
-        {
-          "rating": 5,
-          "comment": "Very pleased!",
-          "date": "2024-05-23T08:56:21.619Z",
-          "reviewerName": "Carter Rivera",
-          "reviewerEmail": "carter.rivera@x.dummyjson.com"
-        }
-      ],
-      "returnPolicy": "90 days return policy",
-      "minimumOrderQuantity": 6,
-      "meta": {
-        "createdAt": "2024-05-23T08:56:21.619Z",
-        "updatedAt": "2024-05-23T08:56:21.619Z",
-        "barcode": "9444582199406",
-        "qrCode": "https://assets.dummyjson.com/public/qr-code.png"
-      },
-      "images": [
-        "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/1.png",
-        "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/1.png",
-        "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
-        "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png"
-      ],
-      "thumbnail": "data:image/jpeg;base64,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",
-      "deleted": true,
-      "quantity": 2,
-      "userId": 1
-    },
-    {
-      "id": 14,
-      "title": "Knoll Saarinen Executive Conference Chair",
-      "description": "The Knoll Saarinen Executive Conference Chair is a modern and ergonomic chair, perfect for your office or conference room with its timeless design.",
-      "category": "furniture",
-      "price": 499.99,
-      "discountPercentage": 15.23,
-      "rating": 4.11,
-      "stock": 47,
-      "tags": [
-        "furniture",
-        "office chairs"
-      ],
-      "brand": "Knoll",
-      "sku": "RKHVJ4FE",
-      "weight": 3,
-      "dimensions": {
-        "width": 16.59,
-        "height": 21.46,
-        "depth": 29.07
-      },
-      "warrantyInformation": "Lifetime warranty",
-      "shippingInformation": "Ships in 3-5 business days",
-      "availabilityStatus": "In Stock",
-      "reviews": [
-        {
-          "rating": 4,
-          "comment": "Very happy with my purchase!",
-          "date": "2024-05-23T08:56:21.620Z",
-          "reviewerName": "Leah Gutierrez",
-          "reviewerEmail": "leah.gutierrez@x.dummyjson.com"
-        },
-        {
-          "rating": 4,
-          "comment": "Would buy again!",
-          "date": "2024-05-23T08:56:21.620Z",
-          "reviewerName": "Nolan Gonzalez",
-          "reviewerEmail": "nolan.gonzalez@x.dummyjson.com"
-        },
-        {
-          "rating": 2,
-          "comment": "Waste of money!",
-          "date": "2024-05-23T08:56:21.620Z",
-          "reviewerName": "Stella Morris",
-          "reviewerEmail": "stella.morris@x.dummyjson.com"
-        }
-      ],
-      "returnPolicy": "30 days return policy",
-      "minimumOrderQuantity": 5,
-      "meta": {
-        "createdAt": "2024-05-23T08:56:21.620Z",
-        "updatedAt": "2024-05-23T08:56:21.620Z",
-        "barcode": "0726316339746",
-        "qrCode": "https://assets.dummyjson.com/public/qr-code.png"
-      },
-      "images": [
-        "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/1.png",
-        "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/1.png",
-        "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/2.png",
-        "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/3.png"
-      ],
-      "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/thumbnail.png",
-      "quantity": 2,
-      "userId": 1
-    },
-    {
-      "id": 6,
-      "title": "Calvin Klein CK One",
-      "description": "CK One by Calvin Klein is a classic unisex fragrance, known for its fresh and clean scent. It's a versatile fragrance suitable for everyday wear.",
-      "category": "fragrances",
-      "price": 50,
-      "discountPercentage": 10,
-      "rating": 0,
-      "stock": 17,
-      "tags": [
-        "fragrances",
-        "perfumes"
-      ],
-      "brand": "Calvin Klein",
-      "sku": "DZM2JQZE",
-      "weight": 5,
-      "dimensions": {
-        "width": 11.53,
-        "height": 14.44,
-        "depth": 6.81
-      },
-      "warrantyInformation": "5 year warranty",
-      "shippingInformation": "Ships overnight",
-      "availabilityStatus": "In Stock",
-      "reviews": [
-        {
-          "rating": 5,
-          "comment": "Great value for money!",
-          "date": "2024-05-23T08:56:21.619Z",
-          "reviewerName": "Sophia Brown",
-          "reviewerEmail": "sophia.brown@x.dummyjson.com"
-        },
-        {
-          "rating": 3,
-          "comment": "Very disappointed!",
-          "date": "2024-05-23T08:56:21.619Z",
-          "reviewerName": "Madison Collins",
-          "reviewerEmail": "madison.collins@x.dummyjson.com"
-        },
-        {
-          "rating": 1,
-          "comment": "Poor quality!",
-          "date": "2024-05-23T08:56:21.619Z",
-          "reviewerName": "Maya Reed",
-          "reviewerEmail": "maya.reed@x.dummyjson.com"
-        }
-      ],
-      "returnPolicy": "No return policy",
-      "minimumOrderQuantity": 20,
-      "meta": {
-        "createdAt": "2024-05-23T08:56:21.619Z",
-        "updatedAt": "2024-05-23T08:56:21.619Z",
-        "barcode": "2210136215089",
-        "qrCode": "https://assets.dummyjson.com/public/qr-code.png"
-      },
-      "images": [
-        "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/1.png",
-        "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/2.png",
-        "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/3.png",
-        "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/1.png"
-      ],
-      "thumbnail": "data:image/jpeg;base64,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",
-      "deleted": true,
-      "quantity": 1,
-      "userId": 1
-    }
-  ],
+  "cart": [],
   "user": [
     {
       "email": "test123@gmail.com",
@@ -2559,7 +2361,7 @@
       },
       "paymentMode": "cash",
       "id": 3,
-      "status": "cancelled"
+      "status": "delivered"
     },
     {
       "user": 1,
@@ -2790,6 +2592,155 @@
       },
       "paymentMode": "cash",
       "id": 5,
+      "status": "delivered"
+    },
+    {
+      "user": 1,
+      "items": [
+        {
+          "id": 4,
+          "title": "Red Lipstick",
+          "description": "The Red Lipstick is a classic and bold choice for adding a pop of color to your lips. With a creamy and pigmented formula, it provides a vibrant and long-lasting finish.",
+          "category": "beauty",
+          "price": 25,
+          "discountPercentage": 10,
+          "rating": 0,
+          "stock": 68,
+          "tags": [
+            "beauty",
+            "lipstick"
+          ],
+          "brand": "Chic Cosmetics",
+          "sku": "O5IF1NTA",
+          "weight": 5,
+          "dimensions": {
+            "width": 14.37,
+            "height": 13.94,
+            "depth": 14.6
+          },
+          "warrantyInformation": "Lifetime warranty",
+          "shippingInformation": "Ships in 2 weeks",
+          "availabilityStatus": "In Stock",
+          "reviews": [
+            {
+              "rating": 5,
+              "comment": "Great product!",
+              "date": "2024-05-23T08:56:21.619Z",
+              "reviewerName": "Leo Rivera",
+              "reviewerEmail": "leo.rivera@x.dummyjson.com"
+            },
+            {
+              "rating": 4,
+              "comment": "Very pleased!",
+              "date": "2024-05-23T08:56:21.619Z",
+              "reviewerName": "Oscar Powers",
+              "reviewerEmail": "oscar.powers@x.dummyjson.com"
+            },
+            {
+              "rating": 5,
+              "comment": "Very pleased!",
+              "date": "2024-05-23T08:56:21.619Z",
+              "reviewerName": "Carter Rivera",
+              "reviewerEmail": "carter.rivera@x.dummyjson.com"
+            }
+          ],
+          "returnPolicy": "90 days return policy",
+          "minimumOrderQuantity": 6,
+          "meta": {
+            "createdAt": "2024-05-23T08:56:21.619Z",
+            "updatedAt": "2024-05-23T08:56:21.619Z",
+            "barcode": "9444582199406",
+            "qrCode": "https://assets.dummyjson.com/public/qr-code.png"
+          },
+          "images": [
+            "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/1.png",
+            "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/1.png",
+            "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
+            "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png"
+          ],
+          "thumbnail": "data:image/jpeg;base64,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",
+          "deleted": true,
+          "quantity": 2,
+          "userId": 1
+        },
+        {
+          "id": 14,
+          "title": "Knoll Saarinen Executive Conference Chair",
+          "description": "The Knoll Saarinen Executive Conference Chair is a modern and ergonomic chair, perfect for your office or conference room with its timeless design.",
+          "category": "furniture",
+          "price": 499.99,
+          "discountPercentage": 15.23,
+          "rating": 4.11,
+          "stock": 47,
+          "tags": [
+            "furniture",
+            "office chairs"
+          ],
+          "brand": "Knoll",
+          "sku": "RKHVJ4FE",
+          "weight": 3,
+          "dimensions": {
+            "width": 16.59,
+            "height": 21.46,
+            "depth": 29.07
+          },
+          "warrantyInformation": "Lifetime warranty",
+          "shippingInformation": "Ships in 3-5 business days",
+          "availabilityStatus": "In Stock",
+          "reviews": [
+            {
+              "rating": 4,
+              "comment": "Very happy with my purchase!",
+              "date": "2024-05-23T08:56:21.620Z",
+              "reviewerName": "Leah Gutierrez",
+              "reviewerEmail": "leah.gutierrez@x.dummyjson.com"
+            },
+            {
+              "rating": 4,
+              "comment": "Would buy again!",
+              "date": "2024-05-23T08:56:21.620Z",
+              "reviewerName": "Nolan Gonzalez",
+              "reviewerEmail": "nolan.gonzalez@x.dummyjson.com"
+            },
+            {
+              "rating": 2,
+              "comment": "Waste of money!",
+              "date": "2024-05-23T08:56:21.620Z",
+              "reviewerName": "Stella Morris",
+              "reviewerEmail": "stella.morris@x.dummyjson.com"
+            }
+          ],
+          "returnPolicy": "30 days return policy",
+          "minimumOrderQuantity": 5,
+          "meta": {
+            "createdAt": "2024-05-23T08:56:21.620Z",
+            "updatedAt": "2024-05-23T08:56:21.620Z",
+            "barcode": "0726316339746",
+            "qrCode": "https://assets.dummyjson.com/public/qr-code.png"
+          },
+          "images": [
+            "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/1.png",
+            "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/1.png",
+            "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/2.png",
+            "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/3.png"
+          ],
+          "thumbnail": "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/thumbnail.png",
+          "quantity": 2,
+          "userId": 1
+        }
+      ],
+      "shippingAddress": {
+        "firstName": "VIKRAM",
+        "lastName": "Deep000",
+        "email": "amandeep@gmail.com",
+        "contact": "00000000000",
+        "streetAddress": "Town/CityLos Angeles, California. (State)  Zip code: 93003",
+        "city": "Los Agnles",
+        "region": "California",
+        "pincode": "953212"
+      },
+      "paymentMode": "cash",
+      "id": 6,
       "status": "delivered"
     }
   ]

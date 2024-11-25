@@ -3,7 +3,7 @@ import {Link, Navigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 import {useDispatch, useSelector} from "react-redux";
-import { selectLoggedInUser, selectLoginStatus } from "../authSlice";
+import { selectLoggedInUser } from "../authSlice";
 import { signInUserAsync } from '../authSlice';
 
 

@@ -93,7 +93,7 @@ function AdminProductList() {
   useEffect(() => {
     dispatch(getCategoryList());
     dispatch(getBrandList());
-  }, []);
+  }, [dispatch]);
 
   let totalPage = Math.ceil(totalProduct / ITEM_PER_PAGE);
 
