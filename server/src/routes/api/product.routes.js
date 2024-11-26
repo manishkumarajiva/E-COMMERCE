@@ -6,7 +6,7 @@ const { UpdateProduct, DeleteProduct } = require('../../controllers/product.cont
 
 
 // ----------------- PRODUCT ROUTES --------------- //
-router.post('/', CreateProduct).get('/', ReadProduct).patch('/', UpdateProduct).delete('/', DeleteProduct);
+router.post('/', CreateProduct).get('/', ReadProduct).patch('/:id', UpdateProduct).delete('/:id', DeleteProduct);
 
 module.exports = router;
 

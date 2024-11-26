@@ -1766,95 +1766,95 @@
   ],
   "category": [
     {
-      "value": "beauty",
       "label": "Beauty",
+      "value": "beauty",
       "checked": false
     },
     {
-      "value": "fragrances",
       "label": "Fragrances",
+      "value": "fragrances",
       "checked": false
     },
     {
-      "value": "furniture",
       "label": "Furniture",
+      "value": "furniture",
       "checked": false
     },
     {
-      "value": "groceries",
       "label": "Groceries",
+      "value": "groceries",
       "checked": false
     }
   ],
   "brand": [
     {
-      "value": "Essence",
       "label": "Essence",
+      "value": "Essence",
       "checked": false
     },
     {
-      "value": "Glamour Beauty",
       "label": "Glamour Beauty",
+      "value": "Glamour Beauty",
       "checked": false
     },
     {
-      "value": "Velvet Touch",
       "label": "Velvet Touch",
+      "value": "Velvet Touch",
       "checked": false
     },
     {
-      "value": "Chic Cosmetics",
       "label": "Chic Cosmetics",
+      "value": "Chic Cosmetics",
       "checked": false
     },
     {
-      "value": "Nail Couture",
       "label": "Nail Couture",
+      "value": "Nail Couture",
       "checked": false
     },
     {
-      "value": "Calvin Klein",
       "label": "Calvin Klein",
+      "value": "Calvin Klein",
       "checked": false
     },
     {
-      "value": "Chanel",
       "label": "Chanel",
+      "value": "Chanel",
       "checked": false
     },
     {
-      "value": "Dior",
       "label": "Dior",
+      "value": "Dior",
       "checked": false
     },
     {
-      "value": "Dolce & Gabbana",
       "label": "Dolce & Gabbana",
+      "value": "Dolce & Gabbana",
       "checked": false
     },
     {
-      "value": "Gucci",
       "label": "Gucci",
+      "value": "Gucci",
       "checked": false
     },
     {
-      "value": "Annibale Colombo",
       "label": "Annibale Colombo",
+      "value": "Annibale Colombo",
       "checked": false
     },
     {
-      "value": "Furniture Co.",
       "label": "Furniture Co.",
+      "value": "Furniture Co.",
       "checked": false
     },
     {
-      "value": "Knoll",
       "label": "Knoll",
+      "value": "Knoll",
       "checked": false
     },
     {
-      "value": "Bath Trends",
       "label": "Bath Trends",
+      "value": "Bath Trends",
       "checked": false
     }
   ],

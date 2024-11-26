@@ -6,7 +6,7 @@ const { UpdateCategory, DeleteCategory } = require('../../controllers/category.c
 
 
 // ----------------- CATEGORY ROUTES --------------- //
-router.post('/', CreateCategory).get('/', ReadCategory).patch('/', UpdateCategory).delete('/', DeleteCategory);
+router.post('/', CreateCategory).get('/', ReadCategory).patch('/:id', UpdateCategory).delete('/:id', DeleteCategory);
 
 module.exports = router;
 

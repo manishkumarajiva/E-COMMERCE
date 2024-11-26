@@ -1,7 +1,6 @@
 const {Schema, model} = require("mongoose");
 
-const ProductSchema = new Schema(
-  {
+const ProductSchema = new Schema({
     title: {
       type: String, 
       required: true, 
@@ -66,9 +65,7 @@ const ProductSchema = new Schema(
       type: Boolean, 
       default: false
     },
-  },
-  {timestamps: true}
-);
+},{timestamps: true});
 
 
 const virtualId = ProductSchema.virtual('id');

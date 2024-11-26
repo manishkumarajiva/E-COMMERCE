@@ -51,7 +51,8 @@ function AdminProductForm() {
       product.rating = 0;
       dispatch(updateProductAsync(product));
       alert.success('Update Successfully')
-      // below code is for new Product
+
+      // BELOW: CODE IS FOR --- NEW PRODUCT
     } else {
       const product = {...data};
       delete product.id;

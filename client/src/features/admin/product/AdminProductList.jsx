@@ -64,6 +64,7 @@ function AdminProductList() {
   const totalProduct = useSelector(totalProducts);
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
   const [page, setPage] = useState(1);

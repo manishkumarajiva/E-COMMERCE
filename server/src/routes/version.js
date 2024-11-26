@@ -7,4 +7,4 @@ const IndexRoutes = require('./api/index.routes.js');
 
 router.use('/v1', IndexRoutes);
 
-module.exports = IndexRoutes;
+module.exports = router;

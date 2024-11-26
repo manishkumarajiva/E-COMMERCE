@@ -6,7 +6,7 @@ const { UpdateBrand, DeleteBrand } = require('../../controllers/brand.controller
 
 
 // ----------------- BRAND ROUTES --------------- //
-router.post('/', CreateBrand).get('/', ReadBrand).patch('/', UpdateBrand).delete('/', DeleteBrand);
+router.post('/', CreateBrand).get('/', ReadBrand).patch('/:id', UpdateBrand).delete('/:id', DeleteBrand);
 
 module.exports = router;
 

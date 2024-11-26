@@ -15,13 +15,15 @@ app.use(bodyParser.urlencoded({ extended : true }));
 const views = path.join(__dirname, 'views').split('src')[0] +"\public\\views";
 const assets = path.join(__dirname, 'assets').split('src')[0]+"\public\\assets";
 
+
+
 app.set('views', views);
 app.set('view engine', 'ejs');
 app.use(express.static(assets));
 
 
-app.get('/server',function(req,res){
-    res.send("<img src='http://localhost:5555/server.jpg' style='margin : 0px auto'>")
+app.get('/',function(req,res){
+    res.render('server');
 })
 
 
