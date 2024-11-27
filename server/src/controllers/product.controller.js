@@ -18,17 +18,20 @@ exports.CreateProduct = async (req, res) => {
 
 exports.ReadProduct = async (req, res) => {
     try {
-        const productCount = await ProductModel.countDocuments();
         const query = ProductModel.find();
+        const productCount =  ProductModel.find();
 
         // filter by category
         if (req.query.category) {
             query = query.find({ category: req.query.category });
+            productCount = productCount.find({ category: req.query.category });
         }
 
         // filter by brand
         if (req.query.brand) {
-            query = query.find({ brand: req.query.brand })
+            query = query.find({ brand: req.query.brand });
+            productCount = productCount.find({ brand: req.query.brand });
+
         }
 
         // sorting
@@ -46,6 +49,8 @@ exports.ReadProduct = async (req, res) => {
 
         const getResponse = await query.exec();
 
+        res.set('X-Total-Count', productCount);
+    
         if (!getResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });
 
         res.status(200).json({ status: 200, success: true, message: 'Successfully Fetched', response: getResponse });
