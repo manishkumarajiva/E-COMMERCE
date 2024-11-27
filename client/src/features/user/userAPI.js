@@ -16,23 +16,6 @@ export function getUserOrder(userId){
 }
 
 
-export function createUser(userData) {
-
-  const options = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({...userData, address : []})
-  };
-
-  return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/user/', options);
-    const newUserData = await response.json();
-    resolve(newUserData)
-  }
-  );
-}
-
-
 export function updateUser(userData) {
 
   const options = {

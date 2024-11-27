@@ -2,13 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const { createServer } = require('http');
 const path = require('path');
+const cors = require('cors');
 const bodyParser = require('body-parser');
+
 const DBconnection = require('./database/DBconnect.js');
 const indexRoutes = require('./routes/version.js');
 
 const app = express();
 const port = process.env.PORT || 5555;
 
+app.use(cors())
 app.use(bodyParser.json({ limit : '100kb' }));
 app.use(bodyParser.urlencoded({ extended : true }));
 

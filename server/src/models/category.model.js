@@ -5,12 +5,14 @@ const CategorySchema = new Schema({
     label : { 
         type : String, 
         required : true, 
-        unique : true 
+        unique : true,
+        trim : true 
     },
     value : { 
         type : String, 
         required : true, 
-        unique : true 
+        unique : true,
+        trim : true 
     }
 }, { timestamps : true });
 
@@ -19,6 +21,7 @@ const virtualId = CategorySchema.virtual('id');
 virtualId.get(function(){
     return this._id;
 })
+
 
 CategorySchema.set('toJSON',{
     virtuals : true,

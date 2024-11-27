@@ -4,15 +4,18 @@ const ProductSchema = new Schema({
     title: {
       type: String, 
       required: true, 
-      unique: true
+      unique: true,
+      trim : true
     },
     description: {
       type: String, 
-      required: true
+      required: true,
+      trim : true
     },
     category: {
       type: String, 
-      required: true
+      required: true,
+      trim : true
     },
     price: {
       type: Number, 
@@ -39,7 +42,8 @@ const ProductSchema = new Schema({
     },
     brand: {
       type: String, 
-      required: true
+      required: true,
+      trim : true
     },
     highlights: {
       type: [String], 
@@ -59,7 +63,8 @@ const ProductSchema = new Schema({
     },
     thumbnail: {
       type: String, 
-      required: true
+      required: true,
+      trim : true
     },
     deleted: {
       type: Boolean, 

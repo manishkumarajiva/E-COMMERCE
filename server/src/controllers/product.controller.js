@@ -15,8 +15,19 @@ exports.CreateProduct = async (req, res) => {
 }
 
 
+exports.GetProductById = async(req, res) => {
+    try {
+        const createResponse = await ProductModel.findById(req.params.id);
+        if (!createResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });
 
-exports.ReadProduct = async (req, res) => {
+        res.status(200).json({ status: 201, success: true, message: 'Successfully Fetch', response: createResponse });
+    } catch (error) {
+        res.status(500).json({ status: 500, message: error.message, error: error.stack });
+    }
+}
+
+
+exports.GetProduct = async (req, res) => {
     try {
         const query = ProductModel.find();
         const productCount =  ProductModel.find();
@@ -84,7 +95,7 @@ exports.DeleteProduct = async (req, res) => {
         const deleteResponse = await ProductModel.findByIdAndDelete(id);
         if (!deleteResponse) return res.status(200).json({ status: 401, message: 'Failed to Delete' });
 
-        res.status(200).json({ status: 201, success: true, message: 'Successfully Delete', response: deleteResponse });
+        res.status(200).json({ status: 201, success: true, message: 'Successfully Deleted', response: deleteResponse });
 
     } catch (error) {
         res.status(500).json({ status: 500, message: error.message, error: error.stack });
