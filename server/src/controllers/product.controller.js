@@ -29,14 +29,20 @@ exports.GetProductById = async(req, res) => {
 
 exports.GetProduct = async (req, res) => {
     try {
-        const query = ProductModel.find();
-        const productCount =  ProductModel.find();
+
+        const condition = {};
+        if(!req.query.admin){
+            condition.deleted = { $ne : ture };
+        }
+        const query = ProductModel.find(condition);
+        const productCount =  ProductModel.find(condition);
 
         // filter by category
         if (req.query.category) {
             query = query.find({ category: req.query.category });
             productCount = productCount.find({ category: req.query.category });
         }
+
 
         // filter by brand
         if (req.query.brand) {
@@ -59,8 +65,9 @@ exports.GetProduct = async (req, res) => {
         }
 
         const getResponse = await query.exec();
+        const totalProduct = await productCount.count().exec();
 
-        res.set('X-Total-Count', productCount);
+        res.set('X-Total-Count', totalProduct);
     
         if (!getResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });
 

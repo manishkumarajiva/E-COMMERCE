@@ -19,7 +19,7 @@ exports.GetUserCart = async (req, res) => {
     const id = req.query.id;
 
     try {
-        const cartItems = await CartModel.find({ user : id });
+        const cartItems = await CartModel.find({ user : id }).populate('user');
         if(!cartItems) return res.status(200).json({ status : 401, message : 'Failed to Fetched' });
 
         res.status(200).json({ status : 201, success : true, message : 'Successfully Fetched', response : cartItems });
