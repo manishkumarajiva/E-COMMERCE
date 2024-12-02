@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const IndexRoutes = require('./api/index.routes.js');
+const IndexRoutes = require('./api/index.js');
 
 // ------------------ API's VERSION -------------- //
 

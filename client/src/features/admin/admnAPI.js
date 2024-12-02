@@ -17,7 +17,6 @@ export function getUserOrder(userId){
 
 
 export function createUser(userData) {
-
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -2,7 +2,7 @@ import React, {Fragment, useState} from "react";
 import {Link, Navigate} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 // async operation
-import {updateUserAsync} from "../auth/authSlice";
+import {updateUserAsync} from "../user/userSlice";
 import { updateCartItemAsync, deleteCartItemAsync } from "../cart/cartSlice";
 import { createOrderAsync } from '../order/orderSlice';
 // selecters

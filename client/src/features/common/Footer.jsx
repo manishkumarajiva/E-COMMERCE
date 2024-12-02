@@ -11,14 +11,14 @@ const Footer = () => {
                   <div className='flex items-center space-x-2 text-2xl font-medium'>
                     <span>
                       <img
-                        src='https://www.svgrepo.com/show/452102/slack.svg'
+                        src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBmBB8nO2L3luSpgdLcKUjtz9oR6GgQIno2w&s'
                         alt='AI Logo'
                         width={64}
                         height={64}
-                        className='w-16'
+                        className='w-16 rounded-md outline-none border-0 shadow-sm shadow-white'
                       />
                     </span>
-                    <span className='text-white'>AIOps</span>
+                    <span className='text-white'> E-Commerce</span>
                   </div>
               </div>
               <div className='max-w-md pr-16 text-md text-gray-200'>
@@ -225,10 +225,10 @@ const Footer = () => {
             <div className='text-md text-center text-white'>
               {" "}
               Copyright © 2024 . Crafted with{" "}
-              <span className='text-gray-50'>♥</span> by AI enthusiasts at{" "}
+              <span className='text-gray-50'>♥</span> by MERN STACK Enthusiasts at{" "}
               <span rel='noopener'>
                 {" "}
-                AIOps.{" "}
+                E-Commerce{" "}
               </span>
             </div>
           </div>

@@ -12,30 +12,34 @@ const UserSchema = new Schema({
         unique : [true, "EMAIL_ALREADY_EXIST"],
         trim : true
     },
+    salt : {
+        type : Buffer,
+        required : true,
+        trim : true
+    },
     password : {
-        type : String,
+        type : Buffer,
         required : true,
         trim : true
     },
     role : {
         type : String,
-        required : true,
         trim : true,
+        default : 'BUYER',
         enum: ['BUYER', 'SELLER', 'ADMIN']
     },
     addresses : {
-        type : [Schema.Types.Mixed],
-        required : true
+        type : [Schema.Types.Mixed]
     }
 },{timestamps : true});
 
 
-const virtualId = CartSchema.virtual('id');
+const virtualId = UserSchema.virtual('id');
 virtualId.get(function(){
     return this._id;
 })
 
-CartSchema.set('toJSON',{
+UserSchema.set('toJSON',{
     virtuals : true,
     versionKey : false,
     transform : function(doc, ret){

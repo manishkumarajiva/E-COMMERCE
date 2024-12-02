@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 const UserProtected = ({children}) => {
   const user = useSelector(selectLoggedInUser);
 
-  if(!user.email){
+  if(!user){
     return ( <Navigate to='/signin' replace={true}></Navigate> )
   }
   return children

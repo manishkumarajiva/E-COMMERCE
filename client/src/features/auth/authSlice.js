@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createUser, signInUser, signOutUser } from './authAPI';
 
+
+// Initial State
 const initialState = {
-  loggedInUser: { email: '', password: '', confirmPassword: '', address: [] },
+  loggedInUser: null,
   status: "pending",
   error: ''
 };
 
 
+// Async Handler
 export const createUserAsync = createAsyncThunk(
   'auth/create',
   async (userData) => {
@@ -16,19 +19,18 @@ export const createUserAsync = createAsyncThunk(
   }
 );
 
-
 export const signInUserAsync = createAsyncThunk(
   'auth/login',
   async (data, {rejectWithValue}) => {
     try {
       const response = await signInUser(data);
+      console.log(response,'user exist')
       return response;
     } catch (error) {
       return rejectWithValue(error)
     }
   }
 );
-
 
 export const signOutUserAsync = createAsyncThunk(
   'auth/logout',
@@ -38,6 +40,9 @@ export const signOutUserAsync = createAsyncThunk(
   }
 );
 
+
+
+// Auth Slice
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -50,16 +55,12 @@ export const authSlice = createSlice({
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = 'success';
         state.loggedInUser = action.payload;
-      }).addCase(checkUserAsync.rejected, (state, action) => {
-        state.status = 'rejected';
-        state.error = 'User Not Found, invalid credentials' + action.error;
-      }).addCase(signInUserAsync.fulfilled, (state, action) => {
+      })
+      .addCase(signInUserAsync.fulfilled, (state, action) => {
         state.status = 'success';
         state.loggedInUser = action.payload;
-      }).addCase(checkUserAsync.fulfilled, (state, action) => {
-        state.status = 'success';
-        state.loggedInUser = action.payload;
-      }).addCase(signOutUserAsync.fulfilled, (state, action) => {
+      })
+      .addCase(signOutUserAsync.fulfilled, (state, action) => {
         state.status = 'success';
         state.loggedInUser = action.payload;
       });
@@ -67,7 +68,10 @@ export const authSlice = createSlice({
 });
 
 
+// Selectors
 export const selectLoggedInUser = (state) => state.auth.loggedInUser;
 export const selectLoginStatus = (state) => state.auth.status;
 export const selectError = (state) => state.auth.error;
+
+// Auth  Reducer
 export default authSlice.reducer;

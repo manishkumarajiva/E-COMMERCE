@@ -27,23 +27,17 @@ export function signInUser(userCredential) {
 
   return new Promise(async (resolve, reject) => {
     const response = await fetch('http://localhost:8000/user/', options);
-    
-    if(response.ok){
+
+    if (response.ok) {
       const user = await response.json();
-      resolve(user[0]);
-    }else{
+      resolve(user);
+      
+    } else {
       const error = await response.json();
       reject(error);
-    }
-
-
-    
-  }
+    }}
   );
 }
-
-
-
 
 
 export function signOutUser() {
@@ -52,6 +46,10 @@ export function signOutUser() {
   }
   );
 }
+
+
+
+
 
 
 

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getLoggedInUser, getUserOrder, updateUser } from './userAPI';
+import { getLoggedInUser, getUserOrder, updateUser } from './admnAPI';
 
 const initialState = {
   userInfo: null,
@@ -24,17 +24,6 @@ export const getUserOrderAsync = createAsyncThunk(
     return response;
   }
 )
-
-
-export const updateUserAsync = createAsyncThunk(
-  'user/update',
-  async (userData) => {
-    const response = await updateUser(userData);
-    return response;
-  }
-)
-
-
 
 
 export const userSlice = createSlice({

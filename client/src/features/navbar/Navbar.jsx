@@ -56,9 +56,9 @@ export default function Navbar({children}) {
                 <div className='flex-shrink-0'>
                   <Link to='/'>
                     <img
-                      alt='Your Company'
-                      src='https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500'
-                      className='h-8 w-8'
+                      alt='E-Commerce'
+                      src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBmBB8nO2L3luSpgdLcKUjtz9oR6GgQIno2w&s'
+                      className='h-10 w-10 rounded-md shadow-sm shadow-white'
                     />
                   </Link>
                 </div>
