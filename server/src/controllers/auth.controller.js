@@ -1,5 +1,7 @@
 const UserModel = require('../models/user.model.js');
 const crypto = require('crypto');
+const { sanitizeUser } = require('../helpers/common.helper.js');
+const jwt = require('jsonwebtoken');
 
 
 exports.SignUpUser = async (req, res) => {
@@ -8,10 +10,17 @@ exports.SignUpUser = async (req, res) => {
         const salt = crypto.randomBytes(16);
         crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', async function(err, hashedpassword){
             if(err) return next(err);
+
             const user = new UserModel({ ...req.body, salt : salt, password : hashedpassword });
             const createResponse = await user.save();
             if (!createResponse) return res.status(200).json({ status: 401, success: false, message: 'Failed to Create' });
-            res.status(200).json({ status: 201, success: true, message: 'Successfully Created', response: { id : createResponse.id, role: createResponse.role} });
+
+            req.login(sanitizeUser(createResponse), async function(err){
+                if(err) return res.status(200).json({ status : 400, message : "Session Failed"});
+
+                const token = jwt.sign(sanitizeUser(createResponse), 'skeecyrset');
+                res.status(200).json({ status: 201, success: true, message: 'Successfully Created', response: token });    
+            })
         });
         
     } catch (error) {
@@ -26,9 +35,10 @@ exports.SignInUser = async (req, res) => {
 }
 
 
+
 exports.CheckAuth = async (req, res) => {
     if(req.user){
-        res.json({user : req.user})
+        res.json({success : true, user : req.user})
     }else{
         res.sendStatus(401);
     }

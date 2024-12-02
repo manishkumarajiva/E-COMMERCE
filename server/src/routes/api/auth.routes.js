@@ -6,10 +6,9 @@ const { SignUpUser, SignInUser, CheckAuth } = require('../../controllers/auth.co
 
 // ------------------ AUTH ROUTES ------------------ //
 
-router
-.post('/signup', SignUpUser)
-.post("/signin", passport.authenticate('local'), SignInUser)
-.get('/check', CheckAuth );
+router.post('/signup', SignUpUser)
+router.post("/signin", passport.authenticate('local'), SignInUser)
+router.get('/check', passport.authenticate('jwt'), CheckAuth );
 
 
 module.exports = router;
