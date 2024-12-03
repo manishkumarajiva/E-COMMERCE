@@ -1,5 +1,6 @@
 const UserModel = require('../models/user.model.js');
 
+// now user id is available in request stream. dont need send userid from frontend 
 
 exports.GetUserById = async (req, res) => {
     try {

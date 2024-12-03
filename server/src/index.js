@@ -25,9 +25,6 @@ const SECRET_KEY = 'skeecyrset';
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = SECRET_KEY
-opts.issuer = 'accounts.examplesoft.com';
-opts.audience = 'yoursite.net';
-
 
 
 app.use(expressSession({
@@ -55,9 +52,8 @@ passport.use('local', new LocalStrategy(
                     return done(null, false, { message: 'Incorrect Username or Password' });
                 }
 
-                const userInfo = sanitizeUser(user)
-                const token = await generateToken(userInfo);
-                return done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: userInfo, token }, null);
+                const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
+                return done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: token }, null);
             });
         } catch (error) {
             done(error)
@@ -69,15 +65,13 @@ passport.use('jwt', new JwtStrategy(
     opts,
     async function(jwt_payload, done) {
         try {
-            const user = await UserModel.findById({ id: jwt_payload.sub });
+            const user = await UserModel.findById(jwt_payload.id);
             if (!user) return done(null, false);
-
-            return done(null, token);
+            return done(null, sanitizeUser(user));
         } catch (error) {
-            return done(err, false);
+            return done(error, false);
         }
-
-    }));
+}));
 
 
 passport.serializeUser(function (user, cb) {
@@ -103,6 +97,7 @@ const assets = path.join(__dirname, 'assets').split('src')[0] + "\public\\assets
 
 app.set('views', views);
 app.set('view engine', 'ejs');
+app.use(cors('*'))
 app.use(express.static(assets));
 
 

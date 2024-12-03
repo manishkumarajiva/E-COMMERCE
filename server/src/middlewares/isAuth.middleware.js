@@ -1,8 +1,20 @@
-exports.isAuth = (req, res, next) => {
+const passport = require("passport");
+
+exports.isAuth = (req, res, done) => {
     if(req.user){
-        next();
+        done();
     }else{
         res.send(401);
     }
 }
+
+
+exports.isAuthToken = async (req, res, done) => {
+    return passport.authenticate('jwt');
+}
+
+
+
+
+
 
