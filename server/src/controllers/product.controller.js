@@ -30,12 +30,12 @@ exports.GetProductById = async(req, res) => {
 exports.GetProducts = async (req, res) => {
     try {
 
-        const condition = {};
+        let condition = {};
         if(!req.query.admin){
-            condition.deleted = { $ne : ture };
+            condition.deleted = { $ne : true };
         }
-        const query = ProductModel.find(condition);
-        const productCount =  ProductModel.find(condition);
+        let query = ProductModel.find(condition);
+        let productCount =  ProductModel.find(condition);
 
         // filter by category
         if (req.query.category) {
@@ -65,7 +65,7 @@ exports.GetProducts = async (req, res) => {
         }
 
         const getResponse = await query.exec();
-        const totalProduct = await productCount.count().exec();
+        const totalProduct = await productCount.count();
 
         res.set('X-Total-Count', totalProduct);
     
