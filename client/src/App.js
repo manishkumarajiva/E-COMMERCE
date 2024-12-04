@@ -114,12 +114,12 @@ function App() {
   const loggedInUser = useSelector(selectloggedInUser);
 
   useEffect(()=>{
-    if(loggedInUser){
-      const { id } = loggedInUser?.response;
+    if(loggedInUser?.response?.id){
+      const id = loggedInUser?.response?.id;
       dispatch(fetchCartItemsAsync(id));
       dispatch(getLoggedInUserAsync(id));
     }
-  },[dispatch, loggedInUser])
+  },[dispatch, loggedInUser]) 
 
   return (
     <AlertProvider template={AlertTemplate} {...options}>

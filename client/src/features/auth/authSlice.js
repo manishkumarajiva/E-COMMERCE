@@ -13,6 +13,7 @@ export const SignUpUserAsync = createAsyncThunk(
   'auth/create',
   async (userData) => {
     const response = await SignUpUser(userData);
+    console.log(response,"checking")
     return response;
   }
 );

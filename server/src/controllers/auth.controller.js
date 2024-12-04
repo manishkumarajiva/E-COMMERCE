@@ -37,7 +37,7 @@ exports.SignUpUser = async (req, res) => {
 
 
 exports.SignInUser = async (req, res) => {
-   res.json({user : req.user});
+   res.json(req.user);
 }
 
 

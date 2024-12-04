@@ -1,4 +1,3 @@
-
 const { API } = require('../../app/constants');
 
 
@@ -11,8 +10,16 @@ export function SignUpUser(userData) {
 
   return new Promise(async (resolve) => {
     const response = await fetch(`${API}/auth/signup`, options);
-    const newUserData = await response.json();
-    resolve(newUserData)
+    
+    console.log(response)
+    
+    if(response.ok){
+      const newUserData = await response.json();
+      resolve(newUserData)
+    }else{
+      const { status, statusText } = response;
+      resolve({status, statusText, success : false, message : 'Already Exist', response : null})
+    }
   }
   );
 }
@@ -31,14 +38,13 @@ export function SignInUser(userCredential) {
   return new Promise(async (resolve, reject) => {
     const response = await fetch(`${API}/auth/signin`, options);
 
-    console.log(response.ok)
     if (response.ok) {
       const user = await response.json();
       resolve(user);
       
     } else {
       const error = await response.json();
-      reject(error);
+      resolve(error);
     }}
   );
 }
