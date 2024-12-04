@@ -4,7 +4,7 @@ import {StarIcon} from "@heroicons/react/20/solid";
 import {Radio, RadioGroup} from "@headlessui/react";
 import {useSelector, useDispatch} from "react-redux";
 import { productDetail, getProductAsync } from "../../product/productSlice";
-import { selectLoggedInUser } from '../../auth/authSlice';
+import { selectloggedInUser } from '../../auth/authSlice';
 import { addToCartAsync } from '../../cart/cartSlice';
 
 const colors = [
@@ -74,7 +74,7 @@ export default function AdminProductDetail() {
 
   const dispatch = useDispatch();
   const productDetails = useSelector(productDetail);
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectloggedInUser);
   const params = useParams();
   
   const [selectedColor, setSelectedColor] = useState(colors[0]);

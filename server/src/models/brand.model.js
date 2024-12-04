@@ -5,13 +5,11 @@ const BrandSchema = new Schema({
     label : { 
         type : String, 
         required : true, 
-        unique : true,
         trim : true 
     },
     value : { 
         type : String, 
         required : true, 
-        unique : true,
         trim : true
     }
 }, { timestamps : true });

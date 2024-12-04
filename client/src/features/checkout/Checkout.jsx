@@ -7,7 +7,7 @@ import { updateCartItemAsync, deleteCartItemAsync } from "../cart/cartSlice";
 import { createOrderAsync } from '../order/orderSlice';
 // selecters
 import {selectCartItems} from "../cart/cartSlice";
-import {selectLoggedInUser} from "../auth/authSlice";
+import {selectloggedInUser} from "../auth/authSlice";
 import { selectCurrentOrder } from '../order/orderSlice';
 
 
@@ -18,7 +18,7 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState(null);
 
   const dispatch = useDispatch();
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectloggedInUser);
   const cartItems = useSelector(selectCartItems);
   const order = useSelector(selectCurrentOrder);
 

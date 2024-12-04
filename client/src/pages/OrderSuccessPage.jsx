@@ -4,13 +4,13 @@ import { useParams } from "react-router-dom";
 import { removeCartItemAsync } from "../features/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectLoggedInUser } from "../features/auth/authSlice";
+import { selectloggedInUser } from "../features/auth/authSlice";
 import { resetCurrentOrder } from "../features/order/orderSlice";
 
 function OrderSuccess() {
     const params = useParams();
     const dispatch = useDispatch();
-    const user = useSelector(selectLoggedInUser);
+    const user = useSelector(selectloggedInUser);
 
     useEffect(()=>{
       dispatch(removeCartItemAsync(user.id))

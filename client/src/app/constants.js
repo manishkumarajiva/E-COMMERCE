@@ -1,7 +1,8 @@
+export const API = 'http://localhost:5555/api/v1'
+
 export const ITEM_PER_PAGE = 10;
 
 export const STATUS = [ '----','pending', 'dispatched', 'delivered', 'cancelled'];
-
 
 export const statusColorHandler = (status) => {
     switch(status){
@@ -16,3 +17,5 @@ export const statusColorHandler = (status) => {
         default : break;
     }
 }
+
+

@@ -5,21 +5,26 @@ const jwt = require('jsonwebtoken');
 
 
 exports.SignUpUser = async (req, res) => {
+    const { name, email, password } = req.body;
+       
     try {
 
+        const isExist = await UserModel.findOne({ email : email });
+        if(isExist) return res.status(200).json({ status: 401, success: false, message: 'Already Exist' });
+
         const salt = crypto.randomBytes(16);
-        crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', async function(err, hashedpassword){
+        crypto.pbkdf2(password, salt, 310000, 32, 'sha256', async function(err, hashedpassword){
             if(err) return next(err);
 
             const user = new UserModel({ ...req.body, salt : salt, password : hashedpassword });
             const createResponse = await user.save();
-            if (!createResponse) return res.status(200).json({ status: 401, success: false, message: 'Failed to Create' });
+            if (!createResponse) return res.status(200).json({ status: 401, success: false, message: 'Failed to Signup' });
 
             req.login(sanitizeUser(createResponse), async function(err){
-                if(err) return res.status(200).json({ status : 400, message : "Session Failed"});
+                if(err) return res.status(200).json({ status : 401, message : "Session Failed"});
 
                 const token = jwt.sign(sanitizeUser(createResponse), 'skeecyrset');
-                res.status(200).json({ status: 201, success: true, message: 'Successfully Created', response: token });    
+                res.status(200).json({ status: 201, success: true, message: 'Register Successfully', response: token });    
             })
         });
         
@@ -31,7 +36,7 @@ exports.SignUpUser = async (req, res) => {
 
 
 exports.SignInUser = async (req, res) => {
-   res.json({status : 'success', user : req.user});
+   res.json({user : req.user});
 }
 
 

@@ -1,4 +1,5 @@
-// create section
+
+import { API } from '../../app/constants'
 
 export function createProduct(product) {
 
@@ -17,8 +18,6 @@ export function createProduct(product) {
   })
 
 }
-
-// fetch section
 
 export function getProductById(id) {
   return new Promise(async (resolve) => {
@@ -53,7 +52,7 @@ export function getFilteredProduct(filter, sort, pagination) {
 
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8000/products?${query}`);
+    const response = await fetch(`${API}/product?${query}`);
     const products = await response.json();
     const totalProduct = await response.headers.get('X-Total-Count');
     resolve({ product: products, total: +totalProduct })
@@ -61,26 +60,6 @@ export function getFilteredProduct(filter, sort, pagination) {
   );
 }
 
-export function getCategory() {
-  return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/category');
-    const categories = await response.json();
-    resolve(categories)
-  }
-  );
-}
-
-export function getBrand() {
-  return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/brand');
-    const brands = await response.json();
-    resolve(brands)
-  }
-  );
-}
-
-
-// update section
 export function updateProduct(product) {
 
   const options = {
@@ -99,9 +78,6 @@ export function updateProduct(product) {
 
 }
 
-
-// delete section
-
 export function deleteProduct(product) {
 
   const options = {
@@ -117,6 +93,29 @@ export function deleteProduct(product) {
   })
 
 }
+
+
+
+
+
+export function getCategory() {
+  return new Promise(async (resolve) => {
+    const response = await fetch(`${API}/category`);
+    const categories = await response.json();
+    resolve(categories.response)
+  }
+  );
+}
+
+export function getBrand() {
+  return new Promise(async (resolve) => {
+    const response = await fetch(`${API}/brand`);
+    const brands = await response.json();
+    resolve(brands.response)
+  }
+  );
+}
+
 
 
 

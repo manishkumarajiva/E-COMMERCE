@@ -77,6 +77,7 @@ function ProductList() {
     },
   ];
 
+
   useEffect(() => {
     const pagination = {_page: page, _limit: ITEM_PER_PAGE};
     dispatch(getFilteredProductList({filter, sort, pagination}));
@@ -188,7 +189,7 @@ function ProductList() {
                       </h3>
                       <DisclosurePanel className='pt-6'>
                         <div className='space-y-6'>
-                          {section.options.map((option, optionIdx) => (
+                          {section.options && section.options.map((option, optionIdx) => (
                             <div key={optionIdx} className='flex items-center'>
                               <input
                                 defaultValue={option.value}

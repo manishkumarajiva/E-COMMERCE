@@ -27,7 +27,7 @@ exports.GetProductById = async(req, res) => {
 }
 
 
-exports.GetProduct = async (req, res) => {
+exports.GetProducts = async (req, res) => {
     try {
 
         const condition = {};

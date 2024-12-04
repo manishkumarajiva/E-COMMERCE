@@ -4,7 +4,7 @@ import {StarIcon} from "@heroicons/react/20/solid";
 import {Radio, RadioGroup} from "@headlessui/react";
 import {useSelector, useDispatch} from "react-redux";
 import { productDetail, getProductAsync } from "../productSlice";
-import { selectLoggedInUser } from '../../auth/authSlice';
+import { selectloggedInUser } from '../../auth/authSlice';
 import { addToCartAsync } from '../../cart/cartSlice';
 import { useAlert } from "react-alert";
 
@@ -72,7 +72,7 @@ export default function ProductDetail() {
 
   const dispatch = useDispatch();
   const productDetails = useSelector(productDetail);
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectloggedInUser);
   const params = useParams();
 
   const alert = useAlert()

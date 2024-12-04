@@ -7,8 +7,7 @@ const { UpdateBrand, DeleteBrand } = require('../../controllers/brand.controller
 const { isAuthToken, isAuth } = require('../../middlewares/isAuth.middleware.js');
 
 // ----------------- BRAND ROUTES --------------- //
-router.post('/', CreateBrand)
-.get('/', ReadBrand).patch('/:id', UpdateBrand).delete('/:id', DeleteBrand);
+router.post('/', CreateBrand).get('/', ReadBrand).patch('/:id', UpdateBrand).delete('/:id', DeleteBrand);
 
 module.exports = router;
 

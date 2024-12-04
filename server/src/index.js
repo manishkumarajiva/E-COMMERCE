@@ -4,6 +4,7 @@ const { createServer } = require('http');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const expressSession = require('express-session');
 const passport = require('passport');
@@ -36,9 +37,7 @@ app.use(expressSession({
 app.use(passport.authenticate('session'));
 
 
-
-
-passport.use('local', new LocalStrategy(
+passport.use('local', new LocalStrategy({ usernameField : 'email' },
     async function verify(username, password, done) {
         try {
             const user = await UserModel.findOne({ email: username });
@@ -51,9 +50,10 @@ passport.use('local', new LocalStrategy(
                 if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
                     return done(null, false, { message: 'Incorrect Username or Password' });
                 }
-
-                const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
-                return done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: token }, null);
+                
+                const userinfo = sanitizeUser(user);
+                const token = jwt.sign(userinfo, SECRET_KEY);
+                return done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: userinfo, token }, null);
             });
         } catch (error) {
             done(error)
@@ -98,6 +98,7 @@ const assets = path.join(__dirname, 'assets').split('src')[0] + "\public\\assets
 app.set('views', views);
 app.set('view engine', 'ejs');
 app.use(cors('*'))
+app.use(morgan('tiny'))
 app.use(express.static(assets));
 
 

@@ -24,7 +24,7 @@ import AdminProtected from './features/auth/components/AdminProtected';
 import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import { fetchCartItemsAsync } from './features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLoggedInUser } from './features/auth/authSlice';
+import { selectloggedInUser } from './features/auth/authSlice';
 import { getLoggedInUserAsync } from './features/user/userSlice';
 
 //react alert
@@ -34,7 +34,7 @@ import  AlertTemplate from 'react-alert-template-basic'
 
 const options = {
   position: positions.TOP_RIGHT,
-  timeout: 5000,
+  timeout: 3000,
   transitions:transitions.SCALE
 }
 
@@ -111,14 +111,15 @@ const router = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector(selectLoggedInUser);
+  const loggedInUser = useSelector(selectloggedInUser);
 
   useEffect(()=>{
-    if(user?.email){
-      dispatch(fetchCartItemsAsync(user.id))
-      dispatch(getLoggedInUserAsync(user.id))
+    if(loggedInUser){
+      const { response } = loggedInUser.user;
+      dispatch(fetchCartItemsAsync(response.id));
+      dispatch(getLoggedInUserAsync(response.id));
     }
-  },[dispatch, user])
+  },[dispatch, loggedInUser])
 
   return (
     <AlertProvider template={AlertTemplate} {...options}>

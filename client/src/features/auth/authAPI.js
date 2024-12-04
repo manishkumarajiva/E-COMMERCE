@@ -1,6 +1,8 @@
 
-export function createUser(userData) {
+const { API } = require('../../app/constants');
 
+
+export function SignUpUser(userData) {
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -8,7 +10,7 @@ export function createUser(userData) {
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/user/', options);
+    const response = await fetch(`${API}/auth/signup`, options);
     const newUserData = await response.json();
     resolve(newUserData)
   }
@@ -17,7 +19,7 @@ export function createUser(userData) {
 
 
 
-export function signInUser(userCredential) {
+export function SignInUser(userCredential) {
 
   const options = {
     method: 'POST',
@@ -25,9 +27,11 @@ export function signInUser(userCredential) {
     body: JSON.stringify(userCredential)
   };
 
-  return new Promise(async (resolve, reject) => {
-    const response = await fetch('http://localhost:8000/user/', options);
 
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(`${API}/auth/signin`, options);
+
+    console.log(response.ok)
     if (response.ok) {
       const user = await response.json();
       resolve(user);
@@ -40,7 +44,7 @@ export function signInUser(userCredential) {
 }
 
 
-export function signOutUser() {
+export function SignOutUser() {
   return new Promise(async (resolve) => {
     resolve(null);
   }

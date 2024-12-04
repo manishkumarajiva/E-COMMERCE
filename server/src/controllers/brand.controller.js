@@ -3,6 +3,7 @@ const BrandModel = require('../models/brand.model.js');
 // ------------------- CATEGORY CONTROLLERS ------------------ //
 
 exports.CreateBrand = async (req, res) => {
+    const { label, value } = req.body;
     try {
 
         const createResponse = await BrandModel.create(req.body);

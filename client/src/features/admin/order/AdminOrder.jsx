@@ -127,8 +127,8 @@ function AdminOrder() {
                             className={selectStyle}
                             onChange={(e) => orderStatusHandler(e, order)}
                           >
-                            {STATUS.map((status) => (
-                              <option value={status}> {status} </option>
+                            {STATUS.map((status, index) => (
+                              <option key={index} value={status}> {status} </option>
                             ))}
                           </select>
                         )}

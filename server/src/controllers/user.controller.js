@@ -4,7 +4,7 @@ const UserModel = require('../models/user.model.js');
 
 exports.GetUserById = async (req, res) => {
     try {
-        const getResponse = await UserModel.findById(req.params.id, 'name email id');
+        const getResponse = await UserModel.findById(req.params.id);
         if (!getResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });
 
         res.status(200).json({ status: 201, success: true, message: 'Successfully Fetched', response: getResponse });

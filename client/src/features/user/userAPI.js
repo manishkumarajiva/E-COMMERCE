@@ -1,6 +1,8 @@
+import { API } from '../../app/constants';
+
 export function getLoggedInUser(id){
   return new Promise(async(resolve) => {
-    const response = await fetch(`http://localhost:8000/user/${id}`);
+    const response = await fetch(`${API}/user/${id}`);
     const user = await response.json();
     resolve(user)
   })
