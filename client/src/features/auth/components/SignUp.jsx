@@ -25,8 +25,8 @@ export default function SignUp() {
 
   return (
     <Fragment>
-      {loggedInUser?.user.success === false && <Navigate to='/signin' replace={true}></Navigate>}
-      {loggedInUser?.user.success === true && <Navigate to='/' replace={true}></Navigate>}
+      {loggedInUser?.success === false && <Navigate to='/signin' replace={true}></Navigate>}
+      {loggedInUser?.success === true && <Navigate to='/' replace={true}></Navigate>}
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img

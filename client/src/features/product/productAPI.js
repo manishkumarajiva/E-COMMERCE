@@ -52,7 +52,7 @@ export function getFilteredProduct(filter, sort, pagination) {
 
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/product?${query}`);
+    const response = await fetch(`http://localhost:8000/products?${query}`);
     const products = await response.json();
     const totalProduct = await response.headers.get('X-Total-Count');
     resolve({ product: products, total: +totalProduct })

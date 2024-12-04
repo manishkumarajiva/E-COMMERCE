@@ -115,9 +115,9 @@ function App() {
 
   useEffect(()=>{
     if(loggedInUser){
-      const { response } = loggedInUser.user;
-      dispatch(fetchCartItemsAsync(response.id));
-      dispatch(getLoggedInUserAsync(response.id));
+      const { id } = loggedInUser?.response;
+      dispatch(fetchCartItemsAsync(id));
+      dispatch(getLoggedInUserAsync(id));
     }
   },[dispatch, loggedInUser])
 

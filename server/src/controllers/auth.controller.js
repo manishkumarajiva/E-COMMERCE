@@ -23,8 +23,9 @@ exports.SignUpUser = async (req, res) => {
             req.login(sanitizeUser(createResponse), async function(err){
                 if(err) return res.status(200).json({ status : 401, message : "Session Failed"});
 
-                const token = jwt.sign(sanitizeUser(createResponse), 'skeecyrset');
-                res.status(200).json({ status: 201, success: true, message: 'Register Successfully', response: token });    
+                const user = sanitizeUser(createResponse)
+                const authToken = jwt.sign(user, 'skeecyrset');
+                res.status(200).json({ status: 201, success: true, message: 'Register Successfully', response: user, authToken });    
             })
         });
         
