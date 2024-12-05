@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {updateCartItemAsync, deleteCartItemAsync} from "../cart/cartSlice";
 import Model from "../common/Modal";
 import { useAlert } from "react-alert";
+import { productDetail } from "../product/productSlice";
 
 export default function Cart() {
   const alert = useAlert();
@@ -12,9 +13,9 @@ export default function Cart() {
   const dispatch = useDispatch();
   const [openModel, setOpenModel] = useState(null);
 
-  const updateHandler = (e, product) => {
+  const updateHandler = (e, id, product) => {
     e.preventDefault();
-    dispatch(updateCartItemAsync({...product, quantity: +e.target.value}));
+    dispatch(updateCartItemAsync({ id : id, quantity : +e.target.value, product}));
   };
 
   const deleteHandler = (e, productId) => {
@@ -22,9 +23,10 @@ export default function Cart() {
     alert.success('Removed 🔴')
   };
 
+  
   return (
     <Fragment>
-      {!cartItems.length && <Navigate to={"/"}></Navigate>}
+      {!cartItems?.response.length && <Navigate to={"/"}></Navigate>}
       <div
         className={`mx-auto sm:w-1/1 md:w-1/1 xl:w-1/2 xxl:w-1/2 bg-gray-50 md:px-2 lg:px-5`}
       >
@@ -34,15 +36,15 @@ export default function Cart() {
           <div className='flow-root'>
             {/* product list */}
             <ul className='-my-6 divide-y divide-gray-200'>
-              {cartItems.map((product) => (
+              {cartItems.response.map((cart) => (
                 <li
-                  key={product.id}
+                  key={cart.product.id}
                   className='flex md:flex-col lg:flex-col xl:flex-row  py-6'
                 >
                   <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border-x-2 border-red-400'>
                     <img
-                      alt={product.category}
-                      src={product.images[0]}
+                      alt={cart.product.category}
+                      src={cart.product.images[0]}
                       className='h-full w-full object-cover object-center'
                     />
                   </div>
@@ -51,18 +53,18 @@ export default function Cart() {
                     <div>
                       <div className='lg:mx-auto flex justify-between text-base font-medium text-gray-900'>
                         <h3>
-                          <div href={product.href}>{product.title}</div>
+                          <div href={cart.product.href}>{cart.product.title}</div>
                           <div
                             className='text-sm text-slate-600'
-                            href={product.href}
+                            href={cart.product.href}
                           >
-                            {product.brand}
+                            {cart.product.brand}
                           </div>
                         </h3>
-                        <p className='ml-4'>$ {product.price}</p>
+                        <p className='ml-4'>$ {cart.product.price}</p>
                       </div>
                       <p className='mt-1 text-sm text-gray-500'>
-                        {product.color}
+                        {cart.product.color}
                       </p>
                     </div>
                     <div className='flex flex-1 items-end justify-between text-sm'>
@@ -74,8 +76,8 @@ export default function Cart() {
                           Qty
                         </label>
                         <select
-                          onChange={(e) => updateHandler(e, product)}
-                          value={product.quantity}
+                          onChange={(e) => updateHandler(e, cart.id, cart.product)}
+                          value={cart.product.quantity}
                           className='h-6 w-10 p-0 border-0 ms-2'
                           id='qty'
                         >
@@ -87,17 +89,17 @@ export default function Cart() {
 
                       <div className='flex'>
                         <Model
-                          title={`Delete ${product.title}`}
-                          message={product.description}
-                          image={product.thumbnail}
+                          title={`Delete ${cart.product.title}`}
+                          message={cart.product.description}
+                          image={cart.product.thumbnail}
                           actionTypeButton={"Remove"}
                           cancelButton={"Cancel"}
                           cancelAction={()=>setOpenModel(false)}
-                          deleteAction={(e)=>deleteHandler(e, product.id)}
-                          showModel={openModel === product.id}
+                          deleteAction={(e)=>deleteHandler(e, cart.product.id)}
+                          showModel={openModel === cart.product.id}
                         ></Model>
                         <button
-                          onClick={() => setOpenModel(product.id)}
+                          onClick={() => setOpenModel(cart.product.id)}
                           type='button'
                           className='font-medium text-red-600 border-2 border-red-200 px-2 hover:text-indigo-500'
                         >

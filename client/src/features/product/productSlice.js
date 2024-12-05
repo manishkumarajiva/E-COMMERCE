@@ -14,8 +14,6 @@ const initialState = {
 };
 
 
-// create section
-
 export const createProductAsync = createAsyncThunk(
   'product/create',
   async (product) => {
@@ -24,8 +22,6 @@ export const createProductAsync = createAsyncThunk(
   }
 )
 
-
-// fetch section
 export const getCategoryList = createAsyncThunk(
   'product/getCategories',
   async () => {
@@ -58,7 +54,6 @@ export const getFilteredProductList = createAsyncThunk(
   }
 );
 
-// update section
 export const updateProductAsync = createAsyncThunk(
   'product/update',
   async (product) => {
@@ -67,7 +62,6 @@ export const updateProductAsync = createAsyncThunk(
   }
 )
 
-// delete section
 export const deleteProductAsync = createAsyncThunk(
   'product/delete',
   async (product) => {
@@ -75,6 +69,10 @@ export const deleteProductAsync = createAsyncThunk(
     return response;
   }
 )
+
+
+
+
 
 export const productSlice = createSlice({
   name: 'product',
@@ -86,7 +84,7 @@ export const productSlice = createSlice({
         state.productDetails = action.payload;
         state.status = 'pending'
       }).addCase(getProductAsync.fulfilled, (state, action) => {
-        state.productDetails = action.payload;
+        state.productDetails = action.payload.response;
         state.status = 'fulfilled'
       }).addCase(getFilteredProductList.fulfilled, (state, action) => {
         state.products = action.payload.product;

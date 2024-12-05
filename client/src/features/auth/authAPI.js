@@ -11,8 +11,6 @@ export function SignUpUser(userData) {
   return new Promise(async (resolve) => {
     const response = await fetch(`${API}/auth/signup`, options);
     
-    console.log(response)
-    
     if(response.ok){
       const newUserData = await response.json();
       resolve(newUserData)
@@ -33,7 +31,6 @@ export function SignInUser(userCredential) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userCredential)
   };
-
 
   return new Promise(async (resolve, reject) => {
     const response = await fetch(`${API}/auth/signin`, options);

@@ -89,7 +89,7 @@ export default function ProductDetail() {
 
   const addToCartHandler = (e) => {
     e.preventDefault()
-    dispatch(addToCartAsync({...productDetails, quantity : 1, userId : user.id }));
+    dispatch(addToCartAsync({ user : user?.response?.id, product : productDetails.id, quantity : 2, }));
     alert.success("Added Successfully 👍")
   }
   

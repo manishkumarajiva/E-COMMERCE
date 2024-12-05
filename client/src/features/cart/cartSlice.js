@@ -15,7 +15,6 @@ export const addToCartAsync = createAsyncThunk(
   }
 );
 
-
 export const fetchCartItemsAsync = createAsyncThunk(
   'cart/fetchCartItems',
   async (id) => {
@@ -23,8 +22,6 @@ export const fetchCartItemsAsync = createAsyncThunk(
     return response;
   }
 );
-
-
 
 export const updateCartItemAsync = createAsyncThunk(
   'cart/updateCartItem',
@@ -34,8 +31,6 @@ export const updateCartItemAsync = createAsyncThunk(
   }
 );
 
-
-
 export const deleteCartItemAsync = createAsyncThunk(
   'cart/deleteCartItem',
   async (itemId) => {
@@ -43,8 +38,6 @@ export const deleteCartItemAsync = createAsyncThunk(
     return response;
   }
 );
-
-
 
 export const removeCartItemAsync = createAsyncThunk(
   'order/resetCart',
@@ -67,7 +60,8 @@ export const cartSlice = createSlice({
       })
       .addCase(addToCartAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.items.push(action.payload)
+        // JSON SERVER
+        // state.items.response.push(action.payload.response) 
       })
       .addCase(fetchCartItemsAsync.pending, (state) => {
         state.status = 'pending';
@@ -81,8 +75,9 @@ export const cartSlice = createSlice({
       })
       .addCase(updateCartItemAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        const index = state.items.findIndex(item => item.id === action.payload.id)
-        state.items[index] = action.payload;
+        // JSON SERVER
+        const index = state.items.response.findIndex(item => item.id === action.payload.id)
+        state.items.response[index] = action.payload;
       })
       .addCase(deleteCartItemAsync.pending, (state) => {
         state.status = 'pending';

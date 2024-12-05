@@ -21,7 +21,7 @@ export function createProduct(product) {
 
 export function getProductById(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8000/products/${id}`);
+    const response = await fetch(`${API}/product/${id}`);
     const product = await response.json();
     resolve(product)
   }
