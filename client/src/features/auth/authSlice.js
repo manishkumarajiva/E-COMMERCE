@@ -20,13 +20,9 @@ export const SignUpUserAsync = createAsyncThunk(
 
 export const SignInUserAsync = createAsyncThunk(
   'auth/login',
-  async (data, {rejectWithValue}) => {
-    try {
+  async (data) => {
       const response = await SignInUser(data);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error)
-    }
+      return response;   
   }
 );
 
@@ -78,3 +74,26 @@ export const selectError = (state) => state.auth.error;
 
 
 export default authSlice.reducer;
+
+
+
+
+
+
+
+
+
+
+
+
+// export const SignInUserAsync = createAsyncThunk(
+//   'auth/login',
+//   async (data, {rejectWithValue}) => {
+//     try {
+//       const response = await SignInUser(data);
+//       return response;
+//     } catch (error) {
+//       return rejectWithValue(error)
+//     }
+//   }
+// );

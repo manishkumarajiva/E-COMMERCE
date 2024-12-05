@@ -41,10 +41,9 @@ export function SignInUser(userCredential) {
     if (response.ok) {
       const user = await response.json();
       resolve(user);
-      
     } else {
-      const error = await response.json();
-      resolve(error);
+      const { status, statusText, ok } = response;
+      resolve({status, message : statusText, success : ok})
     }}
   );
 }

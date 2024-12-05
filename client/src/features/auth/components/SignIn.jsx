@@ -23,14 +23,16 @@ export default function SignIn() {
     dispatch(SignOutUserAsync())
   },[dispatch])
 
-  const onSubmit = (data) => {
-    dispatch(SignInUserAsync(data)); 
-    alert.success('Login Successfully');
-  };
+  const onSubmit = (data) => dispatch(SignInUserAsync(data)); 
   
+  if(loggedInUser){
+    const { success, message } = loggedInUser;
+    (success) ? alert.success(message) : alert.error("User Not Found 👎")
+  }
 
   return (
     <Fragment>
+      {loggedInUser?.success === false && <Navigate to='/signup' replace={true}></Navigate>}
       {loggedInUser?.success === true && <Navigate to='/' replace={true}></Navigate>}
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>

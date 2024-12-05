@@ -3,6 +3,7 @@ const UserModel = require('../models/user.model.js');
 // now user id is available in request stream. dont need send userid from frontend 
 
 exports.GetUserById = async (req, res) => {
+    console.log(req.user)
     try {
         const getResponse = await UserModel.findById(req.params.id);
         if (!getResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });

@@ -357,7 +357,7 @@ function ProductList() {
                             <LoaderPage />
                           ) : (
                             products &&
-                            products.map((product) => (
+                            products.response.map((product) => (
                               <div
                                 key={product.id}
                                 className='group relative border-2 p-2 hover:shadow-lg150'

@@ -34,6 +34,7 @@ exports.GetProducts = async (req, res) => {
         if(!req.query.admin){
             condition.deleted = { $ne : true };
         }
+        
         let query = ProductModel.find(condition);
         let productCount =  ProductModel.find(condition);
 
@@ -65,9 +66,9 @@ exports.GetProducts = async (req, res) => {
         }
 
         const getResponse = await query.exec();
-        const totalProduct = await productCount.count();
+        const totalProduct = await productCount.exec();
 
-        res.set('X-Total-Count', totalProduct);
+        res.set('X-Total-Count', totalProduct.length);
     
         if (!getResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });
 
