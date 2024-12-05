@@ -1,11 +1,11 @@
-import {Fragment, useState} from "react";
-import {Link, Navigate} from "react-router-dom";
-import {selectCartItems} from "../cart/cartSlice";
-import {useSelector, useDispatch} from "react-redux";
-import {updateCartItemAsync, deleteCartItemAsync} from "../cart/cartSlice";
+import { Fragment, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { selectCartItems } from "../cart/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { updateCartItemAsync, deleteCartItemAsync } from "../cart/cartSlice";
 import Model from "../common/Modal";
 import { useAlert } from "react-alert";
-import { productDetail } from "../product/productSlice";
+
 
 export default function Cart() {
   const alert = useAlert();
@@ -15,7 +15,7 @@ export default function Cart() {
 
   const updateHandler = (e, id, product) => {
     e.preventDefault();
-    dispatch(updateCartItemAsync({ id : id, quantity : +e.target.value, product}));
+    dispatch(updateCartItemAsync({ id: id, quantity: +e.target.value, product }));
   };
 
   const deleteHandler = (e, productId) => {
@@ -23,7 +23,7 @@ export default function Cart() {
     alert.success('Removed 🔴')
   };
 
-  
+
   return (
     <Fragment>
       {!cartItems?.response.length && <Navigate to={"/"}></Navigate>}
@@ -88,16 +88,18 @@ export default function Cart() {
                       </div>
 
                       <div className='flex'>
+
                         <Model
                           title={`Delete ${cart.product.title}`}
                           message={cart.product.description}
                           image={cart.product.thumbnail}
                           actionTypeButton={"Remove"}
                           cancelButton={"Cancel"}
-                          cancelAction={()=>setOpenModel(false)}
-                          deleteAction={(e)=>deleteHandler(e, cart.product.id)}
+                          cancelAction={() => setOpenModel(false)}
+                          deleteAction={(e) => deleteHandler(e, cart.product.id)}
                           showModel={openModel === cart.product.id}
                         ></Model>
+
                         <button
                           onClick={() => setOpenModel(cart.product.id)}
                           type='button'

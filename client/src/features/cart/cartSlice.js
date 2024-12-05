@@ -84,8 +84,8 @@ export const cartSlice = createSlice({
       })
       .addCase(deleteCartItemAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        const index = state.items.findIndex(item => item.id === action.payload.id)
-        state.items.splice(index,1);
+        const index = state.items.response.findIndex(item => item.id === action.payload.id)
+        state.items.response.splice(index,1);
       })
       .addCase(removeCartItemAsync.pending, (state) => {
         state.status = 'pending'
@@ -94,7 +94,6 @@ export const cartSlice = createSlice({
         state.status = action.payload.status;
         state.items = state.items.length = 0;
       })
-
   },
 });
 

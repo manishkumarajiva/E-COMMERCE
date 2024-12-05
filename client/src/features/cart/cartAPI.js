@@ -49,7 +49,7 @@ export function deleteCartItem(itemId) {
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/cart/' + itemId, options);
+    const response = await fetch(`${API}/cart/` + itemId, options);
     const item = await response.json();
     resolve(item)
   }

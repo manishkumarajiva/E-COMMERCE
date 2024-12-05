@@ -34,9 +34,10 @@ import  AlertTemplate from 'react-alert-template-basic'
 
 const options = {
   position: positions.TOP_RIGHT,
-  timeout: 3000,
+  timeout: 5000,
   transitions:transitions.SCALE
 }
+
 
 
 const router = createBrowserRouter([
@@ -112,6 +113,7 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(selectloggedInUser);
+
 
   useEffect(()=>{
     if(loggedInUser?.response?.id){
