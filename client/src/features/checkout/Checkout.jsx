@@ -10,8 +10,8 @@ import {selectCartItems} from "../cart/cartSlice";
 import {selectloggedInUser} from "../auth/authSlice";
 import { selectCurrentOrder } from '../order/orderSlice';
 
-
 import {useForm} from "react-hook-form";
+import { useAlert } from "react-alert";
 
 export default function Checkout() {
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -21,6 +21,8 @@ export default function Checkout() {
   const user = useSelector(selectloggedInUser);
   const cartItems = useSelector(selectCartItems);
   const order = useSelector(selectCurrentOrder);
+
+  const alert = useAlert();
 
   const { register, handleSubmit } = useForm();
 
@@ -50,21 +52,21 @@ export default function Checkout() {
       
       const orderPayload = {
         user : user.id,
-        items : cartItems,
+        items : cartItems.response,
         shippingAddress : selectedAddress,
         paymentMode : paymentMethod
       }
       
       dispatch(createOrderAsync(orderPayload));
     }else{
-      alert('Please choose address and payment method');
+      alert.info('Please choose address and payment method');
     }
   }
 
 
   return (
     <Fragment>
-      {!cartItems.length && <Navigate to={"/"}></Navigate>}
+      {!cartItems.response.length && <Navigate to={"/"}></Navigate>}
       {order?.id &&  <Navigate to={`/order_success/${order.id}`}></Navigate>}
 
       <div className='grid sm:grid-cols-1 md:grid-cols-2  grid-rows-1 gap-2 sm:p-2 md:p-12 sm:mx-2  md:mx-12 sm:gap-x-5 lg:gap-x-20'>
@@ -321,15 +323,15 @@ export default function Checkout() {
               <div className='flow-root'>
                 {/* product list */}
                 <ul className='-my-6 divide-y divide-gray-200'>
-                  {cartItems.map((product) => (
+                  {cartItems.response.map((cart) => (
                     <li
-                      key={product.id}
+                      key={cart.product.id}
                       className='flex md:flex-col lg:flex-col xl:flex-row  py-6'
                     >
                       <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border-x-2 border-red-400'>
                         <img
-                          alt={product.category}
-                          src={product.images[0]}
+                          alt={cart.product.category}
+                          src={cart.product.images[0]}
                           className='h-full w-full object-cover object-center'
                         />
                       </div>
@@ -338,18 +340,18 @@ export default function Checkout() {
                         <div>
                           <div className='lg:mx-auto flex justify-between text-base font-medium text-gray-900'>
                             <h3>
-                              <div href={product.href}>{product.title}</div>
+                              <div href={cart.product.href}>{cart.product.title}</div>
                               <div
                                 className='text-sm text-slate-600'
-                                href={product.href}
+                                href={cart.product.href}
                               >
-                                {product.brand}
+                                {cart.product.brand}
                               </div>
                             </h3>
-                            <p className='ml-4'>$ {product.price}</p>
+                            <p className='ml-4'>$ {cart.product.price}</p>
                           </div>
                           <p className='mt-1 text-sm text-gray-500'>
-                            {product.color}
+                            {cart.product.color}
                           </p>
                         </div>
                         <div className='flex flex-1 items-end justify-between text-sm'>
@@ -361,8 +363,8 @@ export default function Checkout() {
                               Qty
                             </label>
                             <select
-                              onChange={(e) => updateHandler(e, product)}
-                              value={product.quantity}
+                              onChange={(e) => updateHandler(e, cart.product)}
+                              value={cart.product.quantity}
                               className='h-6 w-10 p-0 border-0 ms-2'
                               id='qty'
                             >
@@ -374,7 +376,7 @@ export default function Checkout() {
 
                           <div className='flex'>
                             <button
-                              onClick={(e) => deleteHandler(e, product.id)}
+                              onClick={(e) => deleteHandler(e, cart.product.id)}
                               type='button'
                               className='font-medium text-red-600 border-2 border-red-200 px-2 hover:text-indigo-500'
                             >
