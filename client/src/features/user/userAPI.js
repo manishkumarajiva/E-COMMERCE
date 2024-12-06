@@ -9,15 +9,6 @@ export function getLoggedInUser(id){
 }
 
 
-export function getUserOrder(userId){
-  return new Promise(async(resolve) => {
-    const response = await fetch(`http://localhost:8000/order/?user=${userId}`);
-    const user = await response.json();
-    resolve(user[0])
-  })
-}
-
-
 export function updateUser(userData) {
 
   const options = {
@@ -27,12 +18,23 @@ export function updateUser(userData) {
   };
   
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/user/'+ userData.id, options);
+    const response = await fetch(`${API}/user/${userData.id}`, options);
     const updatedResponse = await response.json();
     resolve(updatedResponse)
   }
   );
 }
+
+
+export function getUserOrder(userId){
+  return new Promise(async(resolve) => {
+    const response = await fetch(`http://localhost:8000/order/?user=${userId}`);
+    const user = await response.json();
+    resolve(user[0])
+  })
+}
+
+
 
 
 

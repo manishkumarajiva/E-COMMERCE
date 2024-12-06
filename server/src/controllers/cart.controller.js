@@ -7,7 +7,8 @@ exports.AddToCart = async (req, res) => {
         const createResponse = await CartModel.create(req.body);
         if(!createResponse) return res.status(200).json({ status : 401, message : 'Failed to Create' });
 
-        res.status(200).json({ status : 201, success : true, message : 'Successfully Created', response : createResponse });
+        const cartItems = await CartModel.find({user : req.body.user}).populate('product');
+        res.status(200).json({ status : 201, success : true, message : 'Successfully Created', response : cartItems });
 
     } catch (error) {
         res.status(500).json({ status : 500, message : error.message,  error : error.stack });
@@ -35,10 +36,11 @@ exports.UpdateCart = async (req, res) => {
     const qty = req.body.quantity;
 
     try {
-        const createResponse = await CartModel.findByIdAndUpdate(id, { quantity : qty }, { new : true });
-        if(!createResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Update' });
-
-        res.status(200).json({ status : 201, success : true, message : 'Successfully Created', response : createResponse });
+        const updateResponse = await CartModel.findByIdAndUpdate(id, { quantity : qty }, { new : true });
+        if(!updateResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Update' });
+        
+        const cartItems = await CartModel.find({user : updateResponse.user}).populate('product');
+        res.status(200).json({ status : 201, success : true, message : 'Successfully Updated', response : cartItems });
 
     } catch (error) {
         res.status(500).json({ status : 500, message : error.message,  error : error.stack });
@@ -52,10 +54,10 @@ exports.RemoveToCart = async (req, res) => {
 
     try {
         const removed = await CartModel.findByIdAndDelete(id);
-        
         if(!removed) return res.status(200).json({ status : 401, success : false, message : 'Failed to Remove' });
-
-        res.status(200).json({ status : 201, success : true, message : 'Successfully Removed', response : removed });
+       
+        const cartItems = await CartModel.find({user : removed.user}).populate('product');
+        res.status(200).json({ status : 201, success : true, message : 'Successfully Removed', response : cartItems });
 
     } catch (error) {
         res.status(500).json({ status : 500, message : error.message,  error : error.stack });

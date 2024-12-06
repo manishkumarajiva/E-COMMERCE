@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useResolvedPath } from "react-router-dom";
 import { selectCartItems } from "../cart/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCartItemAsync, deleteCartItemAsync } from "../cart/cartSlice";
@@ -20,7 +20,7 @@ export default function Cart() {
 
   const deleteHandler = (e, productId) => {
     dispatch(deleteCartItemAsync(productId));
-    alert.success('Removed 🔴')
+    alert.success('Successfully Removed');
   };
 
 
@@ -77,7 +77,7 @@ export default function Cart() {
                         </label>
                         <select
                           onChange={(e) => updateHandler(e, cart.id, cart.product)}
-                          value={cart.product.quantity}
+                          value={cart.quantity}
                           className='h-6 w-10 p-0 border-0 ms-2'
                           id='qty'
                         >
@@ -96,7 +96,7 @@ export default function Cart() {
                           actionTypeButton={"Remove"}
                           cancelButton={"Cancel"}
                           cancelAction={() => setOpenModel(false)}
-                          deleteAction={(e) => deleteHandler(e, cart.product.id)}
+                          deleteAction={(e) => deleteHandler(e, cart.id)}
                           showModel={openModel === cart.product.id}
                         ></Model>
 

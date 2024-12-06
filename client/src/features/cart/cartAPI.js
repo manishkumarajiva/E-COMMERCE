@@ -9,8 +9,8 @@ export function addToCart(item) {
 
   return new Promise(async (resolve) => {
     const response = await fetch(`${API}/cart/`, options);
-    const item = await response.json();
-    resolve(item)
+    const cartItems = await response.json();
+    resolve(cartItems)
   }
   );
 }
@@ -18,8 +18,8 @@ export function addToCart(item) {
 export function fetchCartItems(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(`${API}/cart/${id}`);
-    const items = await response.json();
-    resolve(items)
+    const cartItems = await response.json();
+    resolve(cartItems)
   }
   );
 }
@@ -35,8 +35,8 @@ export function updateCartItem(item) {
   return new Promise(async (resolve) => {
     const response = await fetch(`${API}/cart/${item.id}`, options);
     if(response.ok){
-      const updatedItem = await response.json();
-      resolve({...item.product, quantity : item.quantity});
+      const cartItems = await response.json();
+      resolve(cartItems);
     }
   }
   );
@@ -50,8 +50,8 @@ export function deleteCartItem(itemId) {
 
   return new Promise(async (resolve) => {
     const response = await fetch(`${API}/cart/` + itemId, options);
-    const item = await response.json();
-    resolve(item)
+    const cartItems = await response.json();
+    resolve(cartItems)
   }
   );
 }

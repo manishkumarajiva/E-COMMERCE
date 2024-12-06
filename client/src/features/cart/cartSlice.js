@@ -60,8 +60,7 @@ export const cartSlice = createSlice({
       })
       .addCase(addToCartAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        // JSON SERVER
-        // state.items.response.push(action.payload.response) 
+        state.items = action.payload; 
       })
       .addCase(fetchCartItemsAsync.pending, (state) => {
         state.status = 'pending';
@@ -75,17 +74,18 @@ export const cartSlice = createSlice({
       })
       .addCase(updateCartItemAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        // JSON SERVER
-        const index = state.items.response.findIndex(item => item.id === action.payload.id)
-        state.items.response[index] = action.payload;
+        state.items = action.payload;
+        // const index = state.items.findIndex(item => item.id === action.payload.id)
+        // state.items[index] = action.payload;
       })
       .addCase(deleteCartItemAsync.pending, (state) => {
         state.status = 'pending';
       })
       .addCase(deleteCartItemAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        const index = state.items.response.findIndex(item => item.id === action.payload.id)
-        state.items.response.splice(index,1);
+        state.items = action.payload;
+        // const index = state.items.response.findIndex(item => item.id === action.payload.id)
+        // state.items.response.splice(index,1);
       })
       .addCase(removeCartItemAsync.pending, (state) => {
         state.status = 'pending'

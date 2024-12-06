@@ -6,8 +6,8 @@ import {updateUserAsync} from "../user/userSlice";
 import { updateCartItemAsync, deleteCartItemAsync } from "../cart/cartSlice";
 import { createOrderAsync } from '../order/orderSlice';
 // selecters
-import {selectCartItems} from "../cart/cartSlice";
-import {selectloggedInUser} from "../auth/authSlice";
+import { selectCartItems } from "../cart/cartSlice";
+import { selectUserInfo } from "../user/userSlice";
 import { selectCurrentOrder } from '../order/orderSlice';
 
 import {useForm} from "react-hook-form";
@@ -18,7 +18,7 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState(null);
 
   const dispatch = useDispatch();
-  const user = useSelector(selectloggedInUser);
+  const user = useSelector(selectUserInfo);
   const cartItems = useSelector(selectCartItems);
   const order = useSelector(selectCurrentOrder);
 
@@ -26,24 +26,13 @@ export default function Checkout() {
 
   const { register, handleSubmit } = useForm();
 
-  // handlers
-  const onSubmit = (data) =>
-    dispatch(updateUserAsync({...user, address: [...user.address, data]}));
+  const onSubmit = (data) => 
+    dispatch(updateUserAsync({...user.response, addresses: [...user.response.addresses, data]}));
 
   const addressHandler = (e) =>
     setSelectedAddress(user.address[e.target.value]);
 
   const paymentHandler = (e) => setPaymentMethod(e.target.value);
-
-  const updateHandler = (e, product) => {
-    e.preventDefault();
-    dispatch(updateCartItemAsync({...product, quantity : +e.target.value}))
-  }
-
-  const deleteHandler = (e, productId) => {
-    e.preventDefault();
-    dispatch(deleteCartItemAsync(productId))
-  }
 
   const orderHandler = (e) => {
     e.preventDefault();
@@ -62,6 +51,19 @@ export default function Checkout() {
       alert.info('Please choose address and payment method');
     }
   }
+
+
+// -------- CART ITEM HANDLER ---------- //
+  const updateHandler = (e, id, item) => {
+    e.preventDefault();
+    dispatch(updateCartItemAsync({id : id, quantity : +e.target.value, item}))
+  }
+
+  const deleteHandler = (e, productId) => {
+    e.preventDefault();
+    dispatch(deleteCartItemAsync(productId))
+  }
+// -------- CART ITEM HANDLER ---------- //
 
 
   return (
@@ -228,6 +230,7 @@ export default function Checkout() {
                     Add New Address
                   </button>
                 </div>
+
                 {/* Address */}
                 <div>
                   <h2 className='text-base font-semibold leading-7 text-blue-600'>
@@ -236,8 +239,8 @@ export default function Checkout() {
 
                   <div className='mt-10 space-y-10'>
                     <ul className='divide-y divide-gray-100'>
-                      {user.address &&
-                        user.address.map((address, index) => (
+                      {user?.response?.addresses &&
+                        user.response.addresses.map((address, index) => (
                           <section
                             className='grid grid-cols-3 grid-row-1 border-y-2 p-2'
                             key={index}
@@ -363,8 +366,8 @@ export default function Checkout() {
                               Qty
                             </label>
                             <select
-                              onChange={(e) => updateHandler(e, cart.product)}
-                              value={cart.product.quantity}
+                              onChange={(e) => updateHandler(e, cart.id, cart.product)}
+                              value={cart.quantity}
                               className='h-6 w-10 p-0 border-0 ms-2'
                               id='qty'
                             >
@@ -376,7 +379,7 @@ export default function Checkout() {
 
                           <div className='flex'>
                             <button
-                              onClick={(e) => deleteHandler(e, cart.product.id)}
+                              onClick={(e) => deleteHandler(e, cart.id)}
                               type='button'
                               className='font-medium text-red-600 border-2 border-red-200 px-2 hover:text-indigo-500'
                             >
