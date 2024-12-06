@@ -13,7 +13,7 @@ function OrderSuccess() {
     const user = useSelector(selectloggedInUser);
 
     useEffect(()=>{
-      dispatch(removeCartItemAsync(user.id))
+      dispatch(removeCartItemAsync(user.response.id))
       dispatch(resetCurrentOrder());
     },[dispatch, user])
 

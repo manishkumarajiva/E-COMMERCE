@@ -8,13 +8,13 @@ exports.CreateOrder = async (req, res) => {
         const createResponse = await OrderModel.create(req.body);
         if(!createResponse) return res.status(200).json({ status : 401, message : 'Failed to Create' });
 
-        res.status(200).json({ status : 201, success : true, message : 'Successfully Created', response : createResponse });
+        const orders = await OrderModel.find({user : req.body.user});
+        res.status(200).json({ status : 201, success : true, message : 'Successfully Created', currOrder : createResponse, response : orders });
 
     } catch (error) {
         res.status(500).json({ status : 500, message : error.message,  error : error.stack });
     }
 }
-
 
 
 exports.GetAdminOrder = async (req, res) => {
@@ -52,11 +52,10 @@ exports.GetAdminOrder = async (req, res) => {
 }
 
 
-
 exports.GetUserOrder = async (req, res) => {
     const id = req.params.id;
     try {
-        const getResponse = await OrderModel.findById({ user : id }).populate('item');
+        const getResponse = await OrderModel.findById({ user : id });
         if(!getResponse) return res.status(200).json({ status : 401, message : 'Failed to Fetched' });
 
         res.status(200).json({ status : 200, success : true, message : 'Successfully Fetched', response : getResponse });
@@ -79,7 +78,6 @@ exports.UpdateOrderStatus = async (req, res) => {
         res.status(500).json({ status : 500, message : error.message,  error : error.stack });
     }
 }
-
 
 
 exports.DeleteOrder = async (req, res) => {

@@ -2110,7 +2110,7 @@
       },
       "paymentMode": "cash",
       "id": 1,
-      "status": "dispatched"
+      "status": "pending"
     },
     {
       "user": 1,
@@ -2489,7 +2489,7 @@
       },
       "paymentMode": "cash",
       "id": 4,
-      "status": "dispatched"
+      "status": "cancelled"
     },
     {
       "user": 1,
@@ -2637,7 +2637,7 @@
       },
       "paymentMode": "cash",
       "id": 5,
-      "status": "delivered"
+      "status": "dispatched"
     },
     {
       "user": 1,
@@ -2786,10 +2786,7 @@
       },
       "paymentMode": "cash",
       "id": 6,
-      "status": "delivered"
+      "status": "pending"
     }
   ]
 }
-
-
-

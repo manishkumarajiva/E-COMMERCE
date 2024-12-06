@@ -1,3 +1,5 @@
+import { API } from "../../app/constants";
+
 export function createOrder(order) {
   const options = {
     method: 'POST',
@@ -6,7 +8,7 @@ export function createOrder(order) {
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/order/', options);
+    const response = await fetch(`${API}/order/`, options);
     const newOrder = await response.json();
     resolve(newOrder)
   }
@@ -14,11 +16,9 @@ export function createOrder(order) {
 }
 
 
-
-
 export function fetchOrder(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/cart/?userId=' + id);
+    const response = await fetch(`${API}/order/${id}`);
     const items = await response.json();
     resolve(items)
   }

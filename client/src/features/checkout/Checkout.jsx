@@ -30,9 +30,10 @@ export default function Checkout() {
     dispatch(updateUserAsync({...user.response, addresses: [...user.response.addresses, data]}));
 
   const addressHandler = (e) =>
-    setSelectedAddress(user.address[e.target.value]);
+    setSelectedAddress(user.response.addresses[e.target.value]);
 
   const paymentHandler = (e) => setPaymentMethod(e.target.value);
+
 
   const orderHandler = (e) => {
     e.preventDefault();
@@ -40,12 +41,13 @@ export default function Checkout() {
     if(selectedAddress && paymentMethod){
       
       const orderPayload = {
-        user : user.id,
+        user : user.response.id,
         items : cartItems.response,
+        totalItems : cartItems.response.length,
+        totalAmount : 2000,
         shippingAddress : selectedAddress,
-        paymentMode : paymentMethod
+        paymentMethod : paymentMethod
       }
-      
       dispatch(createOrderAsync(orderPayload));
     }else{
       alert.info('Please choose address and payment method');
@@ -288,8 +290,8 @@ export default function Checkout() {
                       type='radio'
                       name='payment'
                       id='cash'
-                      value='cash'
-                      checked={paymentMethod === "cash"}
+                      value='CASH'
+                      checked={paymentMethod === "CASH"}
                       onChange={paymentHandler}
                     />
                     <label htmlFor='cash' className='ms-2'>
@@ -302,8 +304,8 @@ export default function Checkout() {
                       type='radio'
                       name='payment'
                       id='online'
-                      value='card'
-                      checked={paymentMethod === "card"}
+                      value='CARD'
+                      checked={paymentMethod === "CARD"}
                       onChange={paymentHandler}
                     />
                     <label htmlFor='online' className='ms-2'>

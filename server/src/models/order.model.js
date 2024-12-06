@@ -45,7 +45,7 @@ const OrderSchema = new Schema({
 },{ timestamps : true });
 
 
-const virtualId = OrderModel.virtual('id');
+const virtualId = OrderSchema.virtual('id');
 virtualId.get(function(){
     return this._id;
 })

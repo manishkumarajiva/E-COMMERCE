@@ -60,7 +60,7 @@ export function resetCartItem(userId) {
   return new Promise(async (resolve) => {
     const cartItems = await fetchCartItems(userId);
 
-    for (let item of cartItems) {
+    for (let item of cartItems.response) {
       await deleteCartItem(item.id);
     }
     resolve({ status: 'fulfilled' })

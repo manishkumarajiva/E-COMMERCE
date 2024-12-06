@@ -76,8 +76,8 @@ function AdminOrder() {
 
           {/* table body */}
           <tbody className='divide-y divide-gray-100  border-gray-100 '>
-            {orders &&
-              orders.map((order, indx) => {
+            { orders &&
+             orders.map((order, indx) => {
                 return (
                   <tr className='hover:bg-gray-50' key={indx}>
                     <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>

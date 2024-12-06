@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Link, Navigate, useResolvedPath } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { selectCartItems } from "../cart/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCartItemAsync, deleteCartItemAsync } from "../cart/cartSlice";

@@ -353,10 +353,10 @@ function AdminProductList() {
                 </form>
 
                 {/* Product grid */}
-                <div className='lg:col-span-3'>
+                <div className='lg:col-span-4'>
                   {
                     <div className='bg-white'>
-                      <div className='mx-auto max-w-2xl px-0 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8'>
+                      <div className='mx-auto max-w-2xl lg:max-w-7xl'>
                         <h2 className='text-2xl font-bold tracking-tight text-gray-900'>
                           Products
                         </h2>
@@ -366,7 +366,7 @@ function AdminProductList() {
                           {productStatus === "pending" ? (
                             <LoaderPage />
                           ) : (
-                            products.map((product) => (
+                            products.response.map((product) => (
                               <div
                                 key={product.id}
                                 className='my-10 mx-0 w-64 h-[420px] bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105'
