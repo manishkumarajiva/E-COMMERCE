@@ -30,7 +30,7 @@ const OrderSchema = new Schema({
     orderStatus : {
         type : String,
         trim : true,
-        default : 'PENDING',
+        default : 'pending',
         required : true
     },
     shippingAddress : {

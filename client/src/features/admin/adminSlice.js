@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getLoggedInUser, getUserOrder, updateUser } from './admnAPI';
+import { getLoggedInUser } from './admnAPI';
+import { fetchAllOrder } from '../order/orderAPI';
+import { updateOrderStatusAsync } from '../order/orderSlice';
 
 const initialState = {
   userInfo: null,
@@ -20,7 +22,7 @@ export const getLoggedInUserAsync = createAsyncThunk(
 export const getUserOrderAsync = createAsyncThunk(
   'user/order',
   async (userId) => {
-    const response = await getUserOrder(userId);
+    const response = await fetchAllOrder();
     return response;
   }
 )
@@ -46,10 +48,10 @@ export const userSlice = createSlice({
         state.status = 'success';
         state.orders = action.payload;
       })
-      .addCase(updateUserAsync.pending, (state) => { 
+      .addCase(updateOrderStatusAsync.pending, (state) => { 
         state.status = 'pending';
       })
-      .addCase(updateUserAsync.fulfilled, (state, action) => { 
+      .addCase(updateOrderStatusAsync.fulfilled, (state, action) => { 
         state.status = 'success';
         state.userInfo = action.payload;
       })

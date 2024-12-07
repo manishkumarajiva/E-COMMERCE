@@ -40,7 +40,7 @@ exports.GetAdminOrder = async (req, res) => {
 
     try {
         const getResponse = await query.exec();
-        const totalOrder = await orderCount.count().exec();
+        const totalOrder = 66
 
         if(!getResponse) return res.status(200).json({ status : 401, message : 'Failed to Fetched' });
 
@@ -67,12 +67,11 @@ exports.GetUserOrder = async (req, res) => {
 
 
 exports.UpdateOrderStatus = async (req, res) => {
-    const { id, status } = req.query;
     try {
-        const updateResponse = await OrderModel.findByIdAndUpdate(id, { orderStatus : status}, {new : true});
+        const updateResponse = await OrderModel.findByIdAndUpdate(req.params.id, { orderStatus : req.body.status}, {new : true});
         if(!updateResponse) return res.status(200).json({ status : 401, message : 'Failed to Update' });
-
-        res.status(200).json({ status : 201, success : true, message : 'Successfully Updated', response : updateResponse });
+        const getResponse = await OrderModel.find();
+        res.status(200).json({ status : 201, success : true, message : 'Successfully Updated', response : getResponse });
 
     } catch (error) {
         res.status(500).json({ status : 500, message : error.message,  error : error.stack });

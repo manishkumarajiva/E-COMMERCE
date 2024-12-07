@@ -36,9 +36,9 @@ function AdminOrder() {
   setSort(sort);
  }
 
-  const orderStatusHandler = (e, order) => {
+  const orderStatusHandler = (e, orderId) => {
     const orderStatus = e.target.value;
-    const newOrder = {...order, status: orderStatus};
+    const newOrder = {id : orderId, status: orderStatus};
     dispatch(updateOrderStatusAsync(newOrder));
     setEditOrderId(0);
   };
@@ -46,6 +46,8 @@ function AdminOrder() {
   const viewHandler = (e, id) => {};
 
   const totalPage = Math.ceil(orderCount / ITEM_PER_PAGE);
+
+  console.log(orders.response[0].orderStatus)
 
   return (
     <Fragment>
@@ -76,8 +78,8 @@ function AdminOrder() {
 
           {/* table body */}
           <tbody className='divide-y divide-gray-100  border-gray-100 '>
-            { orders &&
-             orders.map((order, indx) => {
+            { orders.response &&
+             orders.response.map((order, indx) => {
                 return (
                   <tr className='hover:bg-gray-50' key={indx}>
                     <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>
@@ -92,7 +94,7 @@ function AdminOrder() {
                         return (
                           <div>
                             <img
-                              src={item.thumbnail}
+                              src={item.product.thumbnail}
                               className='w-16 mx-auto'
                               alt='product thumbnail'
                             />
@@ -117,15 +119,15 @@ function AdminOrder() {
                         {editOrderId !== order.id ? (
                           <span
                             className={`${statusColorHandler(
-                              order.status
+                              order.orderStatus
                             )} inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold`}
                           >
-                            {order?.status}
+                            {order.orderStatus}
                           </span>
                         ) : (
                           <select
                             className={selectStyle}
-                            onChange={(e) => orderStatusHandler(e, order)}
+                            onChange={(e) => orderStatusHandler(e, order.id)}
                           >
                             {STATUS.map((status, index) => (
                               <option key={index} value={status}> {status} </option>

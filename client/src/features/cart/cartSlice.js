@@ -90,9 +90,8 @@ export const cartSlice = createSlice({
       .addCase(removeCartItemAsync.pending, (state) => {
         state.status = 'pending'
       })
-      .addCase(removeCartItemAsync.fulfilled, (state, action) => {
+      .addCase(removeCartItemAsync.fulfilled, (state) => {
         state.status = 'fulfilled';
-        console.log(action.payload)
         state.items = state.items.length = 0;
       })
   },

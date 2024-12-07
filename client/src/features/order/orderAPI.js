@@ -26,7 +26,7 @@ export function fetchOrder(id) {
 }
 
 
-export function updateOrderStatus(order){
+export function updateOrderStatus(order) {
   const options = {
     method : 'PATCH',
     headers : { 'Content-Type' : 'application/json'},
@@ -34,7 +34,7 @@ export function updateOrderStatus(order){
   }
 
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/order/' + order.id, options);
+    const response = await fetch(`${API}/order/` + order.id, options);
     const item = await response.json();
     resolve(item)
   }
@@ -54,7 +54,7 @@ export function fetchAllOrder(pagination, sort) {
   }
 
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/order/?' + query);
+    const response = await fetch(`${API}/order/?` + query);
     const orders = await response.json();
     const totalOrder = await response.headers.get('X-Total-Count')
     resolve({order : orders, total : +totalOrder})
@@ -63,14 +63,14 @@ export function fetchAllOrder(pagination, sort) {
 }
 
 
-export function deleteCartItem(itemId) {
+export function deleteOrder(orderId) {
   const options = {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' }
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/cart/' + itemId, options);
+    const response = await fetch(`${API}/order/` + orderId, options);
     const item = await response.json();
     resolve(item)
   }
