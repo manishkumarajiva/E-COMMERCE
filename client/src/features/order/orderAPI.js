@@ -21,6 +21,7 @@ export function getUserOrder(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(`${API}/order/${id}`);
     const items = await response.json();
+    console.log(items, response)
     resolve(items)
   }
   );

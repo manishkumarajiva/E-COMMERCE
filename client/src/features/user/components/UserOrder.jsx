@@ -1,20 +1,23 @@
-import React, {Fragment, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {Link} from "react-router-dom";
-import {getUserOrderAsync} from "../userSlice";
-import {selectUserOrders} from "../userSlice";
-import {selectloggedInUser} from "../../auth/authSlice";
+import React, { Fragment, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { getUserOrderAsync } from "../userSlice";
+import { selectUserOrders, selectUserOrderStatus } from "../userSlice";
+import { selectloggedInUser } from "../../auth/authSlice";
+
+
+import Loader from "../../../pages/LoaderPage"
 
 function UserOrder() {
   const dispatch = useDispatch();
   const user = useSelector(selectloggedInUser);
   const orders = useSelector(selectUserOrders);
+  const status = useSelector(selectUserOrderStatus)
 
   useEffect(() => {
     dispatch(getUserOrderAsync(user.response.id));
   }, [dispatch, user.response.id]);
 
-  console.log(orders)
 
   return (
     <Fragment>
@@ -29,7 +32,8 @@ function UserOrder() {
           <div className='flow-root'>
             {/* product list */}
             <ul>
-              {orders.response.map((product) => (
+              {status === 'pending' ? (<Loader></Loader>) : (
+                orders?.response?.map((product) => (
                   <li
                     key={product.id}
                     className='flex sm:flex-row md:flex-row md:px-5 py-6 my-5 shadow-lg hover:shadow-xl'
@@ -41,7 +45,7 @@ function UserOrder() {
                         className='h-full w-full object-cover object-center'
                       />
                     </div>
-
+                
                     <div className='ml-4 flex flex-1 xm:flex-row sm:flex-col md:flex-col'>
                       <div>
                         <div className='lg:mx-auto flex justify-between text-base font-medium text-gray-900'>
@@ -54,13 +58,13 @@ function UserOrder() {
                           <p className='ml-4'>$ {product.totalAmount}</p>
                         </div>
                         <p className='mt-1 text-sm text-gray-500 flex flex-col'>
-                        <em>Address : {product.shippingAddress.streetAddress}</em>
+                          <em>Address : {product.shippingAddress.streetAddress}</em>
                           <strong>Qty : {product.totalItems}</strong>
-                        </p>  
+                        </p>
                       </div>
                     </div>
-                  </li>
-                ))}
+                  </li>))
+              )}
             </ul>
           </div>
         </div>
@@ -79,3 +83,9 @@ function UserOrder() {
 }
 
 export default UserOrder;
+
+
+
+
+
+

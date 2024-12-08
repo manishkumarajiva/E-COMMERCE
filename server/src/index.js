@@ -14,7 +14,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const crypto = require('crypto');
 const { sanitizeUser, generateToken } = require('./helpers/common.helper.js');
 const UserModel = require('./models/user.model.js');
-
+const { cookieExtractor } = require('./helpers/common.helper.js');
 const DBconnection = require('./database/DBconnect.js');
 const indexRoutes = require('./routes/version.js');
 
@@ -24,7 +24,8 @@ const port = process.env.PORT || 5555;
 const SECRET_KEY = 'skeecyrset';
 
 const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.jwtFromRequest = cookieExtractor;
+// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = SECRET_KEY
 
 

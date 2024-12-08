@@ -6,7 +6,7 @@ const OrderModel = require('../models/order.model.js');
 exports.CreateOrder = async (req, res) => {
     try {
         const createResponse = await OrderModel.create(req.body);
-        if(!createResponse) return res.status(200).json({ status : 401, message : 'Failed to Create' });
+        if(!createResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Create' });
 
         const orders = await OrderModel.find({user : req.body.user});
         res.status(200).json({ status : 201, success : true, message : 'Successfully Created', currOrder : createResponse, response : orders });
@@ -42,7 +42,7 @@ exports.GetAdminOrder = async (req, res) => {
         const getResponse = await query.exec();
         const totalOrder = 66
 
-        if(!getResponse) return res.status(200).json({ status : 401, message : 'Failed to Fetched' });
+        if(!getResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Fetched' });
 
         res.status(200).json({ status : 200, success : true, message : 'Successfully Fetched', response : getResponse });
 
@@ -56,7 +56,7 @@ exports.GetUserOrder = async (req, res) => {
     const id = req.params.id;
     try {
         const getResponse = await OrderModel.find({ user : id });
-        if(!getResponse) return res.status(200).json({ status : 401, message : 'Failed to Fetched' });
+        if(!getResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Fetched' });
 
         res.status(200).json({ status : 200, success : true, message : 'Successfully Fetched', response : getResponse });
 
@@ -69,7 +69,7 @@ exports.GetUserOrder = async (req, res) => {
 exports.UpdateOrderStatus = async (req, res) => {
     try {
         const updateResponse = await OrderModel.findByIdAndUpdate(req.params.id, { orderStatus : req.body.status}, {new : true});
-        if(!updateResponse) return res.status(200).json({ status : 401, message : 'Failed to Update' });
+        if(!updateResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Update' });
         const getResponse = await OrderModel.find();
         res.status(200).json({ status : 201, success : true, message : 'Successfully Updated', response : getResponse });
 
@@ -84,7 +84,7 @@ exports.DeleteOrder = async (req, res) => {
 
     try {
         const deleteResponse = await OrderModel.findByIdAndDelete(id);
-        if(!deleteResponse) return res.status(200).json({ status : 401, message : 'Failed to Delete' });
+        if(!deleteResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Delete' });
 
         res.status(200).json({ status : 201, success : true, message : 'Successfully Delete', response : deleteResponse });
 
