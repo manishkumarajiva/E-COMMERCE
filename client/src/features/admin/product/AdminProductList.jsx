@@ -2,8 +2,8 @@ import React, {useState, Fragment, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {ITEM_PER_PAGE} from "../../../app/constants";
 import {Link} from "react-router-dom";
-import {useAlert} from "react-alert";
 import LoaderPage from "../../../pages/LoaderPage";
+
 
 import {
   getFilteredProductList,
@@ -55,7 +55,6 @@ function classNames(...classes) {
 }
 
 function AdminProductList() {
-  const alert = useAlert();
   const dispatch = useDispatch();
   const categories = useSelector(categoryList);
   const brands = useSelector(brandList);
@@ -132,9 +131,8 @@ function AdminProductList() {
     setPage(page);
   };
 
-  const deleteHandler = (data) => {
-    const product = {...data};
-    product.deleted = true;
+  const deleteHandler = (id) => {
+    const product = {id : id, deleted : true};
     dispatch(deleteProductAsync(product));
   };
 
@@ -367,10 +365,7 @@ function AdminProductList() {
                             <LoaderPage />
                           ) : (
                             products.response.map((product) => (
-                              <div
-                                key={product.id}
-                                className='my-10 mx-0 w-64 h-[420px] bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105'
-                              >
+                              <div key={product.id} className='px-2 my-10 mx-0 w-64 bg-white rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105'>
                                 <Link
                                   to={`/product_details/${product.id}`}
                                   className='block h-full'
@@ -428,8 +423,9 @@ function AdminProductList() {
                                     )}
                                   </div>
                                 </Link>
+
                                 {/* buttons */}
-                                <div className='absolute bottom-4 left-4 right-4 flex justify-between'>
+                                <div className='mx-5 flex justify-between'>
                                   <Link
                                     to={`/admin/product/form/${product.id}`}
                                     className='flex justify-center items-center w-12 h-12 bg-green-500 hover:bg-green-600 rounded-full text-white transition-colors duration-300'
@@ -452,10 +448,8 @@ function AdminProductList() {
                                   </Link>
 
                                   <button
-                                    onClick={() =>
-                                      alert.error("You want to delete")
-                                    }
-                                    className='flex justify-center items-center w-12 h-12 bg-red-500 hover:bg-red-600 rounded-full text-white transition-colors duration-300'
+                                    onClick={() => deleteHandler(product.id)}
+                                    className='flex justify-center items-center w-12 bg-red-500 hover:bg-red-600 rounded-full text-white transition-colors duration-300'
                                     title='delete'
                                   >
                                     <svg
@@ -474,6 +468,7 @@ function AdminProductList() {
                                     </svg>
                                   </button>
                                 </div>
+                              
                               </div>
                             ))
                           )}
@@ -569,5 +564,3 @@ function AdminProductList() {
 
 export default AdminProductList;
 
-// filter =  { categoryName : ['electronics', 'cloths', 'toys']}
-// sort = {_sort : 'fieldname', _order : 'desc/asc'}

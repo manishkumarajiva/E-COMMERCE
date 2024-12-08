@@ -11,8 +11,10 @@ function UserOrder() {
   const orders = useSelector(selectUserOrders);
 
   useEffect(() => {
-    dispatch(getUserOrderAsync(user.id));
-  }, [dispatch, user.id]);
+    dispatch(getUserOrderAsync(user.response.id));
+  }, [dispatch, user.response.id]);
+
+  console.log(orders)
 
   return (
     <Fragment>
@@ -27,15 +29,15 @@ function UserOrder() {
           <div className='flow-root'>
             {/* product list */}
             <ul>
-              {orders?.items?.map((product) => (
+              {orders.response.map((product) => (
                   <li
                     key={product.id}
                     className='flex sm:flex-row md:flex-row md:px-5 py-6 my-5 shadow-lg hover:shadow-xl'
                   >
-                    <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border-x-2 border-red-400'>
+                    <div className='h-24  flex-shrink-0 overflow-hidden rounded-xl border-x-2 border-red-400'>
                       <img
                         alt={product.category}
-                        src={product.images[0]}
+                        src={product.items[0].product.thumbnail}
                         className='h-full w-full object-cover object-center'
                       />
                     </div>
@@ -44,16 +46,16 @@ function UserOrder() {
                       <div>
                         <div className='lg:mx-auto flex justify-between text-base font-medium text-gray-900'>
                           <h3>
-                            <div>{product.title}</div>
+                            <div>OD{product.id}</div>
                             <div className='text-sm text-blue-400'>
                               {product.brand}
                             </div>
                           </h3>
-                          <p className='ml-4'>$ {product.price}</p>
+                          <p className='ml-4'>$ {product.totalAmount}</p>
                         </div>
                         <p className='mt-1 text-sm text-gray-500 flex flex-col'>
-                        <em>Address : {orders.shippingAddress.streetAddress}</em>
-                          <strong>Qty : {product.quantity}</strong>
+                        <em>Address : {product.shippingAddress.streetAddress}</em>
+                          <strong>Qty : {product.totalItems}</strong>
                         </p>  
                       </div>
                     </div>

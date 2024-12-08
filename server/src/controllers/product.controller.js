@@ -98,11 +98,11 @@ exports.UpdateProduct = async (req, res) => {
 
 exports.DeleteProduct = async (req, res) => {
     const id = req.params.id;
-
+    const deleted = req.body.deleted;
     try {
-        const deleteResponse = await ProductModel.findByIdAndDelete(id);
+        const deleteResponse = await ProductModel.findByIdAndUpdate(id, {deleted : deleted}, {new : true});
         if (!deleteResponse) return res.status(200).json({ status: 401, message: 'Failed to Delete' });
-
+        
         res.status(200).json({ status: 201, success: true, message: 'Successfully Deleted', response: deleteResponse });
 
     } catch (error) {

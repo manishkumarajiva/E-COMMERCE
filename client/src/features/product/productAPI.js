@@ -12,11 +12,10 @@ export function createProduct(product) {
   }
 
   return new Promise(async(resolve) =>{
-    const product = await fetch('http://localhost:8000/products/', options);
+    const product = await fetch(`${API}/product`, options);
     const response = await product.json();
     resolve(response);
   })
-
 }
 
 export function getProductById(id) {
@@ -67,15 +66,14 @@ export function updateProduct(product) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(product)
+    body: JSON.stringify({deleted : product.deleted})
   }
 
   return new Promise(async(resolve) =>{
-    const response = await fetch('http://localhost:8000/products/'+product.id, options);
+    const response = await fetch(`${API}/product/${product.id}`, options);
     const products = await response.json();
     resolve(products);
   })
-
 }
 
 export function deleteProduct(product) {
@@ -87,15 +85,15 @@ export function deleteProduct(product) {
   }
 
   return new Promise(async(resolve) =>{
-    const response = await fetch('http://localhost:8000/products/' +product.id, options);
-    const newproduct = await response.json();
-    resolve(newproduct);
+    const response = await fetch(`${API}/product/${product.id}`, options);
+    if(response.ok){
+      const newproduct = await response.json();
+      resolve(newproduct);
+  
+    }
   })
 
 }
-
-
-
 
 
 export function getCategory() {

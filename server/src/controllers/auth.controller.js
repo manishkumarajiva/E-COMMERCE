@@ -6,29 +6,31 @@ const jwt = require('jsonwebtoken');
 
 exports.SignUpUser = async (req, res) => {
     const { name, email, password } = req.body;
-       
+
     try {
 
-        const isExist = await UserModel.findOne({ email : email });
-        if(isExist) return res.status(200).json({ status: 401, success: false, message: 'Already Exist' });
+        const isExist = await UserModel.findOne({ email: email });
+        if (isExist) return res.status(200).json({ status: 401, success: false, message: 'Already Exist' });
 
         const salt = crypto.randomBytes(16);
-        crypto.pbkdf2(password, salt, 310000, 32, 'sha256', async function(err, hashedpassword){
-            if(err) return next(err);
+        crypto.pbkdf2(password, salt, 310000, 32, 'sha256', async function (err, hashedpassword) {
+            if (err) return next(err);
 
-            const user = new UserModel({ ...req.body, salt : salt, password : hashedpassword });
+            const user = new UserModel({ ...req.body, salt: salt, password: hashedpassword });
             const createResponse = await user.save();
             if (!createResponse) return res.status(200).json({ status: 401, success: false, message: 'Failed to Signup' });
 
-            req.login(sanitizeUser(createResponse), async function(err){
-                if(err) return res.status(200).json({ status : 401, message : "Session Failed"});
+            req.login(sanitizeUser(createResponse), async function (err) {
+                if (err) return res.status(200).json({ status: 401, message: "Session Failed" });
 
                 const user = sanitizeUser(createResponse)
                 const authToken = jwt.sign(user, 'skeecyrset');
-                res.status(200).json({ status: 201, success: true, message: 'Register Successfully', response: user, authToken });    
+                res.status(200)
+                .json({ status: 201, success: true, message: 'Register Successfully', response: user, authToken })
+                .cookie('token', authToken, {expires: new Date(Date.now() + 900000), httpOnly: true});
             })
         });
-        
+
     } catch (error) {
         res.status(500).json({ status: 500, message: error.message, error: error.stack });
     }
@@ -37,15 +39,16 @@ exports.SignUpUser = async (req, res) => {
 
 
 exports.SignInUser = async (req, res) => {
-   res.json(req.user);
+    res.cookie('token', req.user.token, {expires: new Date(Date.now() + 900000), httpOnly: true}).json(req.user);
+    
 }
 
 
 
 exports.CheckAuth = async (req, res) => {
-    if(req.user){
-        res.json({success : true, user : req.user})
-    }else{
+    if (req.user) {
+        res.json({ success: true, user: req.user })
+    } else {
         res.sendStatus(401);
     }
 }

@@ -55,7 +55,7 @@ exports.GetAdminOrder = async (req, res) => {
 exports.GetUserOrder = async (req, res) => {
     const id = req.params.id;
     try {
-        const getResponse = await OrderModel.findById({ user : id });
+        const getResponse = await OrderModel.find({ user : id });
         if(!getResponse) return res.status(200).json({ status : 401, message : 'Failed to Fetched' });
 
         res.status(200).json({ status : 200, success : true, message : 'Successfully Fetched', response : getResponse });

@@ -45,15 +45,15 @@ passport.use('local', new LocalStrategy({ usernameField : 'email' },
             if (!user) done(null, false, { status: 401, success: false, message: 'User Not Found, Please SignUp' });
 
             crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', async function (err, hashedPassword) {
-                if (err) return done(err, false, null);
+                if (err) done(err, false, null);
 
                 if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
-                    return done(null, false, { message: 'Incorrect Username or Password' });
+                    done(null, false, { message: 'Incorrect Username or Password' });
                 }
                 
                 const userinfo = sanitizeUser(user);
                 const token = jwt.sign(userinfo, SECRET_KEY);
-                return done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: userinfo, token }, null);
+                done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: userinfo, token }, null);
             });
         } catch (error) {
             done(error)
@@ -67,9 +67,9 @@ passport.use('jwt', new JwtStrategy(
         try {
             const user = await UserModel.findById(jwt_payload.id);
             if (!user) return done(null, false);
-            return done(null, sanitizeUser(user));
+            done(null, sanitizeUser(user));
         } catch (error) {
-            return done(error, false);
+            done(error, false);
         }
 }));
 
@@ -92,14 +92,14 @@ app.use(bodyParser.json({ limit: '100kb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const views = path.join(__dirname, 'views').split('src')[0] + "public/views";
-const assets = path.join(__dirname, 'assets').split('src')[0] + "\public\\assets";
+// const assets = path.join(__dirname, 'assets').split('src')[0] + "\public\\assets";
 
 
 app.set('views', views);
 app.set('view engine', 'ejs');
 app.use(cors('*'))
 app.use(morgan('tiny'))
-app.use(express.static(assets));
+app.use(express.static('build'));
 
 
 app.get('/', function (req, res) {

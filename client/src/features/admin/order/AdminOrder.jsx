@@ -47,7 +47,6 @@ function AdminOrder() {
 
   const totalPage = Math.ceil(orderCount / ITEM_PER_PAGE);
 
-  console.log(orders.response[0].orderStatus)
 
   return (
     <Fragment>

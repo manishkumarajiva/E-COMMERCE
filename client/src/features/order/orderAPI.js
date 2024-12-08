@@ -1,5 +1,6 @@
 import { API } from "../../app/constants";
 
+
 export function createOrder(order) {
   const options = {
     method: 'POST',
@@ -16,7 +17,7 @@ export function createOrder(order) {
 }
 
 
-export function fetchOrder(id) {
+export function getUserOrder(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(`${API}/order/${id}`);
     const items = await response.json();

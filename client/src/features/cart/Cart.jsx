@@ -18,8 +18,8 @@ export default function Cart() {
     dispatch(updateCartItemAsync({ id: id, quantity: +e.target.value, product }));
   };
 
-  const deleteHandler = (e, productId) => {
-    dispatch(deleteCartItemAsync(productId));
+  const deleteHandler = (e, cartId) => {
+    dispatch(deleteCartItemAsync(cartId));
     alert.success('Successfully Removed');
   };
 

@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getProductById, getFilteredProduct, getCategory, getBrand } from './productAPI';
 import { createProduct, updateProduct, deleteProduct } from './productAPI';
 
-
 const initialState = {
   productDetails: null,
   products: [],
@@ -83,32 +82,39 @@ export const productSlice = createSlice({
       .addCase(getProductAsync.pending, (state, action) => {
         state.productDetails = action.payload;
         state.status = 'pending'
-      }).addCase(getProductAsync.fulfilled, (state, action) => {
+      })
+      .addCase(getProductAsync.fulfilled, (state, action) => {
         state.productDetails = action.payload.response;
         state.status = 'fulfilled'
-      }).addCase(getFilteredProductList.fulfilled, (state, action) => {
+      })
+      .addCase(getFilteredProductList.fulfilled, (state, action) => {
         state.products = action.payload.product;
         state.totalProduct = action.payload.total;
         state.status = 'fulfilled'
-      }).addCase(getCategoryList.fulfilled, (state, action) => {
+      })
+      .addCase(getCategoryList.fulfilled, (state, action) => {
         state.categories = action.payload;
         state.status = 'fulfilled'
-      }).addCase(getBrandList.fulfilled, (state, action) => {
+      })
+      .addCase(getBrandList.fulfilled, (state, action) => {
         state.brands = action.payload;
         state.status = 'fulfilled'
-      }).addCase(createProductAsync.fulfilled, (state, action) => {
+      })
+      .addCase(createProductAsync.fulfilled, (state, action) => {
         state.products.push(action.payload)
         state.status = 'fulfilled'
-      }).addCase(updateProductAsync.fulfilled, (state, action) => {
+      })
+      .addCase(updateProductAsync.fulfilled, (state, action) => {
         const index = state.products.indexOf(product => product.id === action.payload.id)
         state.products[index] = action.payload;
         state.status = 'fulfilled'
-      }).addCase(deleteProductAsync.fulfilled, (state, action) => {
-        const index = state.products.indexOf(product => product.id === action.payload.id)
-        state.products[index] = action.payload;
-        state.status = 'fulfilled'
+      })
+      .addCase(deleteProductAsync.fulfilled, (state, action) => {
+        // const index = state.products.indexOf(product => product.id === action.payload.id)
+        // state.products[index] = action.payload;
+        state.status = 'fulfilled';
       });
-  },
+  }
 });
 
 
