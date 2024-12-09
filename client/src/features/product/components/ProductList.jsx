@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import {ITEM_PER_PAGE} from "../../../app/constants";
 import Pagination from "../../common/Pagination";
-import LoaderPage from '../../../pages/LoaderPage';
+import LoaderPage from "../../../pages/LoaderPage";
 
 import {
   getFilteredProductList,
@@ -76,7 +76,6 @@ function ProductList() {
       options: brands,
     },
   ];
-
 
   useEffect(() => {
     const pagination = {_page: page, _limit: ITEM_PER_PAGE};
@@ -189,27 +188,31 @@ function ProductList() {
                       </h3>
                       <DisclosurePanel className='pt-6'>
                         <div className='space-y-6'>
-                          {section.options && section.options.map((option, optionIdx) => (
-                            <div key={optionIdx} className='flex items-center'>
-                              <input
-                                defaultValue={option.value}
-                                defaultChecked={option.checked}
-                                id={`filter-mobile-${section.id}-${optionIdx}`}
-                                name={`${section.id}[]`}
-                                type='checkbox'
-                                onChange={(e) =>
-                                  filterHandler(e, option, section)
-                                }
-                                className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
-                              />
-                              <label
-                                htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                className='ml-3 min-w-0 flex-1 text-gray-500'
+                          {section.options &&
+                            section.options.map((option, optionIdx) => (
+                              <div
+                                key={optionIdx}
+                                className='flex items-center'
                               >
-                                {option.label}
-                              </label>
-                            </div>
-                          ))}
+                                <input
+                                  defaultValue={option.value}
+                                  defaultChecked={option.checked}
+                                  id={`filter-mobile-${section.id}-${optionIdx}`}
+                                  name={`${section.id}[]`}
+                                  type='checkbox'
+                                  onChange={(e) =>
+                                    filterHandler(e, option, section)
+                                  }
+                                  className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                />
+                                <label
+                                  htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                  className='ml-3 min-w-0 flex-1 text-gray-500'
+                                >
+                                  {option.label}
+                                </label>
+                              </div>
+                            ))}
                         </div>
                       </DisclosurePanel>
                     </Disclosure>
@@ -360,33 +363,45 @@ function ProductList() {
                             products?.response?.map((product) => (
                               <div
                                 key={product.id}
-                                className='group relative border-2 p-2 hover:shadow-lg150'
+                                className='group relative rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl'
                               >
-                                <Link to={`/product_details/${product.id}`}>
-                                  <div className='bg-slate-300'>
+                                <Link
+                                  to={`/product_details/${product.id}`}
+                                  className='block'
+                                >
+                                  {/* Product Image */}
+                                  <div className='w-full h-64 bg-gray-200'>
                                     <img
                                       alt={product.imageAlt}
                                       src={product.thumbnail}
-                                      className='h-full'
+                                      className='object-cover w-full h-full transition-transform group-hover:scale-110'
                                     />
                                   </div>
 
-                                  <div>
-                                    <div className='flex justify-between'>
-                                      <p className='text-sm text-gray-700'>
+                                  {/* Product Info */}
+                                  <div className='p-4'>
+                                    {/* Category and Price Section */}
+                                    <div className='flex justify-between items-center mb-2'>
+                                      <p className='text-sm font-medium text-gray-600'>
                                         {product.category}
                                       </p>
-                                      <p className='text-sm text-gray-500'>
+                                      <p className='text-xl font-semibold text-gray-800'>
                                         ${product.price}
                                       </p>
                                     </div>
-                                    <div className='flex justify-between'>
-                                      <div>
-                                        <p className='text-sm text-gray-700'>
+
+                                    {/* Rating and Discount Section */}
+                                    <div className='flex justify-between items-center text-sm text-gray-500'>
+                                      <div className='flex items-center'>
+                                        <span className='font-medium text-gray-700'>
                                           {product.rating.toFixed(1)}
-                                        </p>
+                                        </span>
+                                        <span className='ml-1 text-yellow-500'>
+                                          &#9733;
+                                        </span>{" "}
+                                        {/* Rating star icon */}
                                       </div>
-                                      <p className='text-sm text-gray-700 line-through'>
+                                      <p className='line-through text-red-500'>
                                         ${product.discountPercentage}
                                       </p>
                                     </div>

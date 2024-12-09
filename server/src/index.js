@@ -100,7 +100,7 @@ app.set('views', views);
 app.set('view engine', 'ejs');
 app.use(cors('*'))
 app.use(morgan('tiny'))
-app.use(express.static('build'));
+// app.use(express.static('build'));
 
 
 app.get('/', function (req, res) {

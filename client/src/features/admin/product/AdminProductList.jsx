@@ -4,7 +4,6 @@ import {ITEM_PER_PAGE} from "../../../app/constants";
 import {Link} from "react-router-dom";
 import LoaderPage from "../../../pages/LoaderPage";
 
-
 import {
   getFilteredProductList,
   getCategoryList,
@@ -63,7 +62,7 @@ function AdminProductList() {
   const totalProduct = useSelector(totalProducts);
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  
+
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
   const [page, setPage] = useState(1);
@@ -132,7 +131,7 @@ function AdminProductList() {
   };
 
   const deleteHandler = (id) => {
-    const product = {id : id, deleted : true};
+    const product = {id: id, deleted: true};
     dispatch(deleteProductAsync(product));
   };
 
@@ -351,7 +350,7 @@ function AdminProductList() {
                 </form>
 
                 {/* Product grid */}
-                <div className='lg:col-span-4'>
+                <div className='lg:col-span-3'>
                   {
                     <div className='bg-white'>
                       <div className='mx-auto max-w-2xl lg:max-w-7xl'>
@@ -365,7 +364,11 @@ function AdminProductList() {
                             <LoaderPage />
                           ) : (
                             products.response.map((product) => (
-                              <div key={product.id} className='px-2 my-10 mx-0 w-64 bg-white rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105'>
+                              <div
+                                key={product.id}
+                                className='p-4 my-6 mx-3 w-64 bg-white rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105'
+                              >
+                                <div className="border-red-2">
                                 <Link
                                   to={`/product_details/${product.id}`}
                                   className='block h-full'
@@ -411,25 +414,27 @@ function AdminProductList() {
                                     </div>
 
                                     <div className='flex items-center justify-between text-sm text-gray-500'>
-                                      <p className='line-through'>
-                                        ${product.discountPercentage}
-                                      </p>
+                                      {product.discountPercentage && (
+                                        <p className='line-through text-red-500'>
+                                          ${product.discountPercentage}
+                                        </p>
+                                      )}
                                     </div>
 
                                     {product.deleted && (
                                       <div className='inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10'>
-                                        deleted
+                                        Deleted
                                       </div>
                                     )}
                                   </div>
                                 </Link>
+                                </div>
 
-                                {/* buttons */}
-                                <div className='mx-5 flex justify-between'>
+                                <div className='flex justify-between'>
                                   <Link
                                     to={`/admin/product/form/${product.id}`}
                                     className='flex justify-center items-center w-12 h-12 bg-green-500 hover:bg-green-600 rounded-full text-white transition-colors duration-300'
-                                    title='update'
+                                    title='Update'
                                   >
                                     <svg
                                       xmlns='http://www.w3.org/2000/svg'
@@ -449,8 +454,8 @@ function AdminProductList() {
 
                                   <button
                                     onClick={() => deleteHandler(product.id)}
-                                    className='flex justify-center items-center w-12 bg-red-500 hover:bg-red-600 rounded-full text-white transition-colors duration-300'
-                                    title='delete'
+                                    className='flex justify-center items-center w-12 h-12 bg-red-500 hover:bg-red-600 rounded-full text-white transition-colors duration-300'
+                                    title='Delete'
                                   >
                                     <svg
                                       xmlns='http://www.w3.org/2000/svg'
@@ -468,7 +473,6 @@ function AdminProductList() {
                                     </svg>
                                   </button>
                                 </div>
-                              
                               </div>
                             ))
                           )}
@@ -563,4 +567,3 @@ function AdminProductList() {
 }
 
 export default AdminProductList;
-
