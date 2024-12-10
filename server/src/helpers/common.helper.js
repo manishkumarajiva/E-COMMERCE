@@ -7,7 +7,7 @@ exports.sanitizeLoggedInUser = user => ({id : user.id, name : user.name, address
 exports.cookieExtractor = function(req) {
     let token = null;
     if (req && req.cookies) {
-        token = req.cookies['jwt'];
+        token = req.cookies['token'];
     }
     return token;
 };

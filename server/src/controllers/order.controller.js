@@ -4,11 +4,12 @@ const OrderModel = require('../models/order.model.js');
 // ------------------- CATEGORY CONTROLLERS ------------------ //
 
 exports.CreateOrder = async (req, res) => {
+    const {id} = req.user.response;
     try {
         const createResponse = await OrderModel.create(req.body);
         if(!createResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Create' });
 
-        const orders = await OrderModel.find({user : req.body.user});
+        const orders = await OrderModel.find({user : id});
         res.status(200).json({ status : 201, success : true, message : 'Successfully Created', currOrder : createResponse, response : orders });
 
     } catch (error) {
@@ -53,7 +54,8 @@ exports.GetAdminOrder = async (req, res) => {
 
 
 exports.GetUserOrder = async (req, res) => {
-    const id = req.params.id;
+    const {id} = req.user.response;
+    
     try {
         const getResponse = await OrderModel.find({ user : id });
         if(!getResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Fetched' });
@@ -70,6 +72,7 @@ exports.UpdateOrderStatus = async (req, res) => {
     try {
         const updateResponse = await OrderModel.findByIdAndUpdate(req.params.id, { orderStatus : req.body.status}, {new : true});
         if(!updateResponse) return res.status(200).json({ status : 401, success : false, message : 'Failed to Update' });
+       
         const getResponse = await OrderModel.find();
         res.status(200).json({ status : 201, success : true, message : 'Successfully Updated', response : getResponse });
 

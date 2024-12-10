@@ -5,7 +5,7 @@ const { GetUserById, UpdateUser, DeleteUser } = require('../../controllers/user.
 
 // ----------------- BRAND ROUTES --------------- //
 
-router.get("/:id", GetUserById).patch("/:id", UpdateUser).delete("/:id", DeleteUser);
+router.get("/", GetUserById).patch("/", UpdateUser).delete("/", DeleteUser);
 
 module.exports = router;
 

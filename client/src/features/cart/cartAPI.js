@@ -15,9 +15,9 @@ export function addToCart(item) {
   );
 }
 
-export function fetchCartItems(id) {
+export function fetchCartItems() {
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/cart/${id}`);
+    const response = await fetch(`${API}/cart/`);
     const cartItems = await response.json();
     resolve(cartItems)
   }
@@ -49,7 +49,7 @@ export function deleteCartItem(itemId) {
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/cart/` + itemId, options);
+    const response = await fetch(`${API}/cart/${itemId}`, options);
     const cartItems = await response.json();
     resolve(cartItems)
   }

@@ -11,6 +11,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+var cookieParser = require('cookie-parser')
 const crypto = require('crypto');
 const { sanitizeUser, generateToken } = require('./helpers/common.helper.js');
 const UserModel = require('./models/user.model.js');
@@ -42,19 +43,18 @@ passport.use('local', new LocalStrategy({ usernameField : 'email' },
     async function verify(username, password, done) {
         try {
             const user = await UserModel.findOne({ email: username });
-
-            if (!user) done(null, false, { status: 401, success: false, message: 'User Not Found, Please SignUp' });
+            if (!user) return done(null, false, { status: 401, success: false, message: 'User Not Found, Please SignUp' });
 
             crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', async function (err, hashedPassword) {
-                if (err) done(err, false, null);
+                if (err) return done(err, false, null);
 
                 if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
-                    done(null, false, { message: 'Incorrect Username or Password' });
+                    return done(null, false, { message: 'Incorrect Username or Password' });
                 }
                 
                 const userinfo = sanitizeUser(user);
                 const token = jwt.sign(userinfo, SECRET_KEY);
-                done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: userinfo, token }, null);
+                return done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: userinfo, token }, null);
             });
         } catch (error) {
             done(error)
@@ -68,7 +68,7 @@ passport.use('jwt', new JwtStrategy(
         try {
             const user = await UserModel.findById(jwt_payload.id);
             if (!user) return done(null, false);
-            done(null, sanitizeUser(user));
+            done(null, sanitizeUser(user.response));
         } catch (error) {
             done(error, false);
         }
@@ -92,6 +92,7 @@ app.use(cors({ exposedHeaders: ['X-Total-Count'] }));
 app.use(bodyParser.json({ limit: '100kb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 const views = path.join(__dirname, 'views').split('src')[0] + "public/views";
 // const assets = path.join(__dirname, 'assets').split('src')[0] + "\public\\assets";
 
@@ -100,7 +101,8 @@ app.set('views', views);
 app.set('view engine', 'ejs');
 app.use(cors('*'))
 app.use(morgan('tiny'))
-// app.use(express.static('build'));
+app.use(cookieParser());
+app.use(express.static('build'));
 
 
 app.get('/', function (req, res) {

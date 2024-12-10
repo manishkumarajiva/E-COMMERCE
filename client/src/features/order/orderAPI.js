@@ -17,9 +17,9 @@ export function createOrder(order) {
 }
 
 
-export function getUserOrder(id) {
+export function getUserOrder() {
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/order/${id}`);
+    const response = await fetch(`${API}/order`);
     const items = await response.json();
     resolve(items)
   }

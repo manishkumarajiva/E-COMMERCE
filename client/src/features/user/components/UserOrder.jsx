@@ -3,20 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUserOrderAsync } from "../userSlice";
 import { selectUserOrders, selectUserOrderStatus } from "../userSlice";
-import { selectloggedInUser } from "../../auth/authSlice";
-
-
-import Loader from "../../../pages/LoaderPage"
+import Loader from "../../../pages/LoaderPage";
 
 function UserOrder() {
   const dispatch = useDispatch();
-  const user = useSelector(selectloggedInUser);
   const orders = useSelector(selectUserOrders);
   const status = useSelector(selectUserOrderStatus)
 
   useEffect(() => {
-    dispatch(getUserOrderAsync(user.response.id));
-  }, [dispatch, user.response.id]);
+    dispatch(getUserOrderAsync());
+  }, [dispatch]);
 
 
   return (

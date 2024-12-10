@@ -1,6 +1,6 @@
 import React from "react";
 import {Grid} from 'react-loader-spinner';
-const style = {backgroundColor: 'transparent', width : '100vw', height : '100vh', display : 'flex', justifyContent:'center', alignItems:'center'};
+const style = {backgroundColor: 'transparent', width : '50vw', height : '50vh', display : 'flex', justifyContent:'center', alignItems:'center'};
 
 const Loader = () => {
   return (

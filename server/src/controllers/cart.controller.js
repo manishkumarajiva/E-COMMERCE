@@ -17,8 +17,8 @@ exports.AddToCart = async (req, res) => {
 
 
 exports.GetUserCart = async (req, res) => {
-    const id = req.params.id;
-
+    const {id} = req.user.response;
+    
     try {
         const cartItems = await CartModel.find({ user : id }).populate('product');
         if(!cartItems) return res.status(200).json({ status : 401, success : false, message : 'Failed to Fetched' });
@@ -32,7 +32,7 @@ exports.GetUserCart = async (req, res) => {
 
 
 exports.UpdateCart = async (req, res) => {
-    const id = req.params.id 
+    const {id} = req.user.response; 
     const qty = req.body.quantity;
 
     try {
@@ -50,7 +50,7 @@ exports.UpdateCart = async (req, res) => {
 
 
 exports.RemoveToCart = async (req, res) => {
-    const id = req.params.id;
+    const {id} = req.user.response;
 
     try {
         const removed = await CartModel.findByIdAndDelete(id);

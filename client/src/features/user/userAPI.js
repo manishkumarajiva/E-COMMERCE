@@ -1,8 +1,8 @@
 import { API } from '../../app/constants';
 
-export function getLoggedInUser(id){
+export function getLoggedInUser(){
   return new Promise(async(resolve) => {
-    const response = await fetch(`${API}/user/${id}`);
+    const response = await fetch(`${API}/user/`);
     const user = await response.json();
     resolve(user)
   })
@@ -18,7 +18,7 @@ export function updateUser(userData) {
   };
   
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/user/${userData.id}`, options);
+    const response = await fetch(`${API}/user`, options);
     const updatedResponse = await response.json();
     resolve(updatedResponse)
   }

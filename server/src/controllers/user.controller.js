@@ -1,9 +1,12 @@
 const UserModel = require('../models/user.model.js');
 const { sanitizeLoggedInUser } = require('../helpers/common.helper.js');
 
+
 exports.GetUserById = async (req, res) => {
+    const {id} = req.user.response;
+
     try {
-        const getResponse = await UserModel.findById(req.params.id);
+        const getResponse = await UserModel.findById(id);
         if (!getResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });
 
         res.status(200).json({ status: 201, success: true, message: 'Successfully Fetched', response: sanitizeLoggedInUser(getResponse) });
@@ -15,10 +18,9 @@ exports.GetUserById = async (req, res) => {
 
 
 
-
 exports.UpdateUser = async (req, res) => {
-    const id = req.params.id;
-    console.log(req.body)
+    const {id} = req.user.response;
+
     try {
         const updateResponse = await UserModel.findByIdAndUpdate(id, req.body, { new: true });
         if (!updateResponse) return res.status(200).json({ status: 401, message: 'Failed to Update' });
@@ -33,7 +35,7 @@ exports.UpdateUser = async (req, res) => {
 
 
 exports.DeleteUser = async (req, res) => {
-    const id = req.params.id;
+    const {id} = req.user.response;
 
     try {
         const deleteResponse = await UserModel.findByIdAndDelete(id);

@@ -26,8 +26,8 @@ exports.SignUpUser = async (req, res) => {
                 const user = sanitizeUser(createResponse)
                 const authToken = jwt.sign(user, 'skeecyrset');
                 res.status(200)
-                .json({ status: 201, success: true, message: 'Register Successfully', response: user, authToken })
-                .cookie('token', authToken, {expires: new Date(Date.now() + 900000), httpOnly: true});
+                .cookie('token', authToken, {expires: new Date(Date.now() + 900000), httpOnly: true})
+                .json({ status: 201, success: true, message: 'Register Successfully', response: user, authToken });
             })
         });
 
@@ -39,18 +39,21 @@ exports.SignUpUser = async (req, res) => {
 
 
 exports.SignInUser = async (req, res) => {
-    res.cookie('token', req.user.token, {expires: new Date(Date.now() + 900000), httpOnly: true}).json(req.user);
-    
+        
+    res.status(200)
+    .cookie('token', req.user.token, {expires: new Date(Date.now() + 900000), httpOnly: true})
+    .json(req.user);
+ 
 }
 
 
 
 exports.CheckAuth = async (req, res) => {
-    if (req.user) {
-        res.json({ success: true, user: req.user })
-    } else {
-        res.sendStatus(401);
-    }
+    // if (req.user) {
+    //     res.json({ success: true, user: req.user })
+    // } else {
+    //     res.sendStatus(401);
+    // }
 }
 
 
