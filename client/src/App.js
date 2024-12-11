@@ -20,12 +20,12 @@ import AdminOrderPage from './pages/AdminOrderPage';
 import Protected from './features/auth/components/UserProtected';
 import AdminProtected from './features/auth/components/AdminProtected';
 
-
 import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import { fetchCartItemsAsync } from './features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectloggedInUser } from './features/auth/authSlice';
 import { getLoggedInUserAsync } from './features/user/userSlice';
+import { checkAuthAsync, selectAuthChecked } from './features/auth/authSlice';
 
 //react alert
 import { positions, Provider as AlertProvider, transitions } from 'react-alert';
@@ -113,7 +113,12 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(selectloggedInUser);
+  const authChecked = useSelector(selectAuthChecked);
 
+  useEffect(()=>{
+    console.log('work')
+    dispatch(checkAuthAsync());
+  },[dispatch])
 
   useEffect(()=>{
     if(loggedInUser?.response){
@@ -123,9 +128,11 @@ function App() {
   },[dispatch, loggedInUser]) 
 
   return (
-    <AlertProvider template={AlertTemplate} {...options}>
+    <>
+    {authChecked && <AlertProvider template={AlertTemplate} {...options}>
       <RouterProvider router={router}></RouterProvider>
-    </AlertProvider>
+    </AlertProvider>}
+    </>
   );
 }
 

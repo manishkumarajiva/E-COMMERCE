@@ -8,7 +8,6 @@ exports.SignUpUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-
         const isExist = await UserModel.findOne({ email: email });
         if (isExist) return res.status(200).json({ status: 401, success: false, message: 'Already Exist' });
 
@@ -37,23 +36,19 @@ exports.SignUpUser = async (req, res) => {
 }
 
 
-
-exports.SignInUser = async (req, res) => {
-        
+exports.SignInUser = async (req, res) => {   
     res.status(200)
     .cookie('token', req.user.token, {expires: new Date(Date.now() + 900000), httpOnly: true})
     .json(req.user);
- 
 }
 
 
-
 exports.CheckAuth = async (req, res) => {
-    // if (req.user) {
-    //     res.json({ success: true, user: req.user })
-    // } else {
-    //     res.sendStatus(401);
-    // }
+    if (req.user) {
+        res.json(req.user)
+    } else {
+        res.sendStatus(401);
+    }
 }
 
 

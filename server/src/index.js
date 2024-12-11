@@ -74,7 +74,6 @@ passport.use('jwt', new JwtStrategy(
         }
 }));
 
-
 passport.serializeUser(function (user, cb) {
     process.nextTick(function () {
         return cb(null, user);
@@ -96,11 +95,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const views = path.join(__dirname, 'views').split('src')[0] + "public/views";
 // const assets = path.join(__dirname, 'assets').split('src')[0] + "\public\\assets";
 
-
 app.set('views', views);
 app.set('view engine', 'ejs');
-app.use(cors('*'))
-app.use(morgan('tiny'))
+
+app.use(cors('*'));
+app.use(morgan('tiny'));
 app.use(cookieParser());
 app.use(express.static('build'));
 

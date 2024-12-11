@@ -23,7 +23,6 @@ export function SignUpUser(userData) {
 }
 
 
-
 export function SignInUser(userCredential) {
 
   const options = {
@@ -53,6 +52,19 @@ export function SignOutUser() {
   );
 }
 
+
+export function CheckAuth() {
+  const options = {
+    method : 'GET',
+    headers : {'Content-Type' : 'application/json'}
+  }
+
+  return new Promise(async(resolve) => {
+    const response = await fetch(`${API}/auth/checkAuth`, options);
+    const user = await response.json();
+    resolve(user);
+  })
+}
 
 
 
