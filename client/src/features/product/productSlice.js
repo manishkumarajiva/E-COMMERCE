@@ -101,8 +101,8 @@ export const productSlice = createSlice({
         state.status = 'fulfilled'
       })
       .addCase(createProductAsync.fulfilled, (state, action) => {
-        state.products.push(action.payload)
         state.status = 'fulfilled'
+        // state.products.push(action.payload)
       })
       .addCase(updateProductAsync.fulfilled, (state, action) => {
         const index = state.products.indexOf(product => product.id === action.payload.id)

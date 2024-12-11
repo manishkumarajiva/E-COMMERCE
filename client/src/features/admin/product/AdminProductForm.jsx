@@ -32,7 +32,7 @@ function AdminProductForm() {
     formState: {errors},
   } = useForm();
 
-  const onSubmitHandler = (data) => {
+  const onSubmit = (data) => {
     if (+params.id && product) {
       // update priduct based on Product ID
       const product = {...data};
@@ -71,8 +71,6 @@ function AdminProductForm() {
       dispatch(createProductAsync(product));
       alert.success('Product Added Successfully 👍')
     }
-
-    
   };
 
   // get product by id
@@ -110,12 +108,12 @@ function AdminProductForm() {
         </h2>
 
         <form
-          onSubmit={handleSubmit(onSubmitHandler)}
+          onSubmit={handleSubmit(onSubmit)}
           className='mt-10 grid gap-x-6 gap-y-4 grid-rows-1 grid-cols-1'
         >
           <div>
             <div className='mt-2'>
-              <input id='id' type='hidden' {...register("id", { required: "Product name is required" })}
+              <input id='id' type='hidden' {...register("id")}
                 className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6'
               />
             </div>
@@ -251,26 +249,49 @@ function AdminProductForm() {
             </div>
           </div>
 
-          {/* Discount */}
-          <div>
+            {/* Discount Percentage */}
+            <div>
             <label
-              htmlFor='discountPercentage'
+              htmlFor='price'
               className='block text-sm/6 font-medium text-gray-900'
             >
-              Discount
+              Price
             </label>
             <div className='mt-2'>
               <input
                 id='discountPercentage'
-                {...register("discountPercentage", {
-                  required: "Discount is required",
-                })}
+                {...register("discountPercentage", {required: "discountPercentage is required"})}
                 type='number'
                 className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6'
               />
               {errors["discountPercentage"] && (
                 <p className='text-red-500 text-sm'>
                   {errors["discountPercentage"].message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Discount Price */}
+          <div>
+            <label
+              htmlFor='discountPrice'
+              className='block text-sm/6 font-medium text-gray-900'
+            >
+              Discount
+            </label>
+            <div className='mt-2'>
+              <input
+                id='discountPrice'
+                {...register("discountPrice", {
+                  required: "discountPrice is required",
+                })}
+                type='number'
+                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6'
+              />
+              {errors["discountPrice"] && (
+                <p className='text-red-500 text-sm'>
+                  {errors["discountPrice"].message}
                 </p>
               )}
             </div>

@@ -408,7 +408,7 @@ function AdminProductList() {
                                           />
                                         </svg>
                                         <span className='text-sm'>
-                                          {product.rating.toFixed(1)}
+                                          {product.rating}
                                         </span>
                                       </div>
                                     </div>
@@ -423,7 +423,7 @@ function AdminProductList() {
 
                                     {product.deleted && (
                                       <div className='inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10'>
-                                        Deleted
+                                        deleted
                                       </div>
                                     )}
                                   </div>

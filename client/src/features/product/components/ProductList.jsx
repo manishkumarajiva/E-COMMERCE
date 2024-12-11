@@ -394,7 +394,7 @@ function ProductList() {
                                     <div className='flex justify-between items-center text-sm text-gray-500'>
                                       <div className='flex items-center'>
                                         <span className='font-medium text-gray-700'>
-                                          {product.rating.toFixed(1)}
+                                          {product.rating}
                                         </span>
                                         <span className='ml-1 text-yellow-500'>
                                           &#9733;

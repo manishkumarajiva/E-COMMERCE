@@ -28,10 +28,17 @@ exports.GetProductById = async(req, res) => {
 
 
 exports.GetProducts = async (req, res) => {
-    try {
+    const { role } = req.user.response;
 
+    try {
         let condition = {};
-        if(!req.query.admin){
+        // if(!req.query.admin){  i can also handle from frontend
+        //     condition.deleted = { $ne : true };
+        // }
+
+        if(role === 'ADMIN'){
+            condition.deleted = {  };
+        }else{
             condition.deleted = { $ne : true };
         }
         
@@ -80,7 +87,6 @@ exports.GetProducts = async (req, res) => {
 }
 
 
-
 exports.UpdateProduct = async (req, res) => {
     const id = req.params.id;
     try {
@@ -101,7 +107,7 @@ exports.DeleteProduct = async (req, res) => {
     const deleted = req.body.deleted;
     try {
         const deleteResponse = await ProductModel.findByIdAndUpdate(id, {deleted : deleted}, {new : true});
-        if (!deleteResponse) return res.status(200).json({ status: 401, message: 'Failed to Delete' });
+        if (!deleteResponse) return res.status(200).json({ status: 401, success: true, message: 'Failed to Delete' });
         
         res.status(200).json({ status: 201, success: true, message: 'Successfully Deleted', response: deleteResponse });
 

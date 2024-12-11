@@ -1,6 +1,7 @@
 
 import { API } from '../../app/constants'
 
+
 export function createProduct(product) {
 
   const options = {
@@ -89,12 +90,10 @@ export function deleteProduct(product) {
     if(response.ok){
       const newproduct = await response.json();
       resolve(newproduct);
-  
     }
   })
 
 }
-
 
 export function getCategory() {
   return new Promise(async (resolve) => {
