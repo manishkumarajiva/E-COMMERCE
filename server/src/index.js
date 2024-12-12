@@ -108,6 +108,26 @@ app.get('/', function (req, res) {
     res.render('server');
 })
 
+const stripe = require('stripe')('pk_test_51NNEtiSGYebLfg1rgcmMKdKzGD7STiqANUWuM7fWv9e5Rps2xbfO1jyoMJZdhrsZY2zYBllwjjiThniPGfy2JNPo00qtHK6blU');
+
+
+const calculateOrderAmount = () => {
+    let total = 500;
+    return total;
+};
+  
+app.post("/create-payment-intent", async (req, res) => {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: calculateOrderAmount(items),
+      currency: "inr",
+      automatic_payment_methods: {
+        enabled: true,
+      }
+    });
+  
+    res.send({ clientSecret: paymentIntent.client_secret });
+});
+
 app.use('/api', indexRoutes);
 
 

@@ -129,9 +129,9 @@ function App() {
 
   return (
     <>
-    {authChecked && <AlertProvider template={AlertTemplate} {...options}>
+    <AlertProvider template={AlertTemplate} {...options}>
       <RouterProvider router={router}></RouterProvider>
-    </AlertProvider>}
+    </AlertProvider>
     </>
   );
 }
