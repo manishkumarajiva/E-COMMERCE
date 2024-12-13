@@ -71,8 +71,8 @@ export default function Checkout() {
   return (
     <Fragment>
       {!cartItems.response.length && <Navigate to={"/"}></Navigate>}
-      {order?.id &&  <Navigate to={`/order_success/${order.id}`}></Navigate>}
-
+      {order?.paymentMethod === 'CASH' &&  <Navigate to={`/order-success/${order.id}`}></Navigate>}
+      {order?.paymentMethod === 'CARD' &&  <Navigate to={`/stripe-checkout`}></Navigate>}
       <div className='grid sm:grid-cols-1 md:grid-cols-2  grid-rows-1 gap-2 sm:p-2 md:p-12 sm:mx-2  md:mx-12 sm:gap-x-5 lg:gap-x-20'>
         <div>
           {/* form */}
