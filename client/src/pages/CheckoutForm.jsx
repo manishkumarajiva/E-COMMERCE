@@ -63,6 +63,7 @@ export default function CheckoutForm() {
       confirmParams: { return_url: `http://localhost:5555/` }
     });
 
+    console.log(error)
    
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);

@@ -39,7 +39,7 @@ app.use(expressSession({
 app.use(passport.authenticate('session'));
 
 
-passport.use('local', new LocalStrategy({ usernameField : 'email' },
+passport.use('local', new LocalStrategy({ usernameField: 'email' },
     async function verify(username, password, done) {
         try {
             const user = await UserModel.findOne({ email: username });
@@ -51,7 +51,7 @@ passport.use('local', new LocalStrategy({ usernameField : 'email' },
                 if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
                     return done(null, false, { message: 'Incorrect Username or Password' });
                 }
-                
+
                 const userinfo = sanitizeUser(user);
                 const token = jwt.sign(userinfo, SECRET_KEY);
                 return done(null, { status: 201, success: true, message: 'Successfully LoggedIn', response: userinfo, token }, null);
@@ -64,7 +64,7 @@ passport.use('local', new LocalStrategy({ usernameField : 'email' },
 
 passport.use('jwt', new JwtStrategy(
     opts,
-    async function(jwt_payload, done) {
+    async function (jwt_payload, done) {
         try {
             const user = await UserModel.findById(jwt_payload.id);
             if (!user) return done(null, false);
@@ -72,7 +72,7 @@ passport.use('jwt', new JwtStrategy(
         } catch (error) {
             done(error, false);
         }
-}));
+    }));
 
 passport.serializeUser(function (user, cb) {
     process.nextTick(function () {
@@ -110,20 +110,29 @@ app.get('/', function (req, res) {
 
 const stripe = require("stripe")('sk_test_51NNEtiSGYebLfg1r1eKaQEW2qfgXnWQQjhsFUpP3AFahy6b2Iu8DsvKBFiONa6OKe6rblOYpfctfzMTRiUHwwd5b00ZF6kuLfd');
 
-const calculateOrderAmount = () => {
+const calculateOrderAmount = (items) => {
     let total = 500;
     return total;
 };
-  
+
 app.post("/create-payment-intent", async (req, res) => {
+    const items = req.body.items;
+
+    console.log(items)
+
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: calculateOrderAmount(),
-      currency: "inr",
-      automatic_payment_methods: {
-        enabled: true,
-      }
+        amount: calculateOrderAmount(items),
+        currency: 'inr',
+        description: 'Export of 100 electronic devices to the USA. Order #12345',
+        metadata: {
+            order_id: '12345',
+            customer_email: 'customer@example.com'
+        },
+        automatic_payment_methods: {
+            enabled: true,
+        }
     });
-  
+
     res.send({ clientSecret: paymentIntent.client_secret });
 });
 
