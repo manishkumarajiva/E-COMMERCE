@@ -86,10 +86,11 @@ passport.deserializeUser(function (user, cb) {
     });
 });
 
-
+app.use(express.raw({ type: 'application/json' }));
 app.use(cors({ exposedHeaders: ['X-Total-Count'] }));
 app.use(bodyParser.json({ limit: '100kb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 
 const views = path.join(__dirname, 'views').split('src')[0] + "public/views";
@@ -118,8 +119,6 @@ const calculateOrderAmount = (items) => {
 app.post("/create-payment-intent", async (req, res) => {
     const items = req.body.items;
 
-    console.log(items)
-
     const paymentIntent = await stripe.paymentIntents.create({
         amount: calculateOrderAmount(items),
         currency: 'inr',
@@ -137,33 +136,57 @@ app.post("/create-payment-intent", async (req, res) => {
 });
 
 
+// This is your Stripe CLI webhook secret for testing your endpoint locally.
+const endpointSecret = "whsec_bfcdcc2315aaa2965ad61a72b8353d06dc40d59e98c512dd24bb693decd5026d";
 
-app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+app.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
     const sig = request.headers['stripe-signature'];
-  
     let event;
-  
+
     try {
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+        event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
     } catch (err) {
-      response.status(400).send(`Webhook Error: ${err.message}`);
-      return;
+        response.status(400).send(`WEBHOOK ERROR : ${err.message}`);
+        return;
     }
-  
+
     // Handle the event
     switch (event.type) {
-      case 'payment_intent.succeeded':
-        const paymentIntentSucceeded = event.data.object;
-        // Then define and call a function to handle the event payment_intent.succeeded
-        break;
-      // ... handle other event types
-      default:
-        console.log(`Unhandled event type ${event.type}`);
+        case 'payment_intent.succeeded':
+            const paymentIntent = event.data.object;
+            console.log(`PaymentIntent for ${paymentIntent.amount} was successful !`);
+            // handlePaymentIntentSucceeded(paymentIntent);
+            break;
+
+        case 'payment_intent.created':
+            const paymentIntentSuccess = event.data.object;
+            console.log(`PaymentIntent for ${paymentIntentSuccess.amount} was successful !!`);
+            // handlePaymentIntentSucceeded(paymentIntent);
+            break;
+
+        case 'payment_intent.requires_action':
+            const paymentIntentRequiresAction = event.data.object;
+            console.log(`PaymentIntent requires additional action for payment ${paymentIntentRequiresAction.id}`);
+            // Typically, you'd notify the frontend that the payment needs additional action (e.g., 3D Secure)
+            // You may need to trigger the 3D Secure flow on your frontend or take other appropriate actions.
+            // Example: redirect the user to a URL where they can complete the authentication.
+            break;
+
+        case 'payment_method.attached':
+            const paymentMethod = event.data.object;
+            console.log(`PaymentMethod ${paymentMethod.id} attached successfully!`);
+            // handlePaymentMethodAttached(paymentMethod);
+            break;
+
+        default:
+            // Unexpected event type
+            console.log(`Unhandled event type ${event.type}.`);
     }
-  
+
     // Return a 200 response to acknowledge receipt of the event
     response.send();
-  });
+});
+
 
 app.use('/api', indexRoutes);
 
