@@ -1,6 +1,6 @@
-exports.sanitizeUser = user => ({id : user.id, role : user.role});
+exports.sanitizeUser = user => ({id : user._id, role : user.role});
 
-exports.sanitizeLoggedInUser = user => ({id : user.id, name : user.name, addresses : user.addresses})
+exports.sanitizeLoggedInUser = user => ({id : user._id, name : user.name, addresses : user.addresses})
 
 
 

@@ -4,6 +4,7 @@ export function addToCart(item) {
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
     body: JSON.stringify(item)
   };
 
@@ -15,9 +16,16 @@ export function addToCart(item) {
   );
 }
 
+
 export function fetchCartItems() {
+  const options = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
+  };
+
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/cart/`);
+    const response = await fetch(`${API}/cart/`, options);
     const cartItems = await response.json();
     resolve(cartItems)
   }
@@ -25,10 +33,10 @@ export function fetchCartItems() {
 }
 
 export function updateCartItem(item) {
-
   const options = {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
     body: JSON.stringify({ quantity : item.quantity })
   };
 
@@ -45,7 +53,8 @@ export function updateCartItem(item) {
 export function deleteCartItem(itemId) {
   const options = {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
   };
 
   return new Promise(async (resolve) => {

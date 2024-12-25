@@ -6,9 +6,8 @@ export function createProduct(product) {
 
   const options = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
+    credentials : 'include',
     body: JSON.stringify(product)
   }
 
@@ -20,8 +19,13 @@ export function createProduct(product) {
 }
 
 export function getProductById(id) {
+  const options = {
+    method : "GET",
+    headers : { "Content-Type" : "application/json" },
+    credentials : 'include'
+  }
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/product/${id}`);
+    const response = await fetch(`${API}/product/${id}`, options);
     const product = await response.json();
     resolve(product)
   }
@@ -29,6 +33,12 @@ export function getProductById(id) {
 }
 
 export function getFilteredProduct(filter, sort, pagination) {
+
+  const options = {
+    method : "GET",
+    headers : { "Content-Type" : "application/json" },
+    credentials : 'include'
+  }
 
   let query = '';
   // FILTERS
@@ -52,7 +62,7 @@ export function getFilteredProduct(filter, sort, pagination) {
 
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/product?${query}`);
+    const response = await fetch(`${API}/product?${query}`, options);
     const products = await response.json();
     const totalProduct = await response.headers.get('X-Total-Count');
     resolve({ product: products, total: +totalProduct })
@@ -64,9 +74,8 @@ export function updateProduct(product) {
 
   const options = {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
+    credentials : 'include',
     body: JSON.stringify({deleted : product.deleted})
   }
 
@@ -82,6 +91,7 @@ export function deleteProduct(product) {
   const options = {
     method: "PATCH",
     headers: {  "Content-Type": "application/json"  },
+    credentials : 'include',
     body: JSON.stringify(product)
   }
 
@@ -96,8 +106,14 @@ export function deleteProduct(product) {
 }
 
 export function getCategory() {
+  const options = {
+    method : "GET",
+    headers : { "Content-Type" : "application/json" },
+    credentials : 'include'
+  }
+
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/category`);
+    const response = await fetch(`${API}/category`, options);
     const categories = await response.json();
     resolve(categories.response)
   }
@@ -105,8 +121,13 @@ export function getCategory() {
 }
 
 export function getBrand() {
+  const options = {
+    method : "GET",
+    headers : { "Content-Type" : "application/json" },
+    credentials : 'include'
+  }
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/brand`);
+    const response = await fetch(`${API}/brand`, options);
     const brands = await response.json();
     resolve(brands.response)
   }

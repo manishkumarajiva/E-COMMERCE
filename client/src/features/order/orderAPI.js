@@ -5,6 +5,7 @@ export function createOrder(order) {
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
     body: JSON.stringify(order)
   };
 
@@ -18,8 +19,13 @@ export function createOrder(order) {
 
 
 export function getUserOrder() {
+  const options = {
+    method : 'GET',
+    headers : { "Content-Type" : "application/json" },
+    credentials : 'include'
+  }
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/order`);
+    const response = await fetch(`${API}/order`, options);
     const items = await response.json();
     resolve(items)
   }
@@ -31,6 +37,7 @@ export function updateOrderStatus(order) {
   const options = {
     method : 'PATCH',
     headers : { 'Content-Type' : 'application/json'},
+    credentials : 'include',
     body : JSON.stringify(order)
   }
 
@@ -44,6 +51,12 @@ export function updateOrderStatus(order) {
 
 
 export function fetchAllOrder(pagination, sort) {
+  const options = {
+    method : 'GET',
+    headers : { "Content-Type" : "application/json" },
+    credentials : 'include'
+  }
+
   let query = '';
     
   for(let key in pagination){
@@ -55,7 +68,7 @@ export function fetchAllOrder(pagination, sort) {
   }
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/order/?` + query);
+    const response = await fetch(`${API}/order/?` + query, options);
     const orders = await response.json();
     const totalOrder = await response.headers.get('X-Total-Count')
     resolve({order : orders, total : +totalOrder})
@@ -67,7 +80,8 @@ export function fetchAllOrder(pagination, sort) {
 export function deleteOrder(orderId) {
   const options = {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    credentials : 'include'
   };
 
   return new Promise(async (resolve) => {

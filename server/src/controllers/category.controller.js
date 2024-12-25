@@ -6,7 +6,7 @@ exports.CreateCategory = async (req, res) => {
     try {
 
         const createResponse = await CategoryModel.create(req.body);
-        if(!createResponse) return res.status(200).json({ status : 401, message : 'Failed to Create' });
+        if(!createResponse) return res.status(200).json({ status : 400, message : 'Failed to Create' });
 
         res.status(200).json({ status : 201, success : true, message : 'Successfully Created', response : createResponse });
 
@@ -20,7 +20,7 @@ exports.CreateCategory = async (req, res) => {
 exports.ReadCategory = async (req, res) => {
     try {
         const getResponse = await CategoryModel.find({});
-        if(!getResponse) return res.status(200).json({ status : 401, message : 'Failed to Fetched' });
+        if(!getResponse) return res.status(200).json({ status : 400, message : 'Failed to Fetched' });
 
         res.status(200).json({ status : 200, success : true, message : 'Successfully Fetched', response : getResponse });
 
@@ -35,7 +35,7 @@ exports.UpdateCategory = async (req, res) => {
     const id = req.params.id;
     try {
         const updateResponse = await CategoryModel.findByIdAndUpdate(id, req.body, {new : true});
-        if(!updateResponse) return res.status(200).json({ status : 401, message : 'Failed to Update' });
+        if(!updateResponse) return res.status(200).json({ status : 400, message : 'Failed to Update' });
 
         res.status(200).json({ status : 201, success : true, message : 'Successfully Updated', response : updateResponse });
 
@@ -51,7 +51,7 @@ exports.DeleteCategory = async (req, res) => {
 
     try {
         const deleteResponse = await CategoryModel.findByIdAndDelete(id);
-        if(!deleteResponse) return res.status(200).json({ status : 401, message : 'Failed to Delete' });
+        if(!deleteResponse) return res.status(200).json({ status : 400, message : 'Failed to Delete' });
 
         res.status(200).json({ status : 201, success : true, message : 'Successfully Delete', response : deleteResponse });
 

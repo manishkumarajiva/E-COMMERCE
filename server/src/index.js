@@ -26,24 +26,47 @@ const SECRET_KEY = 'skeecyrset';
 
 const opts = {};
 opts.jwtFromRequest = cookieExtractor;
-// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = SECRET_KEY
 
+
+
+app.use(cors({ 
+    origin : ['http://localhost:3000'],
+    methods : ['GET', 'POST', 'PUT','PATCH', 'DELETE'],
+    credentials : true,
+    exposedHeaders: ['X-Total-Count'] 
+}));
+
+app.use(morgan('tiny'));
+app.use(cookieParser());
+app.use(bodyParser.json({ limit: '100kb' }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(expressSession({
     secret: 'smeacnriesthpdahsismwarnd',
     resave: false, // don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
+    cookie: {
+        secure: false,
+        httpOnly: false,
+        sameSite: 'None'
+    }
 }));
 
-app.use(passport.authenticate('session'));
+const views = path.join(__dirname, 'views').split('src')[0] + "public/views";
+// const assets = path.join(__dirname, 'assets').split('src')[0] + "\public\\assets";
 
+app.set('views', views);
+app.set('view engine', 'ejs');
+
+
+app.use(passport.authenticate('session'));
 
 passport.use('local', new LocalStrategy({ usernameField: 'email' },
     async function verify(username, password, done) {
         try {
             const user = await UserModel.findOne({ email: username });
-            if (!user) return done(null, false, { status: 401, success: false, message: 'User Not Found, Please SignUp' });
+            if (!user) return done(null, false, { status: 400, success: false, message: 'User Not Found, Please SignUp' });
 
             crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', async function (err, hashedPassword) {
                 if (err) return done(err, false, null);
@@ -64,15 +87,15 @@ passport.use('local', new LocalStrategy({ usernameField: 'email' },
 
 passport.use('jwt', new JwtStrategy(
     opts,
-    async function (jwt_payload, done) {
+    async function (jwt_payload, done) {        
         try {
             const user = await UserModel.findById(jwt_payload.id);
             if (!user) return done(null, false);
-            done(null, sanitizeUser(user.response));
+            done(null, sanitizeUser(user));
         } catch (error) {
             done(error, false);
         }
-    }));
+}));
 
 passport.serializeUser(function (user, cb) {
     process.nextTick(function () {
@@ -87,21 +110,8 @@ passport.deserializeUser(function (user, cb) {
 });
 
 
-app.use(cors({ exposedHeaders: ['X-Total-Count'] }));
-app.use(bodyParser.json({ limit: '100kb' }));
-app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const views = path.join(__dirname, 'views').split('src')[0] + "public/views";
-// const assets = path.join(__dirname, 'assets').split('src')[0] + "\public\\assets";
-
-app.set('views', views);
-app.set('view engine', 'ejs');
-
-app.use(cors('*'));
-app.use(morgan('tiny'));
-app.use(cookieParser());
-app.use(express.static('build'));
 
 
 app.get('/', function (req, res) {
@@ -123,7 +133,6 @@ app.post("/create-payment-intent", async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
         amount: calculateOrderAmount(items),
         currency: 'inr',
-        description: 'Export of 100 electronic devices to the USA. Order #12345',
         metadata: {
             order_id: '12345',
             customer_email: 'customer@example.com'
@@ -154,14 +163,11 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     switch (event.type) {
       case 'payment_intent.succeeded':
         const paymentIntentSucceeded = event.data.object;
-        // Then define and call a function to handle the event payment_intent.succeeded
         break;
-      // ... handle other event types
       default:
         console.log(`Unhandled event type ${event.type}`);
     }
   
-    // Return a 200 response to acknowledge receipt of the event
     response.send();
   });
 

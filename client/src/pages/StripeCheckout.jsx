@@ -26,7 +26,7 @@ export default function StripeCheckout() {
   const appearance = {
     theme: 'stripe',
   };
-  // Enable the skeleton loader UI for optimal loading.
+
   const loader = 'auto';
 
   return (

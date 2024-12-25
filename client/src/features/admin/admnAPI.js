@@ -1,4 +1,9 @@
 export function getLoggedInUser(id){
+  const options = {
+    method : 'GET',
+    headers : { "Content-Type" : "application/json"},
+    credentials : 'include'
+  }
   return new Promise(async(resolve) => {
     const response = await fetch(`http://localhost:8000/user/${id}`);
     const user = await response.json();
@@ -11,6 +16,7 @@ export function createUser(userData) {
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
     body: JSON.stringify({...userData, address : []})
   };
 
@@ -28,6 +34,7 @@ export function updateUser(userData) {
   const options = {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
     body: JSON.stringify(userData)
   };
   

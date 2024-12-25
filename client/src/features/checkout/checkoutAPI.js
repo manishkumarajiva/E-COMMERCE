@@ -1,7 +1,12 @@
-// A mock function to mimic making an async request for data
+
 export function fetchCount() {
+  const options = {
+    method : 'GET',
+    headers : { "Content-Type" : "application/json" },
+    credentials : 'include'
+  }
   return new Promise(async (resolve) => {
-    const response = await fetch('http://localhost:8000/');
+    const response = await fetch('http://localhost:8000/', options);
     const data = await response.json();
     resolve(data)
   }

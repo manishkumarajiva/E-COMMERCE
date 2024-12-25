@@ -6,16 +6,13 @@ import {useDispatch, useSelector} from "react-redux";
 import { selectloggedInUser } from "../authSlice";
 import { SignInUserAsync, SignOutUserAsync } from '../authSlice';
 
-
 import { useAlert } from "react-alert";
-
 
 
 export default function SignIn() {
   const alert = useAlert();
   const dispatch = useDispatch();
   const loggedInUser = useSelector(selectloggedInUser);
-
 
   const { register, handleSubmit, formState: {errors} } = useForm();
 

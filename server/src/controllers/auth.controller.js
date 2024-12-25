@@ -9,7 +9,7 @@ exports.SignUpUser = async (req, res) => {
 
     try {
         const isExist = await UserModel.findOne({ email: email });
-        if (isExist) return res.status(200).json({ status: 401, success: false, message: 'Already Exist' });
+        if (isExist) return res.status(200).json({ status: 400, success: false, message: 'Already Exist' });
 
         const salt = crypto.randomBytes(16);
         crypto.pbkdf2(password, salt, 310000, 32, 'sha256', async function (err, hashedpassword) {
@@ -17,16 +17,16 @@ exports.SignUpUser = async (req, res) => {
 
             const user = new UserModel({ ...req.body, salt: salt, password: hashedpassword });
             const createResponse = await user.save();
-            if (!createResponse) return res.status(200).json({ status: 401, success: false, message: 'Failed to Signup' });
+            if (!createResponse) return res.status(200).json({ status: 400, success: false, message: 'Failed to Signup' });
 
             req.login(sanitizeUser(createResponse), async function (err) {
-                if (err) return res.status(200).json({ status: 401, message: "Session Failed" });
+                if (err) return res.status(200).json({ status: 400, message: "Session Failed" });
 
                 const user = sanitizeUser(createResponse)
-                const authToken = jwt.sign(user, 'skeecyrset');
+                const token = jwt.sign(user, 'skeecyrset');
                 res.status(200)
-                .cookie('token', authToken, {expires: new Date(Date.now() + 900000), httpOnly: true})
-                .json({ status: 201, success: true, message: 'Register Successfully', response: user, authToken });
+                .cookie('token', token, {expires: new Date(Date.now() + 900000), httpOnly: false, secure : false, SameSite : 'None', path : '/', domain : 'localhost' })
+                .json({ status: 201, success: true, message: 'Register Successfully', response: user });
             })
         });
 
@@ -38,7 +38,7 @@ exports.SignUpUser = async (req, res) => {
 
 exports.SignInUser = async (req, res) => {   
     res.status(200)
-    .cookie('token', req.user.token, {expires: new Date(Date.now() + 900000), httpOnly: true})
+    .cookie('token', req.user.token, {expires: new Date(Date.now() + 900000), httpOnly: false, secure : false, SameSite : 'None', path:'/', domain : 'localhost' })
     .json(req.user);
 }
 
@@ -65,8 +65,8 @@ exports.CheckAuth = async (req, res) => {
 //     try {
 //         const user = await UserModel.findOne({ email : email });
 
-//         if (!user) return res.status(200).json({ status: 401, success: false, message: 'User Not Found, Please SignUp' });
-//         if(user.password !== password) return res.status(200).json({ status: 401, success: false, message: 'Incorrect Credentials' });
+//         if (!user) return res.status(200).json({ status: 400, success: false, message: 'User Not Found, Please SignUp' });
+//         if(user.password !== password) return res.status(200).json({ status: 400, success: false, message: 'Incorrect Credentials' });
 
 //         const payload = {
 //             id : user.id,

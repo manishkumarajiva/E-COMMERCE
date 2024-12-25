@@ -5,7 +5,7 @@ const ProductModel = require('../models/product.model.js');
 exports.CreateProduct = async (req, res) => {
     try {
         const createResponse = await ProductModel.create(req.body);
-        if (!createResponse) return res.status(200).json({ status: 401, message: 'Failed to Create' });
+        if (!createResponse) return res.status(200).json({ status: 400, message: 'Failed to Create' });
 
         res.status(200).json({ status: 201, success: true, message: 'Successfully Created', response: createResponse });
 
@@ -18,7 +18,7 @@ exports.CreateProduct = async (req, res) => {
 exports.GetProductById = async(req, res) => {
     try {
         const createResponse = await ProductModel.findById(req.params.id);
-        if (!createResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });
+        if (!createResponse) return res.status(200).json({ status: 400, message: 'Failed to Fetched' });
 
         res.status(200).json({ status: 201, success: true, message: 'Successfully Fetch', response: createResponse });
     } catch (error) {
@@ -28,7 +28,7 @@ exports.GetProductById = async(req, res) => {
 
 
 exports.GetProducts = async (req, res) => {
-    const { role } = req.user.response;
+    const { role } = req.user;
 
     try {
         let condition = {};
@@ -77,7 +77,7 @@ exports.GetProducts = async (req, res) => {
 
         res.set('X-Total-Count', totalProduct.length);
     
-        if (!getResponse) return res.status(200).json({ status: 401, message: 'Failed to Fetched' });
+        if (!getResponse) return res.status(200).json({ status: 400, message: 'Failed to Fetched' });
 
         res.status(200).json({ status: 200, success: true, message: 'Successfully Fetched', response: getResponse });
 
@@ -91,7 +91,7 @@ exports.UpdateProduct = async (req, res) => {
     const id = req.params.id;
     try {
         const updateResponse = await ProductModel.findByIdAndUpdate(id, req.body, { new: true });
-        if (!updateResponse) return res.status(200).json({ status: 401, message: 'Failed to Update' });
+        if (!updateResponse) return res.status(200).json({ status: 400, message: 'Failed to Update' });
 
         res.status(200).json({ status: 201, success: true, message: 'Successfully Updated', response: updateResponse });
 
@@ -107,7 +107,7 @@ exports.DeleteProduct = async (req, res) => {
     const deleted = req.body.deleted;
     try {
         const deleteResponse = await ProductModel.findByIdAndUpdate(id, {deleted : deleted}, {new : true});
-        if (!deleteResponse) return res.status(200).json({ status: 401, success: true, message: 'Failed to Delete' });
+        if (!deleteResponse) return res.status(200).json({ status: 400, success: true, message: 'Failed to Delete' });
         
         res.status(200).json({ status: 201, success: true, message: 'Successfully Deleted', response: deleteResponse });
 

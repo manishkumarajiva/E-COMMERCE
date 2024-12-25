@@ -118,21 +118,19 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(selectloggedInUser);
-  const authChecked = useSelector(selectAuthChecked);
 
   useEffect(()=>{
-    console.log('work')
     dispatch(checkAuthAsync());
   },[dispatch])
 
-  useEffect(()=>{
-    if(loggedInUser?.response){
-      dispatch(fetchCartItemsAsync());
-      dispatch(getLoggedInUserAsync());
-    }
-  },[dispatch, loggedInUser]) 
+useEffect(()=>{
+  if(loggedInUser?.response){
+    dispatch(fetchCartItemsAsync());
+    dispatch(getLoggedInUserAsync());
+  }
+},[dispatch, loggedInUser]) 
 
-  return (
+return (
     <>
     <AlertProvider template={AlertTemplate} {...options}>
       <RouterProvider router={router}></RouterProvider>

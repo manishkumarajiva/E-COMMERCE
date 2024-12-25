@@ -5,6 +5,7 @@ export function SignUpUser(userData) {
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
     body: JSON.stringify(userData)
   };
 
@@ -28,6 +29,7 @@ export function SignInUser(userCredential) {
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials : 'include',
     body: JSON.stringify(userCredential)
   };
 
@@ -56,6 +58,7 @@ export function SignOutUser() {
 export function CheckAuth() {
   const options = {
     method : 'GET',
+    credentials : 'include',
     headers : {'Content-Type' : 'application/json'}
   }
 
