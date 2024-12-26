@@ -1,5 +1,6 @@
 const CartModel = require('../models/cart.model.js');
-const mongoose = require('mongoose');
+
+
 // ------------------ CART's CONTROLLERS ---------------- //
 
 exports.AddToCart = async (req, res) => {
@@ -32,7 +33,7 @@ exports.GetUserCart = async (req, res) => {
 
 
 exports.UpdateCart = async (req, res) => {
-    const {id} = req.user.response; 
+    const {id} = req.user; 
     const qty = req.body.quantity;
 
     try {
@@ -50,7 +51,7 @@ exports.UpdateCart = async (req, res) => {
 
 
 exports.RemoveToCart = async (req, res) => {
-    const {id} = req.user.response;
+    const {id} = req.user;
 
     try {
         const removed = await CartModel.findByIdAndDelete(id);

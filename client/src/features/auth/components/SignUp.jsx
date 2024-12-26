@@ -3,7 +3,7 @@ import {Link, Navigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectloggedInUser } from "../authSlice";
+import { selectLoginStatus } from "../authSlice";
 import { SignUpUserAsync } from '../authSlice';
 
 import { useAlert } from 'react-alert';
@@ -13,20 +13,20 @@ export default function SignUp() {
 
   const alert = useAlert();
   const dispatch = useDispatch();
-  const loggedInUser = useSelector(selectloggedInUser);
+  const loginStatus = useSelector(selectLoginStatus);
   const { register, handleSubmit, formState: {errors} } = useForm();
   const onSubmit = (data) => dispatch(SignUpUserAsync({...data, address : [], role : 'BUYER'}));
 
-  if(loggedInUser){
-    const { success, message } = loggedInUser;  
-    (success) ? alert.success(message) : alert.error(message);
+  if(loginStatus === 'fulfilled'){
+    alert.success("Login Success")
   }
 
 
   return (
     <Fragment>
-      {loggedInUser?.success === false && <Navigate to='/signin' replace={true}></Navigate>}
-      {loggedInUser?.success === true && <Navigate to='/' replace={true}></Navigate>}
+      {loginStatus === "fulfilled" && <Navigate to='/signin' replace={true}></Navigate>}
+      {loginStatus === "fulfilled" && <Navigate to='/' replace={true}></Navigate>}
+      
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img

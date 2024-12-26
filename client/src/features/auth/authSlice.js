@@ -55,7 +55,7 @@ export const authSlice = createSlice({
       })
       .addCase(SignUpUserAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.loggedInUser = action.payload;
+        state.loggedInUser = action.payload.response;
       })
       .addCase(SignInUserAsync.pending, (state) => {
         state.status = 'pending';
@@ -66,6 +66,7 @@ export const authSlice = createSlice({
       })
       .addCase(checkAuthAsync.pending, (state) => {
         state.status = 'pending'
+        state.authChecked = false
       })
       .addCase(checkAuthAsync.fulfilled, (state, action) => {
         state.status = 'fullfilled';
@@ -74,7 +75,7 @@ export const authSlice = createSlice({
       })
       .addCase(checkAuthAsync.rejected, (state, action) => {
         state.status = 'rejected';
-        state.authChecked = true
+        state.authChecked = false
       })
       .addCase(SignOutUserAsync.pending, (state) => {
         state.status = 'pending';

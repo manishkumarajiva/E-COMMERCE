@@ -1,6 +1,4 @@
-
 import { API } from '../../app/constants'
-
 
 export function createProduct(product) {
 

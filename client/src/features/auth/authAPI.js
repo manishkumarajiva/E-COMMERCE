@@ -48,9 +48,22 @@ export function SignInUser(userCredential) {
 
 
 export function SignOutUser() {
+  const options = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    credentials : 'include'
+  };
+
   return new Promise(async (resolve) => {
-    resolve(null);
-  }
+
+    const response = await fetch(`${API}/auth/logout`, options);
+
+    if (response.ok) {
+      const user = await response.json();
+      resolve(user.login);
+    } else {
+      resolve(false)
+    }}
   );
 }
 

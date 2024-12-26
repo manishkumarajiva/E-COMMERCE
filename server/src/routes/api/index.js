@@ -11,6 +11,7 @@ const CartRoutes = require('./cart.routes.js');
 
 const { isAuthToken } = require('../../middlewares/isAuth.middleware.js')
 const passport = require('passport');
+
 // --------------- ROUTE's INDEXING --------------- //
 
 router.use('/auth', AuthRoutes);

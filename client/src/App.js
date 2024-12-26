@@ -18,9 +18,6 @@ import AdminProductFormPage from './pages/AdminProductFormPage';
 import AdminOrderPage from './pages/AdminOrderPage';
 import StripeCheckout from './pages/StripeCheckout';
 
-import Protected from './features/auth/components/UserProtected';
-import AdminProtected from './features/auth/components/AdminProtected';
-
 import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import { fetchCartItemsAsync } from './features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,15 +41,15 @@ const options = {
 const router = createBrowserRouter([
   {
     path: "/",
-    element : <Protected> <Home></Home> </Protected>
-  },
-  {
-    path: "signin",
-    element : <SignInPage></SignInPage> 
+    element :  <Home></Home> 
   },
   {
     path : "signup",
     element : <SignUpPage></SignUpPage> 
+  },
+  {
+    path: "signin",
+    element : <SignInPage></SignInPage> 
   },
   {
     path : "signout",
@@ -64,39 +61,39 @@ const router = createBrowserRouter([
   },
   {
     path : "cart",
-    element : <Protected> <CartPage></CartPage> </Protected>
+    element :  <CartPage></CartPage> 
   },
   {
     path : "checkout",
-    element : <Protected> <Checkout></Checkout> </Protected>
+    element :  <Checkout></Checkout> 
   },
   {
     path : "product_details/:id",
-    element : <Protected> <ProductDetails></ProductDetails> </Protected>
+    element :  <ProductDetails></ProductDetails> 
   },
   {
     path : "user_profile",
-    element : <Protected> <UserProfilePage></UserProfilePage> </Protected>
+    element :  <UserProfilePage></UserProfilePage> 
   },
   {
     path : "user_orders",
-    element : <Protected> <UserOrderPage></UserOrderPage> </Protected>
+    element :  <UserOrderPage></UserOrderPage> 
   },
   {
     path: "admin_product",
-    element : <AdminProtected> <AdminProductDetailPage></AdminProductDetailPage>  </AdminProtected> 
+    element :  <AdminProductDetailPage></AdminProductDetailPage>   
   },
   {
     path: "admin_profile",
-    element : <AdminProtected> <AdminHomePage></AdminHomePage> </AdminProtected>
+    element :  <AdminHomePage></AdminHomePage> 
   },
   {
     path: "admin/product/form/:id",
-    element : <AdminProtected>  <AdminProductFormPage></AdminProductFormPage> </AdminProtected>
+    element :   <AdminProductFormPage></AdminProductFormPage> 
   },
   {
     path: "admin_orders",
-    element :  <AdminProtected> <AdminOrderPage></AdminOrderPage> </AdminProtected>
+    element :   <AdminOrderPage></AdminOrderPage> 
   },
   {
     path : "order-success/:id",

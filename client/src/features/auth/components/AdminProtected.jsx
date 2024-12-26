@@ -13,8 +13,7 @@ const AdminProtected = ({children}) => {
   }else {
     return children;
   }
-
-  
+    
 };
 
 export default AdminProtected;

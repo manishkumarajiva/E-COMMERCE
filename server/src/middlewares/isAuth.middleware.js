@@ -9,10 +9,10 @@ exports.isAuth = (req, res, done) => {
 }
 
 
-exports.isAuthToken = async (req, res, done) => {
-    await passport.authenticate('jwt');
-    done()
-}
+// exports.isAuthToken = async (req, res, done) => {
+//     await passport.authenticate('jwt');
+//     done()
+// }
 
 
 

@@ -38,7 +38,7 @@ exports.SignUpUser = async (req, res) => {
 
 exports.SignInUser = async (req, res) => {   
     res.status(200)
-    .cookie('token', req.user.token, {expires: new Date(Date.now() + 900000), httpOnly: false, secure : false, SameSite : 'None', path:'/', domain : 'localhost' })
+    .cookie('token', req.user.token, {expires: new Date(Date.now() + (1 * 60 * 60 * 1000)), httpOnly: false, secure : false, SameSite : 'None', path:'/', domain : 'localhost' })
     .json(req.user);
 }
 
@@ -51,6 +51,18 @@ exports.CheckAuth = async (req, res) => {
     }
 }
 
+
+exports.LogOutUser = async (req, res) => {
+    try {
+        // req.logout(function(err) {
+            // if (err) { return next(err); }
+            res.cookie('token', "", {expires: new Date(Date.now()), httpOnly: false, secure : false, SameSite : 'None', path : '/', domain : 'localhost' })
+            .json({status : 200, login : false})
+        //   });
+    } catch (error) {
+        res.status(500).json({ status: 500, message: error.message, error: error.stack });
+    }
+};
 
 
 

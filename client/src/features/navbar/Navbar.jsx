@@ -1,6 +1,8 @@
-import React, {Fragment} from "react";
-import { useSelector } from "react-redux";
+import React, { Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { selectCartItems } from "../cart/cartSlice";
+import { selectUserInfo } from "../user/userSlice";
+import { SignOutUserAsync } from "../auth/authSlice";
 
 import {
   Disclosure,
@@ -10,6 +12,7 @@ import {
   MenuButton,
   MenuItem,
   MenuItems,
+  Button
 } from "@headlessui/react";
 
 import {
@@ -18,34 +21,40 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
 };
 
 const navigation = [
-  {name: "Dashboard", link: "/", user: true },
-  {name: "Team", link: "/", user: true },
-  {name: "Orders", link: "/admin_orders", admin: true },
+  { name: "Dashboard", link: "/", role: 'ADMIN' },
+  { name: "Home", link: "/", role: 'BUYER' },
+  { name: "Orders", link: "/admin_orders", role: 'ADMIN' },
+  { name: "Orders", link: "/user_orders", role: 'BUYER' },
 ];
 
 const userNavigation = [
-  {name: "Profile", link: "/admin_profile"},
-  {name: "My Orders", link: "/user_orders"},
-  {name: "Sign out", link: "/signout"}
+  { name: "Profile", link: "/admin_profile", role: 'ADMIN' },
+  { name: "Profile", link: "/user_profile", role: 'BUYER' },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar({children}) {
+export default function Navbar({ children }) {
+  const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
-  
+  const userinfo = useSelector(selectUserInfo);
+
+  const SignOutHandler = (e) => {
+    e.preventDefault();
+    dispatch(SignOutUserAsync());
+  }
+
   return (
     <Fragment>
       <div className='min-h-full'>
@@ -65,18 +74,22 @@ export default function Navbar({children}) {
                 <div className='hidden md:block'>
                   <div className='ml-10 flex items-baseline space-x-4'>
                     {navigation.map((item) => (
-                      <Link to = {`${item.link}`}
-                        key={item.name}
-                        aria-current={item.current ? "page" : ''}
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-5 py-2 text-sm font-medium"
-                        )}
-                      >
-                        {item.name}
-                      </Link>
+                      <Fragment>
+                        {
+                          (userinfo?.role === item.role) &&
+                          (<Link to={`${item.link}`}
+                            key={item.name}
+                            aria-current={item.current ? "page" : ''}
+                            className={classNames(
+                              item.current
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "rounded-md px-5 py-2 text-sm font-medium"
+                            )}>
+                            {item.name}
+                          </Link>)
+                        }
+                      </Fragment>
                     ))}
                   </div>
                 </div>
@@ -117,16 +130,21 @@ export default function Navbar({children}) {
                       transition
                       className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in'
                     >
-                      {userNavigation.map((item) => (
-                        <MenuItem key={item.name}>
-                          <Link to={`${item.link}`}
-                            
-                            className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'
-                          >
-                            {item.name}
-                          </Link>
-                        </MenuItem>
+                      { userNavigation.map((item) => (
+                        <Fragment>
+                          {
+                            (userinfo?.role === item.role) &&
+                            (<MenuItem key={item.name}>
+                              <Link to={`${item.link}`} className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'>
+                                {item.name}
+                              </Link>
+                            </MenuItem>)
+                          }
+                        </Fragment>
+                        
                       ))}
+
+                      <Button onClick={SignOutHandler} className="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> Signout </Button>
                     </MenuItems>
                   </Menu>
                 </div>
@@ -209,7 +227,7 @@ export default function Navbar({children}) {
                     className='block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
                   >
                     <Link to={`${item.link}`}>
-                    {item.name}
+                      {item.name}
                     </Link>
                   </DisclosureButton>
                 ))}

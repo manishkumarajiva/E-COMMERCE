@@ -1,15 +1,14 @@
 const UserModel = require('../models/user.model.js');
-const { sanitizeLoggedInUser } = require('../helpers/common.helper.js');
 
 
 exports.GetUserById = async (req, res) => {
     const {id} = req.user;
 
     try {
-        const getResponse = await UserModel.findById(id);
+        const getResponse = await UserModel.findById(id).select("id name role email addresses");
         if (!getResponse) return res.status(200).json({ status: 400, message: 'Failed to Fetched' });
 
-        res.status(200).json({ status: 201, success: true, message: 'Successfully Fetched', response: sanitizeLoggedInUser(getResponse) });
+        res.status(200).json({ status: 201, success: true, message: 'Successfully Fetched', response: getResponse });
 
     } catch (error) {
         res.status(500).json({ status: 500, message: error.message, error: error.stack });
