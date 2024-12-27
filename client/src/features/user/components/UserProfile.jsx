@@ -5,10 +5,9 @@ import {selectUserInfo} from "../userSlice";
 import {useForm} from "react-hook-form";
 
 function UserProfile() {
+
   const user = useSelector(selectUserInfo);
   const [openAddressForm, setAddressForm] = useState(false);
-
-  
 
   return (
     <Fragment>
@@ -19,13 +18,13 @@ function UserProfile() {
           <UserInfo user={user}></UserInfo>
         </div>
 
-        <div className="px-5 mt-4">
+        <div className="px-5 mt-4"> 
           <button onClick={()=>setAddressForm(openAddressForm ? false : true)} className='px-3 py-2 text-white bg-green-500 rounded-md hover:bg-blue-500'> {!openAddressForm ? 'Add New Shipping Address'  : 'Close Address Form' } </button>
           { openAddressForm && <AddNewShippingAddress user={user} closeForm={setAddressForm}></AddNewShippingAddress>}
         </div>
 
         <div className='px-5'>
-          <UserAddress user={user} addresses={user.address}></UserAddress>
+          <UserAddress user={user} addresses={user.addresses}></UserAddress>
         </div>
 
       </div>
@@ -34,6 +33,16 @@ function UserProfile() {
 }
 
 export default UserProfile;
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -71,15 +80,15 @@ function UserAddress({user, addresses}) {
   };
 
   const updateAddressHandler = (data, index) => {
-    const newAddress = {...user, address: [...user.address]};
+    const newAddress = {...user, addresses: [...user.addresses]};
     newAddress.address.splice(index, 1, data);
     dispatch(updateUserAsync(newAddress));
     setAddressIndex(-1);
   };
 
   const deleteHandler = (e, index) => {
-    const removeAddress = {...user, address: [...user.address]};
-    removeAddress.address.splice(index, 1);
+    const removeAddress = {...user, addresses: [...user.addresses]};
+    removeAddress.addresses.splice(index, 1);
     dispatch(updateUserAsync(removeAddress));
   };
 
@@ -94,7 +103,7 @@ function UserAddress({user, addresses}) {
                   onSubmit={handleSubmit((data) => {
                     updateAddressHandler(data, index);
                   })}
-                  className='border-2 p-5'
+                  className='border-2 border-slate-200 p-5'
                 >
                   <div>
                     <div>
@@ -259,7 +268,6 @@ function UserAddress({user, addresses}) {
                   </div>
                 </form>
               )}
-
               {/* Address Information Section */}
               <li className='bg-slate-200 flex justify-between sm:flex-row flex-col p-5'>
                 <div className='flex min-w-0 gap-x-4'>
@@ -328,13 +336,14 @@ function AddNewShippingAddress({user, closeForm}) {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    const newAddress = {...user, address : [...user.address, data]}
+    console.log(data, user)
+    const newAddress = {...user, addresses : [...user.addresses, data]}
     dispatch(updateUserAsync(newAddress));
     closeForm(false)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='border-2 p-5'>
+    <form onSubmit={handleSubmit(onSubmit)} className='border-2 border-green-400 p-5 bg-slate-100 rounded-lg'>
       <div>
         <div>
           <h2 className='text-base font-semibold leading-7 text-gray-900'>

@@ -1,36 +1,31 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment} from "react";
 import {Link, Navigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 import {useDispatch, useSelector} from "react-redux";
-import { selectloggedInUser } from "../authSlice";
-import { SignInUserAsync, SignOutUserAsync } from '../authSlice';
+import { selectAuthChecked } from "../authSlice";
+import { SignInUserAsync } from '../authSlice';
 
-import { useAlert } from "react-alert";
+// import { useAlert } from "react-alert";
 
 
 export default function SignIn() {
-  const alert = useAlert();
+  // const alert = useAlert();
   const dispatch = useDispatch();
-  const loggedInUser = useSelector(selectloggedInUser);
+  const authenticate = useSelector(selectAuthChecked);
 
   const { register, handleSubmit, formState: {errors} } = useForm();
 
-  useEffect(()=>{
-    dispatch(SignOutUserAsync())
-  },[dispatch])
-
-  const onSubmit = (data) => dispatch(SignInUserAsync(data)); 
-  
-  if(loggedInUser){
-    const { success, message } = loggedInUser;
-    (success) ? alert.success(message) : alert.error("User Not Found 👎")
+  const onSubmit = (data) => {
+    dispatch(SignInUserAsync(data)); 
   }
+  
 
+ 
   return (
     <Fragment>
-      {loggedInUser?.success === false && <Navigate to='/signup' replace={true}></Navigate>}
-      {loggedInUser?.success === true && <Navigate to='/' replace={true}></Navigate>}
+      {authenticate === true && <Navigate to='/' replace={true}></Navigate>}
+      {authenticate === false && <Navigate to='/signin' replace={true}></Navigate>}
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img

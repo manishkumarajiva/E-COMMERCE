@@ -3,7 +3,7 @@ import { SignUpUser, SignInUser, SignOutUser, CheckAuth } from './authAPI';
 
 
 const initialState = {
-  loggedInUser: null,
+  loggedInUser: false,
   authChecked: false,
   status: "pending",
   error: ''
@@ -52,17 +52,21 @@ export const authSlice = createSlice({
     builder
       .addCase(SignUpUserAsync.pending, (state) => { 
         state.status = 'pending';
+        state.authChecked = true;
       })
       .addCase(SignUpUserAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
         state.loggedInUser = action.payload.response;
+        state.authChecked = true;
       })
       .addCase(SignInUserAsync.pending, (state) => {
         state.status = 'pending';
+        state.authChecked = true;
       })
       .addCase(SignInUserAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.loggedInUser = action.payload;
+        state.loggedInUser = action.payload.response;
+        state.authChecked = true;
       })
       .addCase(checkAuthAsync.pending, (state) => {
         state.status = 'pending'
@@ -82,7 +86,8 @@ export const authSlice = createSlice({
       })
       .addCase(SignOutUserAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.loggedInUser = action.payload;
+        state.authChecked =  action.payload;
+        state.loggedInUser = false
       });
   }
 });

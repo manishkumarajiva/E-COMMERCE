@@ -3,7 +3,7 @@ import {Link, Navigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoginStatus } from "../authSlice";
+import { selectAuthChecked } from "../authSlice";
 import { SignUpUserAsync } from '../authSlice';
 
 import { useAlert } from 'react-alert';
@@ -13,19 +13,19 @@ export default function SignUp() {
 
   const alert = useAlert();
   const dispatch = useDispatch();
-  const loginStatus = useSelector(selectLoginStatus);
+  const authenticate = useSelector(selectAuthChecked);
   const { register, handleSubmit, formState: {errors} } = useForm();
   const onSubmit = (data) => dispatch(SignUpUserAsync({...data, address : [], role : 'BUYER'}));
 
-  if(loginStatus === 'fulfilled'){
-    alert.success("Login Success")
+  if(authenticate){
+    alert.success("Register Success")
   }
 
 
   return (
     <Fragment>
-      {loginStatus === "fulfilled" && <Navigate to='/signin' replace={true}></Navigate>}
-      {loginStatus === "fulfilled" && <Navigate to='/' replace={true}></Navigate>}
+      {authenticate === false && <Navigate to='/signup' replace={true}></Navigate>}
+      {authenticate === true && <Navigate to='/' replace={true}></Navigate>}
       
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>

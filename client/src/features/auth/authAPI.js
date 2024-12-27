@@ -61,11 +61,10 @@ export function SignOutUser() {
     if (response.ok) {
       const user = await response.json();
       resolve(user.login);
-    } else {
-      resolve(false)
-    }}
-  );
+    }
+})
 }
+
 
 
 export function CheckAuth() {

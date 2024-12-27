@@ -11,8 +11,8 @@ const initialState = {
 
 export const getLoggedInUserAsync = createAsyncThunk(
   'user/get',
-  async (userId) => {
-    const response = await getLoggedInUser(userId);
+  async () => {
+    const response = await getLoggedInUser();
     return response;
   }
 )
@@ -47,21 +47,21 @@ export const userSlice = createSlice({
         state.status = 'pending';
       })
       .addCase(getLoggedInUserAsync.fulfilled, (state, action) => { 
-        state.status = 'success';
-        state.userInfo = action.payload;
+        state.status = 'fulfilled';
+        state.userInfo = action.payload.response;
       })
       .addCase(getUserOrderAsync.rejected, (state) => { 
-        state.status = 'pending';
+        state.status = 'rejected';
       })
       .addCase(getUserOrderAsync.fulfilled, (state, action) => { 
-        state.status = 'success';
+        state.status = 'fulfilled';
         state.orders = action.payload;
       })
       .addCase(updateUserAsync.pending, (state) => { 
         state.status = 'pending';
       })
       .addCase(updateUserAsync.fulfilled, (state, action) => { 
-        state.status = 'success';
+        state.status = 'fullfilled';
         state.userInfo = action.payload;
       })
   },

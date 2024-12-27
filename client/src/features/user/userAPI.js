@@ -8,7 +8,7 @@ export function getLoggedInUser(){
   }
 
   return new Promise(async(resolve) => {
-    const response = await fetch(`${API}/user/`, options);
+    const response = await fetch(`${API}/user`, options);
     const user = await response.json();
     resolve(user)
   })

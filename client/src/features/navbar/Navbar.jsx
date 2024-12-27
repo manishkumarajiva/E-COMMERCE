@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectCartItems } from "../cart/cartSlice";
 import { selectUserInfo } from "../user/userSlice";
-import { SignOutUserAsync } from "../auth/authSlice";
+import { Link } from "react-router-dom";
 
 import {
   Disclosure,
@@ -10,9 +10,7 @@ import {
   DisclosurePanel,
   Menu,
   MenuButton,
-  MenuItem,
-  MenuItems,
-  Button
+  MenuItems
 } from "@headlessui/react";
 
 import {
@@ -21,7 +19,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-import { Link } from "react-router-dom";
 
 const user = {
   name: "Tom Cook",
@@ -46,14 +43,9 @@ function classNames(...classes) {
 }
 
 export default function Navbar({ children }) {
-  const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
   const userinfo = useSelector(selectUserInfo);
 
-  const SignOutHandler = (e) => {
-    e.preventDefault();
-    dispatch(SignOutUserAsync());
-  }
 
   return (
     <Fragment>
@@ -128,23 +120,16 @@ export default function Navbar({ children }) {
                     </div>
                     <MenuItems
                       transition
-                      className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in'
-                    >
+                      className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in'>
                       { userNavigation.map((item) => (
-                        <Fragment>
-                          {
                             (userinfo?.role === item.role) &&
-                            (<MenuItem key={item.name}>
-                              <Link to={`${item.link}`} className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'>
+                            (<Link to={`${item.link}`} key={item.name} className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'>
                                 {item.name}
-                              </Link>
-                            </MenuItem>)
-                          }
-                        </Fragment>
-                        
+                            </Link>)
                       ))}
-
-                      <Button onClick={SignOutHandler} className="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> Signout </Button>
+                      <Link to={`/signout`} className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'>
+                        SignOut
+                      </Link>
                     </MenuItems>
                   </Menu>
                 </div>

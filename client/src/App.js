@@ -18,12 +18,16 @@ import AdminProductFormPage from './pages/AdminProductFormPage';
 import AdminOrderPage from './pages/AdminOrderPage';
 import StripeCheckout from './pages/StripeCheckout';
 
+// Protective Component
+import UserProtected from './features/auth/components/UserProtected';
+import AdminProtected from './features/auth/components/AdminProtected';
+
 import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 import { fetchCartItemsAsync } from './features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectloggedInUser } from './features/auth/authSlice';
 import { getLoggedInUserAsync } from './features/user/userSlice';
-import { checkAuthAsync, selectAuthChecked } from './features/auth/authSlice';
+import { checkAuthAsync } from './features/auth/authSlice';
 
 //react alert
 import { positions, Provider as AlertProvider, transitions } from 'react-alert';
@@ -41,7 +45,7 @@ const options = {
 const router = createBrowserRouter([
   {
     path: "/",
-    element :  <Home></Home> 
+    element :  <UserProtected><Home></Home></UserProtected> 
   },
   {
     path : "signup",
@@ -53,7 +57,7 @@ const router = createBrowserRouter([
   },
   {
     path : "signout",
-    element : <SignOut></SignOut> 
+    element : <SignOut></SignOut>
   },
   {
     path : "forgot_password",
@@ -61,47 +65,47 @@ const router = createBrowserRouter([
   },
   {
     path : "cart",
-    element :  <CartPage></CartPage> 
+    element :  <UserProtected><CartPage></CartPage></UserProtected> 
   },
   {
     path : "checkout",
-    element :  <Checkout></Checkout> 
+    element :  <UserProtected><Checkout></Checkout></UserProtected>
   },
   {
     path : "product_details/:id",
-    element :  <ProductDetails></ProductDetails> 
+    element :  <UserProtected><ProductDetails></ProductDetails></UserProtected> 
   },
   {
     path : "user_profile",
-    element :  <UserProfilePage></UserProfilePage> 
+    element :  <UserProtected><UserProfilePage></UserProfilePage></UserProtected> 
   },
   {
     path : "user_orders",
-    element :  <UserOrderPage></UserOrderPage> 
+    element :  <UserProtected><UserOrderPage></UserOrderPage></UserProtected> 
   },
   {
     path: "admin_product",
-    element :  <AdminProductDetailPage></AdminProductDetailPage>   
+    element :  <AdminProtected><AdminProductDetailPage></AdminProductDetailPage></AdminProtected>   
   },
   {
     path: "admin_profile",
-    element :  <AdminHomePage></AdminHomePage> 
+    element :  <AdminProtected><AdminHomePage></AdminHomePage></AdminProtected> 
   },
   {
     path: "admin/product/form/:id",
-    element :   <AdminProductFormPage></AdminProductFormPage> 
+    element :   <AdminProtected><AdminProductFormPage></AdminProductFormPage></AdminProtected> 
   },
   {
     path: "admin_orders",
-    element :   <AdminOrderPage></AdminOrderPage> 
+    element :   <AdminProtected><AdminOrderPage></AdminOrderPage></AdminProtected> 
   },
   {
     path : "order-success/:id",
-    element : <OrderSuccess></OrderSuccess>
+    element : <UserProtected><OrderSuccess></OrderSuccess></UserProtected>
   },
   {
     path : "stripe-checkout",
-    element : <StripeCheckout></StripeCheckout>
+    element : <UserProtected><StripeCheckout></StripeCheckout></UserProtected>
   },
   {
     path : "*",
@@ -121,7 +125,7 @@ function App() {
   },[dispatch])
 
 useEffect(()=>{
-  if(loggedInUser?.response){
+  if(loggedInUser){
     dispatch(fetchCartItemsAsync());
     dispatch(getLoggedInUserAsync());
   }
