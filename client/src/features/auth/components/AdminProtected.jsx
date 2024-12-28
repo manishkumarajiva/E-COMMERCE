@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { selectloggedInUser } from "../authSlice";
 import { Navigate } from "react-router-dom";
@@ -6,13 +6,11 @@ import { Navigate } from "react-router-dom";
 const AdminProtected = ({ children }) => {
   const user = useSelector(selectloggedInUser);
 
-  useState(() => {
-    if (user && user?.role === 'ADMIN') {
-      return children;
-    } else {
-      return (<Navigate to='/signin' replace={true}></Navigate>)
-    }
-  }, [user])
+  if (user?.success && user.response.role === 'ADMIN') {
+    return children;
+  } else {
+    return (<Navigate to='/signin' replace={true}></Navigate>)
+  }
 };
 
 export default AdminProtected;

@@ -1,31 +1,31 @@
 import React, {Fragment} from "react";
-import {Link, Navigate} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuthChecked } from "../authSlice";
+import {selectloggedInUser } from "../authSlice";
 import { SignUpUserAsync } from '../authSlice';
 
 import { useAlert } from 'react-alert';
 
 export default function SignUp() {
 
-
+  const navigate = useNavigate();
   const alert = useAlert();
   const dispatch = useDispatch();
-  const authenticate = useSelector(selectAuthChecked);
+  const user = useSelector(selectloggedInUser);
   const { register, handleSubmit, formState: {errors} } = useForm();
   const onSubmit = (data) => dispatch(SignUpUserAsync({...data, address : [], role : 'BUYER'}));
 
-  if(authenticate){
-    alert.success("Register Success")
-  }
-
+    if(user){
+      alert.success(user.message);
+      navigate('/signin') 
+    }
 
   return (
     <Fragment>
-      {authenticate === false && <Navigate to='/signup' replace={true}></Navigate>}
-      {authenticate === true && <Navigate to='/' replace={true}></Navigate>}
+      {user.success === false && <Navigate to='/signup' replace={true}></Navigate>}
+      {user.success === true && <Navigate to='/' replace={true}></Navigate>}
       
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>

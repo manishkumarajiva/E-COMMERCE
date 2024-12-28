@@ -27,10 +27,9 @@ export default function Checkout() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => 
-    dispatch(updateUserAsync({...user.response, addresses: [...user.response.addresses, data]}));
+    dispatch(updateUserAsync({...user, addresses: [...user.addresses, data]}));
 
-  const addressHandler = (e) =>
-    setSelectedAddress(user.response.addresses[e.target.value]);
+  const addressHandler = (e) => setSelectedAddress(user.addresses[e.target.value]);
 
   const paymentHandler = (e) => setPaymentMethod(e.target.value);
 
@@ -58,7 +57,7 @@ export default function Checkout() {
 // -------- CART ITEM HANDLER ---------- //
   const updateHandler = (e, id, item) => {
     e.preventDefault();
-    dispatch(updateCartItemAsync({id : id, quantity : +e.target.value, item}))
+    dispatch(updateCartItemAsync({cartId : id, quantity : +e.target.value, item}))
   }
 
   const deleteHandler = (e, productId) => {
@@ -241,8 +240,8 @@ export default function Checkout() {
 
                   <div className='mt-10 space-y-10'>
                     <ul className='divide-y divide-gray-100'>
-                      {user?.response?.addresses &&
-                        user.response.addresses.map((address, index) => (
+                      {user?.addresses &&
+                        user.addresses.map((address, index) => (
                           <section
                             className='grid grid-cols-3 grid-row-1 border-y-2 p-2'
                             key={index}

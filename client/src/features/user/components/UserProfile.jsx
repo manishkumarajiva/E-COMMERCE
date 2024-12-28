@@ -81,7 +81,7 @@ function UserAddress({user, addresses}) {
 
   const updateAddressHandler = (data, index) => {
     const newAddress = {...user, addresses: [...user.addresses]};
-    newAddress.address.splice(index, 1, data);
+    newAddress.addresses.splice(index, 1, data);
     dispatch(updateUserAsync(newAddress));
     setAddressIndex(-1);
   };

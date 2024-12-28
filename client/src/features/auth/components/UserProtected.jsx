@@ -5,13 +5,12 @@ import { Navigate } from "react-router-dom";
 
 const UserProtected = ({children}) => {
   const user = useSelector(selectloggedInUser);
-
-  if(user && user.role === 'BUYER'){
-    return children;
-  }else{
-    return ( <Navigate to='/signin' replace={true}></Navigate> )
-  }
-
+ 
+    if(user?.success && user.response.role === 'BUYER'){
+      return children;
+    }else{
+      return ( <Navigate to='/signin' replace={true}></Navigate> )
+    }
 };
 
 export default UserProtected;

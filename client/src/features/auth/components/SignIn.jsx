@@ -1,31 +1,33 @@
-import React, {Fragment} from "react";
-import {Link, Navigate} from "react-router-dom";
-import {useForm} from "react-hook-form";
+import React, { Fragment } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
-import {useDispatch, useSelector} from "react-redux";
-import { selectAuthChecked } from "../authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectloggedInUser } from "../authSlice";
 import { SignInUserAsync } from '../authSlice';
 
-// import { useAlert } from "react-alert";
+import { useAlert } from "react-alert";
 
 
 export default function SignIn() {
-  // const alert = useAlert();
+  const alert = useAlert();
   const dispatch = useDispatch();
-  const authenticate = useSelector(selectAuthChecked);
-
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const navigate = useNavigate();
+  const user = useSelector(selectloggedInUser);
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
-    dispatch(SignInUserAsync(data)); 
+    dispatch(SignInUserAsync(data));
   }
-  
 
- 
+  if(user){
+    alert.info(user.message);
+  }
+
   return (
     <Fragment>
-      {authenticate === true && <Navigate to='/' replace={true}></Navigate>}
-      {authenticate === false && <Navigate to='/signin' replace={true}></Navigate>}
+      {user?.success === false && <Navigate to='/signin' replace={true}></Navigate>}
+      {user?.success === true && <Navigate to='/' replace={true}></Navigate>}
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
@@ -40,7 +42,7 @@ export default function SignIn() {
 
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
           {/* singin form */}
-          <form  onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
+          <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
             <div>
               <label
                 htmlFor='email'
@@ -54,10 +56,10 @@ export default function SignIn() {
                   {...register("email", {
                     required: "Please Enter Your Email!",
                     pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 
-                        message: "Please Enter A Valid Email!"
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Please Enter A Valid Email!"
                     }
-                })}
+                  })}
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 />
               </div>
@@ -84,7 +86,7 @@ export default function SignIn() {
               <div className='mt-2'>
                 <input
                   type='password'
-                  {...register("password",{ required: true }) }
+                  {...register("password", { required: true })}
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 />
               </div>

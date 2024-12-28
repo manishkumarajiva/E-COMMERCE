@@ -4,8 +4,7 @@ import {StarIcon} from "@heroicons/react/20/solid";
 import {Radio, RadioGroup} from "@headlessui/react";
 import {useSelector, useDispatch} from "react-redux";
 import { productDetail, getProductAsync } from "../productSlice";
-import { selectloggedInUser } from '../../auth/authSlice';
-import { addToCartAsync } from '../../cart/cartSlice';
+import { addToCartAsync, fetchCartItemsAsync } from '../../cart/cartSlice';
 import { useAlert } from "react-alert";
 
 const colors = [
@@ -72,7 +71,6 @@ export default function ProductDetail() {
 
   const dispatch = useDispatch();
   const productDetails = useSelector(productDetail);
-  const user = useSelector(selectloggedInUser);
   const params = useParams();
 
   const alert = useAlert()
@@ -89,8 +87,9 @@ export default function ProductDetail() {
 
   const addToCartHandler = (e) => {
     e.preventDefault()
-    dispatch(addToCartAsync({ user : user?.response?.id, product : productDetails.id, quantity : 2, }));
-    alert.success("Added Successfully 👍")
+    dispatch(addToCartAsync({product : productDetails.id, quantity : 1 }));
+    alert.success("Added Successfully 👍");
+    dispatch(fetchCartItemsAsync());
   }
   
 

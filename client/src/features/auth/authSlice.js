@@ -52,21 +52,21 @@ export const authSlice = createSlice({
     builder
       .addCase(SignUpUserAsync.pending, (state) => { 
         state.status = 'pending';
-        state.authChecked = true;
+        state.authChecked = false;
       })
       .addCase(SignUpUserAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.loggedInUser = action.payload.response;
-        state.authChecked = true;
+        state.loggedInUser = action.payload;
+        state.authChecked = action.payload.success;
       })
       .addCase(SignInUserAsync.pending, (state) => {
         state.status = 'pending';
-        state.authChecked = true;
+        state.authChecked = false;
       })
       .addCase(SignInUserAsync.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.loggedInUser = action.payload.response;
-        state.authChecked = true;
+        state.loggedInUser = action.payload;
+        state.authChecked = action.payload.success;
       })
       .addCase(checkAuthAsync.pending, (state) => {
         state.status = 'pending'

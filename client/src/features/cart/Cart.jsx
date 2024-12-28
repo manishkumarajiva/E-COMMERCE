@@ -15,7 +15,7 @@ export default function Cart() {
 
   const updateHandler = (e, id, product) => {
     e.preventDefault();
-    dispatch(updateCartItemAsync({ id: id, quantity: +e.target.value, product }));
+    dispatch(updateCartItemAsync({ cartId: id, quantity: +e.target.value }));
   };
 
   const deleteHandler = (e, cartId) => {
@@ -27,9 +27,7 @@ export default function Cart() {
   return (
     <Fragment>
       {!cartItems?.response.length && <Navigate to={"/"}></Navigate>}
-      <div
-        className={`mx-auto sm:w-1/1 md:w-1/1 xl:w-1/2 xxl:w-1/2 bg-gray-50 md:px-2 lg:px-5`}
-      >
+      <div className={`mx-auto sm:w-1/1 md:w-1/1 xl:w-1/2 xxl:w-1/2 bg-gray-50 md:px-2 lg:px-5`}>
         {/* cart */}
         <p className='sm:text-10xl md:text-4xl text-center'> Cart </p>
         <div className='mt-8'>
@@ -37,10 +35,7 @@ export default function Cart() {
             {/* product list */}
             <ul className='-my-6 divide-y divide-gray-200'>
               {cartItems.response.map((cart) => (
-                <li
-                  key={cart.product.id}
-                  className='flex md:flex-col lg:flex-col xl:flex-row  py-6'
-                >
+                <li key={cart.product.id} className='flex md:flex-col lg:flex-col xl:flex-row  py-6'>
                   <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border-x-2 border-red-400'>
                     <img
                       alt={cart.product.category}
@@ -76,7 +71,7 @@ export default function Cart() {
                           Qty
                         </label>
                         <select
-                          onChange={(e) => updateHandler(e, cart.id, cart.product)}
+                          onChange={(e) => updateHandler(e, cart.id)}
                           value={cart.quantity}
                           className='h-6 w-10 p-0 border-0 ms-2'
                           id='qty'

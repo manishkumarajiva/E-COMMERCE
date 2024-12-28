@@ -9,7 +9,7 @@ export function addToCart(item) {
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/cart/`, options);
+    const response = await fetch(`${API}/cart`, options);
     const cartItems = await response.json();
     resolve(cartItems)
   }
@@ -25,7 +25,7 @@ export function fetchCartItems() {
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/cart/`, options);
+    const response = await fetch(`${API}/cart`, options);
     const cartItems = await response.json();
     resolve(cartItems)
   }
@@ -37,11 +37,11 @@ export function updateCartItem(item) {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     credentials : 'include',
-    body: JSON.stringify({ quantity : item.quantity })
+    body: JSON.stringify(item)
   };
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API}/cart/${item.id}`, options);
+    const response = await fetch(`${API}/cart`, options);
     if(response.ok){
       const cartItems = await response.json();
       resolve(cartItems);
