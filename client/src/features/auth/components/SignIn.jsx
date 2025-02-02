@@ -20,10 +20,8 @@ export default function SignIn() {
     dispatch(SignInUserAsync(data));
   }
 
-  if(user){
-    alert.info(user.message);
-  }
-
+console.log(user)
+  
   return (
     <Fragment>
       {user?.success === false && <Navigate to='/signin' replace={true}></Navigate>}

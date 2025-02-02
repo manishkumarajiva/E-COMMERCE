@@ -4,8 +4,13 @@ const CartModel = require('../models/cart.model.js');
 // ------------------ CART's CONTROLLERS ---------------- //
 
 exports.AddToCart = async (req, res) => {
+    const {id} = req.user;
+    const { product, quantity } = req.body;
+
     try {
-        const createResponse = await CartModel.create(req.body);
+        const payload = { user : id, product : product, quantity : quantity };
+
+        const createResponse = await CartModel.create(payload);
         if(!createResponse) return res.status(200).json({ status : 400, message : 'Failed to Create' });
 
         const cartItems = await CartModel.find({user : req.body.user}).populate('product');
@@ -34,10 +39,10 @@ exports.GetUserCart = async (req, res) => {
 
 exports.UpdateCart = async (req, res) => {
     const {id} = req.user; 
-    const qty = req.body.quantity;
+    const {cartId, quantity} = req.body;
 
     try {
-        const updateResponse = await CartModel.findByIdAndUpdate(id, { quantity : qty }, { new : true });
+        const updateResponse = await CartModel.findOneAndUpdate({user : id, _id : cartId }, { quantity : quantity }, { new : true });
         if(!updateResponse) return res.status(200).json({ status : 400, success : false, message : 'Failed to Update' });
         
         const cartItems = await CartModel.find({user : updateResponse.user}).populate('product');
@@ -49,10 +54,9 @@ exports.UpdateCart = async (req, res) => {
 }
 
 
-
 exports.RemoveToCart = async (req, res) => {
-    const {id} = req.user;
-
+    const {id} = req.params;
+    
     try {
         const removed = await CartModel.findByIdAndDelete(id);
         if(!removed) return res.status(200).json({ status : 400, success : false, message : 'Failed to Remove' });

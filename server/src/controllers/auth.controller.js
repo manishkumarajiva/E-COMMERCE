@@ -20,7 +20,7 @@ exports.SignUpUser = async (req, res) => {
             if (!createResponse) return res.status(200).json({ status: 400, success: false, message: 'Failed to Signup' });
 
             req.login(sanitizeUser(createResponse), async function (err) {
-                if (err) return res.status(200).json({ status: 400, message: "Session Failed" });
+                if (err) return res.status(200).json({ status: 400, success : false, message: "Session Failed" });
 
                 const user = sanitizeUser(createResponse)
                 const token = jwt.sign(user, 'skeecyrset');
@@ -45,7 +45,7 @@ exports.SignInUser = async (req, res) => {
 
 exports.CheckAuth = async (req, res) => {
     if (req.user) {
-        res.json(req.user)
+        res.status(200).json({status : 200, success : true,  message : "Authorize", response : req.user})
     } else {
         res.sendStatus(401);
     }
@@ -64,31 +64,3 @@ exports.LogOutUser = async (req, res) => {
     }
 };
 
-
-
-
-
-
-
-
-
-// exports.SignInUser = async (req, res) => {
-//     const { email, password } = req.body;
-//     try {
-//         const user = await UserModel.findOne({ email : email });
-
-//         if (!user) return res.status(200).json({ status: 400, success: false, message: 'User Not Found, Please SignUp' });
-//         if(user.password !== password) return res.status(200).json({ status: 400, success: false, message: 'Incorrect Credentials' });
-
-//         const payload = {
-//             id : user.id,
-//             email : user.email,
-//             name : user.name,
-//             addresses : user.addresses
-//         }
-//         res.status(200).json({ status: 201, success: true, message: 'Successfully LoggedIn', response: payload });
-
-//     } catch (error) {
-//         res.status(500).json({ status: 500, message: error.message, error: error.stack });
-//     }
-// }

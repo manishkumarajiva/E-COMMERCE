@@ -17,10 +17,7 @@ export default function SignUp() {
   const { register, handleSubmit, formState: {errors} } = useForm();
   const onSubmit = (data) => dispatch(SignUpUserAsync({...data, address : [], role : 'BUYER'}));
 
-    if(user){
-      alert.success(user.message);
-      navigate('/signin') 
-    }
+
 
   return (
     <Fragment>

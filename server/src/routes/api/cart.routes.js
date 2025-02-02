@@ -7,7 +7,7 @@ const { GetUserCart, UpdateCart } = require('../../controllers/cart.controller.j
 
 // ----------------- CART ROUTES --------------- //
 
-router.post('/', AddToCart).get("/", GetUserCart).patch('/:id', UpdateCart).delete('/:id', RemoveToCart);
+router.post('/', AddToCart).get("/", GetUserCart).patch('/', UpdateCart).delete('/:id', RemoveToCart);
 
 module.exports = router;
 
